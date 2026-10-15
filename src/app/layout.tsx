@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://adarsh-portfolio.vercel.app"),
+  metadataBase: new URL("https://adarsh-portfolio-aj-niplexs-projects.vercel.app"),
   title: "Adarsh Jaiswal | NiPlex",
   description: "Adarsh Jaiswal builds AI tools, agent workflows, and developer-first open-source projects.",
   keywords: ["Adarsh Jaiswal", "NiPlex", "AI agents", "MCP", "developer tools", "open source"],
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Adarsh Jaiswal | NiPlex",
     description: "AI systems, developer tools, and open-source experiments.",
-    url: "https://adarsh-portfolio.vercel.app",
+    url: "https://adarsh-portfolio-aj-niplexs-projects.vercel.app",
     siteName: "NiPlex",
     locale: "en_IN",
     type: "website"
