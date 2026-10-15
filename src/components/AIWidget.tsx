@@ -69,7 +69,7 @@ export function AIWidget() {
           </header>
 
           <div className="ai-messages" aria-live="polite">
-            <div className="ai-intro-note">Ask about public projects or what is still in development. Don’t share passwords, API keys, or private data.</div>
+            <div className="ai-intro-note">Messages are sent to Google Gemini when enabled; Google’s free tier may use submitted content to improve products. Ask about public projects only, and never share passwords, API keys, or private data.</div>
             {messages.map((message, index) => (
               <div className={"ai-message " + (message.role === "user" ? "from-user" : "from-ai")} key={index}>
                 {message.content}
