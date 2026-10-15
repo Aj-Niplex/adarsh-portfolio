@@ -3,6 +3,19 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, CircleAlert, GitBranch, ShieldCheck, Workflow } from "lucide-react";
 import { projects } from "@/lib/projects";
 
+function featureHeading(feature: string) {
+  const colon = feature.indexOf(":");
+  if (colon > 0 && colon < 90) return feature.slice(0, colon).trim();
+  const words = feature.split(/\s+/).slice(0, 7).join(" ");
+  return words.length < feature.length ? words + "…" : "Capability overview";
+}
+
+function featureBody(feature: string) {
+  const colon = feature.indexOf(":");
+  if (colon > 0 && colon < 90) return feature.slice(colon + 1).trim();
+  return feature;
+}
+
 export function generateStaticParams() {
   return projects.filter(p => p.slug).map(p => ({ slug: p.slug! }));
 }
@@ -34,7 +47,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     <div className="dossier-layout">
       <article className="dossier-main">
         <section className="detail-section" id="purpose"><div className="section-label">01 / PURPOSE</div><h2>What this project is</h2><p>{d.purpose}</p></section>
-        <section className="detail-section" id="features"><div className="section-label">02 / FEATURE INVENTORY</div><h2>Every documented capability</h2><p className="section-intro">This inventory expands the repository documentation into individual, explanatory items rather than compressing the project into a short card.</p><div className="full-feature-list">{d.features.map((feature:string,i:number)=><article className="full-feature" key={feature}><div className="feature-number">{String(i+1).padStart(2,"0")}</div><div><h3>{feature.split(":")[0]}</h3><p>{feature.includes(":") ? feature.slice(feature.indexOf(":")+1).trim() : feature}</p></div></article>)}</div></section>
+        <section className="detail-section" id="features"><div className="section-label">02 / FEATURE INVENTORY</div><h2>Every documented capability</h2><p className="section-intro">This inventory expands the repository documentation into individual, explanatory items rather than compressing the project into a short card.</p><div className="full-feature-list">{d.features.map((feature:string,i:number)=><article className="full-feature" key={feature}><div className="feature-number">{String(i+1).padStart(2,"0")}</div><div><h3>{featureHeading(feature)}</h3><p>{featureBody(feature)}</p></div></article>)}</div></section>
         <section className="detail-section" id="architecture"><div className="section-label">03 / ARCHITECTURE</div><h2>How the pieces fit together</h2><p>{d.architecture}</p><div className="architecture-callout"><Workflow size={18}/><span>Architecture summary from public docs/source. Where a behavior is not established in the reviewed files, it is not filled in with guesswork.</span></div></section>
         <section className="detail-section" id="workflow"><div className="section-label">04 / END-TO-END FLOW</div><h2>How it works in practice</h2><div className="architecture-steps">{d.workflow.map((step:string,i:number)=><div className="architecture-step" key={step}><span>{String(i+1).padStart(2,"0")}</span><p>{step}</p></div>)}</div></section>
         {d.commands && <section className="detail-section" id="commands"><div className="section-label">05 / COMMAND REFERENCE</div><h2>Public commands</h2><div className="reference-table">{d.commands.map((cmd:{name:string;purpose:string})=><div className="reference-row" key={cmd.name}><code>{cmd.name}</code><p>{cmd.purpose}</p></div>)}</div></section>}
