@@ -18,7 +18,6 @@ import {
   Network,
   ShieldCheck,
   Sparkles,
-  Terminal,
   Workflow,
   X
 } from "lucide-react";
