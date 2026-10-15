@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, BrainCircuit, Bot, GitBranch, Network, Workflow, BookOpen, Layers } from "lucide-react";
-import { AIWidget } from "@/components/AIWidget";
 import { projects } from "@/lib/projects";
 
 const iconFor = (slug: string) => {
@@ -61,6 +60,5 @@ export default function Home() {
         <div className="contact-panel"><div><div className="section-label">03 / About the build</div><h2>Full detail without leaking private work.</h2><p>The catalogue documents public repositories and attributed upstream projects. Personal vaults, private infrastructure, credentials, and unpublished implementation notes do not belong on a public portfolio.</p></div><div className="contact-actions"><Link className="button-primary" href="/about">Read about the approach <ArrowRight size={15}/></Link><Link className="button-secondary" href="/architecture">Explore architecture <ArrowUpRight size={14}/></Link></div></div>
       </section>
     </main>
-    <AIWidget/>
   </>;
 }
