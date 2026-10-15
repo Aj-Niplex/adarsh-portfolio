@@ -19,5 +19,7 @@ Add GEMINI_API_KEY as a **server-side** Vercel environment variable for Producti
 
 The chat is optional. Without the key, the widget explains that the assistant is not connected yet. API responses are bounded and the browser sends chat messages only to this site's server route.
 
+**Privacy:** When configured, chat messages are forwarded to Google's Gemini API. Google's current pricing documentation says free-tier content may be used to improve Google products, so visitors are warned not to enter secrets or private data. The included in-memory rate limit is best-effort per serverless instance, not a durable global quota; add a persistent rate limiter or challenge before relying on it at high traffic.
+
 ## Publishing policy
 The portfolio uses a curated allowlist. Private repositories, personal vaults, saved conversation data, internal connectors, tokens, and development handover notes are deliberately not indexed or shown. KaizenManas is listed only as an unreleased preview; its private development source is not linked.
