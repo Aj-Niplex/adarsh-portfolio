@@ -11,7 +11,7 @@ import {
   Code2,
   ExternalLink,
   FlaskConical,
-  Github,
+  GitBranch,
   Globe2,
   HeartHandshake,
   Menu,
@@ -125,7 +125,7 @@ export default function Home() {
 
           <div className="nav-right">
             <a className="nav-github" href="https://github.com/Aj-Niplex" target="_blank" rel="noreferrer">
-              <Github size={15} />
+              <GitBranch size={15} />
               <span>GitHub profile</span>
               <ArrowUpRight size={13} />
             </a>
@@ -167,7 +167,7 @@ export default function Home() {
                   Explore projects <ArrowDownRight size={16} />
                 </a>
                 <a href="https://github.com/Aj-Niplex" className="button-secondary" target="_blank" rel="noreferrer">
-                  <Github size={15} /> Browse GitHub <ArrowUpRight size={14} />
+                  <GitBranch size={15} /> Browse GitHub <ArrowUpRight size={14} />
                 </a>
               </div>
               <div className="hero-meta">
@@ -409,7 +409,7 @@ export default function Home() {
               </div>
               <div className="contact-actions">
                 <a className="button-primary" href="https://github.com/Aj-Niplex" target="_blank" rel="noreferrer">
-                  <Github size={15} /> GitHub profile <ArrowUpRight size={14} />
+                  <GitBranch size={15} /> GitHub profile <ArrowUpRight size={14} />
                 </a>
                 <a className="button-secondary" href="https://github.com/Aj-Niplex?tab=repositories" target="_blank" rel="noreferrer">
                   Public repositories <ArrowUpRight size={14} />
