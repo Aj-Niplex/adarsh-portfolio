@@ -207,7 +207,18 @@ export const projects: PortfolioProject[] = [
         { name: "?logs [lines] / ?botinfo / ?ping", purpose: "Inspect operations, status, or latency." },
         { name: "?botblock / ?botunblock", purpose: "Block or unblock a user." },
         { name: "?promote / ?demote / ?admins", purpose: "Manage bot-admin access; ownership restrictions apply." },
-        { name: "?help / ?userid [@user]", purpose: "Show help or look up a Discord user ID." }
+        { name: "?help / ?userid [@user]", purpose: "Show help or look up a Discord user ID." },
+        { name: "?save", purpose: "Save conversation history or a useful exchange." },
+        { name: "?topic", purpose: "Set or view the conversation topic." },
+        { name: "?remember", purpose: "Store important information in memory." },
+        { name: "?resourcehub", purpose: "Open the study-resource catalog and its management/search workflows." },
+        { name: "?fix", purpose: "Try a quick fix workflow for common issues." },
+        { name: "?prompt / ?setprompt", purpose: "Inspect or customize the AI system prompt, subject to available permissions." },
+        { name: "?tell", purpose: "Send a direct message or announcement via the configured bot workflow." },
+        { name: "?quote", purpose: "Return a random quote." },
+        { name: "?test_error", purpose: "Exercise the error-handling/testing path." },
+        { name: "?admin_promo", purpose: "Run the documented promotional/admin utility." },
+        { name: "?clearhistory / ?clearchat / ?resetai", purpose: "Clear channel conversation history and start fresh." }
       ]
     }
   },
