@@ -30,6 +30,11 @@ function isSameOrigin(request: Request) {
 
 function rateLimited(key: string) {
   const now = Date.now();
+  if (requestCounts.size > 1000) {
+    for (const [trackedKey, entry] of requestCounts) {
+      if (entry.resetAt <= now) requestCounts.delete(trackedKey);
+    }
+  }
   const prior = requestCounts.get(key);
   if (!prior || prior.resetAt <= now) {
     requestCounts.set(key, { count: 1, resetAt: now + WINDOW_MS });
@@ -42,6 +47,11 @@ function rateLimited(key: string) {
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
     return NextResponse.json({ error: "Request origin was rejected." }, { status: 403 });
+  }
+
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (Number.isFinite(contentLength) && contentLength > 32_000) {
+    return NextResponse.json({ error: "That message payload is too large." }, { status: 413 });
   }
 
   const clientKey = getClientKey(request);
@@ -58,7 +68,18 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json() as { messages?: unknown };
+    const rawBody = await request.text();
+    if (rawBody.length > 32_000) {
+      return NextResponse.json({ error: "That message payload is too large." }, { status: 413 });
+    }
+
+    let body: { messages?: unknown };
+    try {
+      body = JSON.parse(rawBody) as { messages?: unknown };
+    } catch {
+      return NextResponse.json({ error: "Request body must be valid JSON." }, { status: 400 });
+    }
+
     if (!Array.isArray(body.messages)) {
       return NextResponse.json({ error: "Send a messages array." }, { status: 400 });
     }
