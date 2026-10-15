@@ -15,7 +15,7 @@ Personal portfolio for Adarsh Jaiswal: AI systems, developer tooling, and open-s
 4. Run **npm run dev** and open http://localhost:3000.
 
 ## AI chat setup
-Add GEMINI_API_KEY as a **server-side** Vercel environment variable for Production and Preview, then redeploy. Never put the key in a NEXT_PUBLIC_* variable or commit it to Git. The default model is gemini-3.5-flash-lite; GEMINI_MODEL can override it.
+Add GEMINI_API_KEY as a **server-side** Vercel environment variable for Production and Preview, then redeploy. Never put the key in a NEXT_PUBLIC_* variable or commit it to Git. The default model is gemini-3.1-flash-lite; GEMINI_MODEL can override it.
 
 The chat is optional. Without the key, the widget explains that the assistant is not connected yet. API responses are bounded and the browser sends chat messages only to this site's server route.
 
