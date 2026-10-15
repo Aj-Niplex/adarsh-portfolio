@@ -4,7 +4,7 @@ import { publicPortfolioContext } from "@/lib/projects";
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 10;
 const requestCounts = new Map<string, { count: number; resetAt: number }>();
