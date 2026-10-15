@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AIWidget } from "@/components/AIWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://adarsh-portfolio-aj-niplexs-projects.vercel.app"),
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <header className="global-header"><div className="global-nav container"><a href="/" className="global-brand"><span className="brand-mark">N/</span><span><strong>NiPlex</strong><small>Adarsh Jaiswal</small></span></a><nav><a href="/projects">Projects</a><a href="/architecture">Architecture</a><a href="/about">About</a><a href="https://github.com/Aj-Niplex" target="_blank" rel="noreferrer">GitHub ↗</a></nav></div></header>
         {children}
         <footer className="global-footer"><div className="container global-footer-inner"><span>Adarsh Jaiswal · NiPlex</span><span>Public work, documented properly.</span><a href="/projects">All project dossiers ↗</a></div></footer>
+        <AIWidget />
       </body>
     </html>
   );
