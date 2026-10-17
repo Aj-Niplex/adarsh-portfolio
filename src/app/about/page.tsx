@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
-import { FACTS, SITE } from "@/lib/site";
+import { FACTS, PORTFOLIOS, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -48,6 +48,19 @@ export default function AboutPage() {
           <p>
             <strong>Find me.</strong> <a href={SITE.github} target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>github.com/Aj-Niplex</a>. The same facts in plain text for AI assistants are at <a href="/llms.txt" style={{ color: "var(--accent-text)" }}>/llms.txt</a>.
           </p>
+          <h2 id="portfolios">Portfolios and profiles</h2>
+          <ul className="link-list">
+            {PORTFOLIOS.map((p) => (
+              <li key={p.href}>
+                <a href={p.href} target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>{p.label}</a>
+                <span>{p.note}.</span>
+              </li>
+            ))}
+            <li>
+              <a href={SITE.obsidian} target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>Obsidian community profile</a>
+              <span>Where the Obsidian plugin is listed.</span>
+            </li>
+          </ul>
         </div>
 
         <aside className="aside">

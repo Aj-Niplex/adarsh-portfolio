@@ -8,8 +8,17 @@ export const SITE = {
   role: "AI agent and MCP developer",
   region: "India",
   github: "https://github.com/Aj-Niplex",
-  obsidian: "https://community.obsidian.md/users/aj-niplex"
+  obsidian: "https://community.obsidian.md/users/aj-niplex",
+  profileRepo: "https://github.com/Aj-Niplex/Aj-Niplex",
+  portfolioRepo: "https://github.com/Aj-Niplex/adarsh-portfolio",
+  pagesSite: "https://aj-niplex.github.io"
 } as const;
+
+export const PORTFOLIOS = [
+  { label: "GitHub profile", href: SITE.profileRepo, note: "Profile README and agent.md: the short version of who I am and what I build" },
+  { label: "Portfolio source", href: SITE.portfolioRepo, note: "The code for this site" },
+  { label: "GitHub Pages site", href: SITE.pagesSite, note: "The earlier site, with product pages and a resume" }
+] as const;
 
 export const NAV = [
   { href: "/projects", label: "Projects" },

@@ -1,5 +1,5 @@
 import { forks, projects, TIERS, type Tier } from "./projects";
-import { FACTS, META_DESCRIPTION, SITE } from "./site";
+import { FACTS, META_DESCRIPTION, PORTFOLIOS, SITE } from "./site";
 
 const TIER_ORDER: Tier[] = ["core", "tools", "side"];
 
@@ -28,6 +28,7 @@ export function buildLlmsTxt() {
   }
   out.push("## Links");
   out.push("- [GitHub](" + SITE.github + ")");
+  for (const p of PORTFOLIOS) out.push("- [" + p.label + "](" + p.href + "): " + p.note + ".");
   out.push("- [Obsidian Community profile](" + SITE.obsidian + ")");
   out.push("- [Full details for AI assistants](" + SITE.url + "/llms-full.txt)");
   out.push("");

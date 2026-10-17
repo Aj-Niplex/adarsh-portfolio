@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { NAV, SITE } from "@/lib/site";
+import { NAV, PORTFOLIOS, SITE } from "@/lib/site";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ViewCounter } from "./ViewCounter";
 
 export function Header() {
   return (
@@ -37,23 +38,35 @@ export function Footer() {
         <div>
           <strong>{SITE.name}</strong> · {SITE.alias}
           <p>{SITE.tagline}.</p>
+          <ViewCounter />
         </div>
-        <ul className="footer-links">
-          <li>
-            <Link href="/projects">Projects</Link>
-          </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
-          <li>
-            <a href={SITE.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="/llms.txt">llms.txt</a>
-          </li>
-        </ul>
+        <div className="footer-cols">
+          <ul className="footer-links">
+            <li>
+              <Link href="/projects">Projects</Link>
+            </li>
+            <li>
+              <Link href="/about">About</Link>
+            </li>
+            <li>
+              <a href={SITE.github} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="/llms.txt">llms.txt</a>
+            </li>
+          </ul>
+          <ul className="footer-links footer-links-sub" aria-label="Portfolios and profiles">
+            {PORTFOLIOS.map((p) => (
+              <li key={p.href}>
+                <a href={p.href} target="_blank" rel="noreferrer">
+                  {p.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </footer>
   );
