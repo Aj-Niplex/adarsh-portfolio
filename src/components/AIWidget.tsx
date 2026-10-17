@@ -1,13 +1,13 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Bot, LoaderCircle, Send, Sparkles, X } from "lucide-react";
+import { LoaderCircle, MessageSquare, Send, X } from "lucide-react";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const greeting: ChatMessage = {
   role: "assistant",
-  content: "Hey, I'm the tiny assistant for this portfolio. Ask about the projects, their status, or how the tools fit together."
+  content: "Ask me about the projects: what NiPlex-Harness does, how NiPlex-MCP is built, or which one fits what you need."
 };
 
 export function AIWidget() {
@@ -20,7 +20,7 @@ export function AIWidget() {
 
   useEffect(() => {
     if (!open) return;
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    bottomRef.current?.scrollIntoView({ block: "end" });
     inputRef.current?.focus();
   }, [open, messages, busy]);
 
@@ -38,12 +38,10 @@ export function AIWidget() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updated.filter((message) => message !== greeting).slice(-12) })
+        body: JSON.stringify({ messages: updated.filter((m) => m !== greeting).slice(-12) })
       });
-      const data = await response.json() as { reply?: string; error?: string };
-      if (!response.ok || !data.reply) {
-        throw new Error(data.error || "The assistant is taking a breather. Try again soon.");
-      }
+      const data = (await response.json()) as { reply?: string; error?: string };
+      if (!response.ok || !data.reply) throw new Error(data.error || "The assistant is unavailable right now.");
       setMessages((current) => [...current, { role: "assistant", content: data.reply || "" }]);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Something went wrong.";
@@ -56,61 +54,58 @@ export function AIWidget() {
   return (
     <>
       {open && (
-        <section className="ai-panel" aria-label="Portfolio AI assistant">
-          <header className="ai-panel-header">
-            <div className="ai-avatar"><Bot size={19} /></div>
-            <div className="ai-title-wrap">
-              <strong>NiPlex assistant</strong>
-              <span><i className="status-dot" /> Portfolio guide · Gemini when configured</span>
-            </div>
-            <button className="icon-button ai-close" onClick={() => setOpen(false)} aria-label="Close assistant">
-              <X size={18} />
+        <section className="chat-panel" aria-label="Ask about the projects">
+          <header className="chat-head">
+            <strong>Ask about the work</strong>
+            <button type="button" className="chat-icon" onClick={() => setOpen(false)} aria-label="Close chat">
+              <X size={16} />
             </button>
           </header>
-
-          <div className="ai-messages" aria-live="polite">
-            <div className="ai-intro-note">Messages are sent to Google Gemini when enabled; Google’s free tier may use submitted content to improve products. Ask about public projects only, and never share passwords, API keys, or private data.</div>
-            {messages.map((message, index) => (
-              <div className={"ai-message " + (message.role === "user" ? "from-user" : "from-ai")} key={index}>
-                {message.content}
+          <div className="chat-log" aria-live="polite">
+            <p className="chat-note">Answers come from Google Gemini using public project info only. Do not send passwords, keys or private data.</p>
+            {messages.map((m, i) => (
+              <div className={"chat-msg " + (m.role === "user" ? "from-user" : "from-ai")} key={i}>
+                {m.content}
               </div>
             ))}
-            {busy && <div className="ai-message from-ai typing"><LoaderCircle size={14} className="spin" /> Thinking through it…</div>}
+            {busy && (
+              <div className="chat-msg from-ai">
+                <LoaderCircle size={14} className="spin" /> Thinking
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
-
-          <form className="ai-composer" onSubmit={sendMessage}>
+          <form className="chat-form" onSubmit={sendMessage}>
             <textarea
               ref={inputRef}
               value={draft}
-              onChange={(event) => setDraft(event.target.value)}
-              placeholder="Ask something about the work…"
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder="Ask a question"
               rows={1}
               maxLength={2000}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault();
-                  event.currentTarget.form?.requestSubmit();
+              aria-label="Your question"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.currentTarget.form?.requestSubmit();
                 }
               }}
-              aria-label="Message the portfolio assistant"
             />
-            <button type="submit" className="send-button" aria-label="Send message" disabled={busy || !draft.trim()}>
-              {busy ? <LoaderCircle size={17} className="spin" /> : <Send size={17} />}
+            <button type="submit" className="chat-send" aria-label="Send" disabled={busy || !draft.trim()}>
+              <Send size={16} />
             </button>
           </form>
-          <div className="ai-footer"><Sparkles size={12} /> Replies use Gemini when configured. <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noreferrer">API details <ArrowUpRight size={11} /></a></div>
         </section>
       )}
-
       <button
-        className={"ai-fab " + (open ? "is-open" : "")}
-        onClick={() => setOpen((value) => !value)}
-        aria-label={open ? "Close AI assistant" : "Open AI assistant"}
+        type="button"
+        className="chat-toggle"
+        onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        aria-label={open ? "Close chat" : "Ask about the work"}
       >
-        {open ? <X size={22} /> : <span className="fab-face"><Sparkles size={21} /></span>}
-        <span className="fab-label">{open ? "Close" : "Ask AI"}</span>
+        <MessageSquare size={18} />
+        <span>{open ? "Close" : "Ask"}</span>
       </button>
     </>
   );

@@ -1,39 +1,76 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, BookOpen, BrainCircuit, Bot, GitBranch, Layers, Network, Workflow } from "lucide-react";
-import { projects } from "@/lib/projects";
+import { JsonLd } from "@/components/JsonLd";
+import { forks, projects, projectsByTier, TIERS, type Tier } from "@/lib/projects";
+import { SITE } from "@/lib/site";
 
-const icons: Record<string, typeof BookOpen> = {
-  "niplex-research-ai": BrainCircuit,
-  "niplex-harness": Workflow,
-  "rei-kun-bot": Bot,
-  "threadforge-mcp": Network,
-  "niplex-harness-site": BookOpen,
-  "opendots": Layers
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "NiPlex-Harness, NiPlex-MCP, ThreadForge-MCP, Rei-kun-Bot and more: AI agent systems and MCP servers by Adarsh Jaiswal (AJ NiPlex).",
+  alternates: { canonical: "/projects" }
 };
 
-export const metadata = {
-  title: "Project Dossiers | Adarsh Jaiswal",
-  description: "Detailed feature, architecture, workflow, setup, and limitation breakdowns for public NiPlex projects."
-};
+const ORDER: Tier[] = ["core", "tools", "side"];
 
 export default function ProjectsPage() {
-  return <main className="container inner-page">
-    <div className="section-label">PROJECT INDEX / PUBLIC WORK</div>
-    <h1 className="page-title">Projects, <span className="accent">in detail.</span></h1>
-    <p className="page-lead">Each dossier explains what the repository is for, what its documented features do, how components work together, how to configure it, and what caveats to know before deploying it. Private repositories and personal data are not included.</p>
-    <div className="index-meta"><span><BookOpen size={14}/> {projects.length} detailed dossiers</span><span><GitBranch size={14}/> Direct source links</span><span><Network size={14}/> Architecture + workflows</span></div>
-    <div className="detail-grid">
-      {projects.filter(p=>p.slug).map((p) => {
-        const Icon = icons[p.slug || ""] || BookOpen;
-        return <article className="detail-card index-project" key={p.slug}>
-          <div className="project-top"><span className="project-icon"><Icon size={20}/></span><span className="project-status available">{p.status}</span></div>
-          <div className="project-eyebrow">{p.eyebrow}</div><h2>{p.name}</h2><p>{p.description}</p>
-          {p.attribution && <p className="attribution-note">{p.attribution}</p>}
-          <div className="project-tags">{p.tags.map(t=><span className="project-tag" key={t}>{t}</span>)}</div>
-          <div className="detail-card-actions"><Link className="project-action" href={"/projects/"+p.slug}>Open full dossier <ArrowUpRight size={14}/></Link><a className="project-action subdued" href={p.href} target="_blank" rel="noreferrer">Source repo <GitBranch size={13}/></a></div>
-        </article>
-      })}
-    </div>
-    <div className="scope-note"><strong>Evidence standard.</strong> Pages are based on publicly available README/docs and selected implementation files. Documented features are distinguished from independently verified behavior. Repository source is the final authority, not the portfolio summary.</div>
-  </main>;
+  const list = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Projects by " + SITE.name + " (" + SITE.alias + ")",
+    itemListElement: projects.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.name,
+      url: SITE.url + "/projects/" + p.slug
+    }))
+  };
+
+  return (
+    <main className="container page">
+      <JsonLd data={list} />
+      <p className="crumbs"><Link href="/">Home</Link> / Projects</p>
+      <h1>Projects</h1>
+      <p className="lead">
+        Two core systems and the public tools built around them. Each page says what the project does, how it works, how to run it, and where its limits are.
+      </p>
+
+      {ORDER.map((tier) => (
+        <section className="section" key={tier}>
+          <div className="section-head">
+            <h2>{TIERS[tier].title}</h2>
+            <p>{TIERS[tier].blurb}</p>
+          </div>
+          <div className="rows">
+            {projectsByTier(tier).map((p) => (
+              <Link href={"/projects/" + p.slug} className="row" key={p.slug}>
+                <div className="row-main">
+                  <h3>{p.name}</h3>
+                  <p>{p.tagline} {p.summary}</p>
+                </div>
+                <div className="row-meta">
+                  {p.logo && <Image className="row-logo" src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
+                  <span className={"pill " + (p.visibility === "public" ? "pill-accent" : "")}>{p.status}</span>
+                  {p.tags.slice(0, 3).map((t) => <span className="pill" key={t}>{t}</span>)}
+                </div>
+              </Link>
+            ))}
+            {tier === "side" &&
+              forks.map((f) => (
+                <a href={f.href} target="_blank" rel="noreferrer" className="row" key={f.name}>
+                  <div className="row-main">
+                    <h3>{f.name}</h3>
+                    <p>{f.note}</p>
+                  </div>
+                  <div className="row-meta">
+                    <span className="pill">Fork of {f.from}</span>
+                  </div>
+                </a>
+              ))}
+          </div>
+        </section>
+      ))}
+    </main>
+  );
 }

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { publicPortfolioContext } from "@/lib/projects";
+import { buildAssistantContext } from "@/lib/projects";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
+const CONTEXT = buildAssistantContext();
 const MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 10;
@@ -110,7 +111,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         systemInstruction: {
           parts: [{
-            text: "You are the public portfolio assistant for Adarsh Jaiswal (NiPlex). Answer visitors about the published portfolio using the context below. Keep answers useful, friendly, and concise. Be honest when a capability is still in development. Never invent project metrics, releases, or links. Do not disclose or speculate about private repositories, personal vaults, source code, credentials, user data, or internal implementation details. Tell visitors not to share secrets or sensitive data.\\n\\nPublic context: " + publicPortfolioContext
+            text: "You are the public portfolio assistant for Adarsh Jaiswal (NiPlex). Answer visitors about the published portfolio using the context below. Keep answers useful, friendly, and concise. Be honest when a capability is still in development. Never invent project metrics, releases, or links. Do not disclose or speculate about private repositories, personal vaults, source code, credentials, user data, or internal implementation details. Tell visitors not to share secrets or sensitive data.\n\nPublic context: " + CONTEXT
           }]
         },
         contents: messages,
