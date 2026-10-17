@@ -60,7 +60,12 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true }
 };
 
-export const viewport: Viewport = { themeColor: "#0b0c0e", colorScheme: "dark" };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4efe7" },
+    { media: "(prefers-color-scheme: dark)", color: "#080707" }
+  ]
+};
 
 const personId = SITE.url + "/#person";
 
@@ -96,19 +101,19 @@ const identity = {
         "Human-in-the-loop approvals",
         "Multi-model fallback"
       ],
-      sameAs: [SITE.github, SITE.obsidian]
+      sameAs: [SITE.github, SITE.pagesSite, SITE.obsidian]
     }
   ]
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="spec" className={fontVars} suppressHydrationWarning>
+    <html lang="en" data-theme="noir" data-mode="dark" className={fontVars} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('theme');if(t==='spec'||t==='noir'||t==='cockpit')document.documentElement.dataset.theme=t}catch(e){}"
+              "(function(){var d=document.documentElement;try{var t=localStorage.getItem('theme');if(t==='spec'||t==='noir'||t==='cockpit')d.dataset.theme=t}catch(e){}var m=null;try{m=localStorage.getItem('mode')}catch(e){}if(m!=='light'&&m!=='dark'){m=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.dataset.mode=m})();"
           }}
         />
         <JsonLd data={identity} />

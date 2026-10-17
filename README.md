@@ -6,7 +6,7 @@ Live: https://aj-niplex.vercel.app
 
 ## Stack
 - Next.js App Router, TypeScript, Tailwind CSS v4
-- Three switchable visual styles (Spec, Noir, Cockpit), chosen in the header
+- Three switchable visual styles (Noir by default, Spec, Cockpit) with a Day / Dark switch, both chosen in the header and remembered per visitor
 - Fonts through next/font/google, self-hosted at build time
 
 ## Where the content lives
@@ -26,6 +26,9 @@ Live: https://aj-niplex.vercel.app
 
 ## Optional chat assistant
 Set `GEMINI_API_KEY` as a server-side environment variable (Production and Preview) and redeploy. The chat button only appears when the key exists. Never use a `NEXT_PUBLIC_` prefix for it. The default model is `gemini-3.1-flash-lite`; `GEMINI_MODEL` overrides it. Messages go to Google's Gemini API, so visitors are told not to send private data. The rate limit is in memory and per serverless instance.
+
+## Visit counter
+The footer shows a total visit count that is stored outside the site, so it keeps counting from where it left off after every redeploy. The browser asks `/api/views`, which calls a small database function using two server-side variables, `VIEWS_ENDPOINT` and `VIEWS_SECRET`. One visit is counted per browser session; crawlers and rapid repeats are read-only. If the variables are missing or the store is unreachable, the counter simply does not appear.
 
 ## Site URL
 `NEXT_PUBLIC_SITE_URL` sets the canonical URL. It defaults to https://aj-niplex.vercel.app.

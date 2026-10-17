@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 /* ---------- Themes: tokens only. Structure below is shared. ---------- */
-:root,
 :root[data-theme="spec"] {
   --bg: #0b0c0e;
   --surface: #13151a;
@@ -22,6 +21,7 @@
   --body-size: 1rem;
 }
 
+:root,
 :root[data-theme="noir"] {
   --bg: #080707;
   --surface: #110e0e;
@@ -62,6 +62,46 @@
   --body-size: 1rem;
 }
 
+/* ---------- Day mode: colour tokens only, per style ---------- */
+:root { color-scheme: dark; }
+:root[data-mode="light"] { color-scheme: light; }
+
+:root[data-mode="light"][data-theme="noir"] {
+  --bg: #f4efe7;
+  --surface: #fbf8f2;
+  --surface-2: #ece5d9;
+  --text: #1c1614;
+  --muted: #665a53;
+  --border: #d6cbbd;
+  --accent: #a82b1b;
+  --accent-text: #a82b1b;
+  --on-accent: #fff6f2;
+}
+
+:root[data-mode="light"][data-theme="spec"] {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --surface-2: #efefeb;
+  --text: #14161a;
+  --muted: #565d68;
+  --border: #dadad3;
+  --accent: #b3261e;
+  --accent-text: #b3261e;
+  --on-accent: #ffffff;
+}
+
+:root[data-mode="light"][data-theme="cockpit"] {
+  --bg: #eef0f3;
+  --surface: #ffffff;
+  --surface-2: #e5e9ef;
+  --text: #151922;
+  --muted: #525c6e;
+  --border: #d0d6df;
+  --accent: #c03221;
+  --accent-text: #b02a1a;
+  --on-accent: #ffffff;
+}
+
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
@@ -96,6 +136,8 @@ button { font: inherit; color: inherit; }
 .brand-text small { color: var(--muted); font-size: 0.72rem; }
 .nav { display: flex; gap: 18px; font-size: 0.9rem; color: var(--muted); }
 .nav a:hover { color: var(--text); }
+.header-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+:root[data-mode="light"] .chat-panel { box-shadow: 0 20px 50px rgba(20, 16, 12, 0.18); }
 .theme-switch { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .theme-switch button { background: transparent; border: 0; padding: 6px 10px; font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); cursor: pointer; }
 .theme-switch button + button { border-left: 1px solid var(--border); }
@@ -103,8 +145,16 @@ button { font: inherit; color: inherit; }
 .site-footer { border-top: 1px solid var(--border); margin-top: 72px; padding: 28px 0 40px; color: var(--muted); font-size: 0.9rem; }
 .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 .footer-inner strong { color: var(--text); }
-.footer-links { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+.footer-cols { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.footer-links { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
 .footer-links a:hover { color: var(--text); }
+.footer-links-sub { font-size: 0.82rem; }
+.view-counter { margin: 10px 0 0; font-size: 0.82rem; }
+.view-counter .mono { color: var(--text); }
+.link-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.link-list li { display: grid; gap: 2px; }
+.link-list span { color: var(--muted); font-size: 0.92rem; }
+@media (max-width: 640px) { .footer-cols { align-items: flex-start; } }
 
 /* ---------- Buttons, pills ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: var(--radius); border: 1px solid var(--border); font-weight: 600; font-size: 0.92rem; transition: background .15s, border-color .15s; }
