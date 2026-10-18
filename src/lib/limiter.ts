@@ -5,7 +5,7 @@ export type Take = { allowed: boolean; remaining: number; retryAfter: number };
 // Used only if the store cannot be reached, so limits still hold on one server instance.
 const memory = new Map<string, { count: number; resetAt: number }>();
 
-function takeMemory(key: string, limit: number, windowSeconds: number): Take {
+export function takeMemory(key: string, limit: number, windowSeconds: number): Take {
   const now = Date.now();
   if (memory.size > 2000) for (const [k, v] of memory) if (v.resetAt <= now) memory.delete(k);
   const entry = memory.get(key);
