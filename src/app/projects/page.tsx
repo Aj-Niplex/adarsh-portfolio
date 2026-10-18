@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { pageMeta } from "@/lib/meta";
 import { forks, projects, projectsByTier, TIERS, type Tier } from "@/lib/projects";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Projects",
   description:
     "NiPlex-Harness, NiPlex-MCP, ThreadForge-MCP, Rei-kun-Bot and more: AI agent systems and MCP servers by Adarsh Jaiswal (AJ NiPlex).",
-  alternates: { canonical: "/projects" }
-};
+  path: "/projects"
+});
 
 const ORDER: Tier[] = ["core", "tools", "side"];
 

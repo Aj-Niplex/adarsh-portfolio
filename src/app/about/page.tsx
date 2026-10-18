@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { pageMeta } from "@/lib/meta";
 import { FACTS, PORTFOLIOS, SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "About",
   description:
     "Adarsh Jaiswal, also known as AJ NiPlex: an independent developer in India who builds AI agent systems and Model Context Protocol (MCP) servers.",
-  alternates: { canonical: "/about" }
-};
+  path: "/about"
+});
 
 export default function AboutPage() {
   const about = {
