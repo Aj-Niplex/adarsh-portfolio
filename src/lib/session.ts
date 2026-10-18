@@ -43,7 +43,12 @@ export function readSession(request: Request): { email: string } | null {
   const header = request.headers.get("cookie") || "";
   const match = header.split(/;\s*/).find((part) => part.startsWith(SESSION_COOKIE + "="));
   if (!match) return null;
-  const token = decodeURIComponent(match.slice(SESSION_COOKIE.length + 1));
+  let token: string;
+  try {
+    token = decodeURIComponent(match.slice(SESSION_COOKIE.length + 1));
+  } catch {
+    return null;
+  }
   const [payload, sig] = token.split(".");
   if (!payload || !sig) return null;
   const expected = hmac("session:" + payload);

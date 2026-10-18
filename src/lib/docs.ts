@@ -131,6 +131,17 @@ function tokens(s: string): string[] {
     .filter((w) => w.length > 1 && !STOP.has(w));
 }
 
+/** True when the question names a project or a topic the docs are about, not just a common word. */
+export function mentionsProject(question: string): boolean {
+  const q = new Set(tokens(question));
+  if (q.size === 0) return false;
+  for (const doc of buildDocs()) {
+    const known = new Set([...tokens(doc.title), ...doc.keywords.flatMap((k) => tokens(k))]);
+    for (const t of q) if (known.has(t)) return true;
+  }
+  return false;
+}
+
 export type Retrieval = { docs: Doc[]; terms: string[]; fallback: boolean; total: number };
 
 export function retrieve(question: string, previous = "", limit = 3): Retrieval {

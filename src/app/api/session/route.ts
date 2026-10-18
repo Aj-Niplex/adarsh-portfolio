@@ -51,7 +51,9 @@ export async function POST(request: Request) {
 
   let body: { email?: unknown; consent?: unknown };
   try {
-    body = (await request.json()) as { email?: unknown; consent?: unknown };
+    const parsed = (await request.json()) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("not an object");
+    body = parsed as { email?: unknown; consent?: unknown };
   } catch {
     return NextResponse.json({ error: "Send an email address." }, { status: 400 });
   }

@@ -28,6 +28,18 @@ const SUGGESTIONS = ["What is NiPlex-MCP?", "How does NiPlex-Harness keep code e
 
 let nextId = 1;
 
+/** A request that never got a reply (a dropped mobile connection, say) is tried once more before giving up. */
+async function postChat(body: string, signal: AbortSignal) {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body, signal });
+    } catch (error) {
+      if ((error as Error).name === "AbortError" || attempt >= 1) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 700));
+    }
+  }
+}
+
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 }
@@ -132,6 +144,7 @@ function Answer({ msg }: { msg: Msg }) {
     <>
       {msg.steps && msg.steps.length > 0 && <Trace steps={msg.steps} phase={msg.phase} ms={msg.ms} />}
       {text && <Markdown text={text} streaming={typing} allowLink={allowLink} />}
+      {live && !text && (!msg.steps || msg.steps.length === 0) && <p className="chat-wait">One moment</p>}
       {msg.phase === "writing" && !text && <p className="chat-wait">Writing</p>}
       {!typing && msg.sources && msg.sources.length > 0 && msg.phase === "done" && (
         <div className="sources">
@@ -272,7 +285,7 @@ export function AIWidget() {
       } else if (ev.type === "done") {
         enqueue(0, () => {
           patch(answerId, (m) => ({ ...m, phase: "done", ms: Date.now() - started, steps: m.steps?.map((s) => ({ ...s, status: "done" as const })) }));
-          setRemaining(ev.usage.remaining);
+          if (ev.usage.remaining !== null) setRemaining(ev.usage.remaining);
         });
       } else if (ev.type === "error") {
         fail(ev.message);
@@ -280,12 +293,8 @@ export function AIWidget() {
     };
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...history, { role: "user", content: text }] }),
-        signal: controller.signal
-      });
+      const payload = JSON.stringify({ messages: [...history, { role: "user", content: text }] });
+      const response = await postChat(payload, controller.signal);
 
       if (!response.ok) {
         // The server may answer with JSON or, on a timeout, a plain-text error page. Never show a parser error.
