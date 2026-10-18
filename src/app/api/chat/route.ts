@@ -12,8 +12,8 @@ export const maxDuration = 60;
 
 const BASE = (process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com").replace(/\/$/, "");
 const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
-// If the first model is rate-limited or down, the next one answers instead.
-const MODELS = Array.from(new Set([PRIMARY_MODEL, "gemini-2.5-flash"]));
+// If the first model is rate-limited, retired or down, the next one answers instead.
+const MODELS = Array.from(new Set([PRIMARY_MODEL, "gemini-3.8-flash", "gemini-2.5-flash"]));
 const DAILY_CAP = Number(process.env.CHAT_DAILY_CAP || 400);
 const RETRY_STATUS = new Set([404, 429, 500, 502, 503, 504]);
 

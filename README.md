@@ -36,7 +36,7 @@ How it works:
 
 Limits: 2 questions a minute per visitor, 5 a minute when signed in, and a daily cap for the whole site (`CHAT_DAILY_CAP`, default 400). Counters live in the database behind `VIEWS_ENDPOINT`; if it cannot be reached, a per-instance in-memory counter is used.
 
-Optional variables: `GEMINI_MODEL` (default `gemini-3.1-flash-lite`; `gemini-2.5-flash` is the fallback), `GEMINI_BASE_URL` (for tests), `CHAT_DAILY_CAP`.
+Optional variables: `GEMINI_MODEL` (default `gemini-3.1-flash-lite`; `gemini-3.8-flash` and then `gemini-2.5-flash` are tried if it is busy or retired), `GEMINI_BASE_URL` (for tests), `CHAT_DAILY_CAP`.
 
 ## Visit counter
 The footer shows a total visit count that is stored outside the site, so it keeps counting from where it left off after every redeploy. The browser asks `/api/views`, which calls a small database function using two server-side variables, `VIEWS_ENDPOINT` and `VIEWS_SECRET`. One visit is counted per browser session; crawlers and rapid repeats are read-only. If the variables are missing or the store is unreachable, the counter simply does not appear.
