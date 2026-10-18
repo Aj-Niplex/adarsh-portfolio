@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
+import { pageMeta } from "@/lib/meta";
 import { getProject, projects } from "@/lib/projects";
 import { SITE } from "@/lib/site";
 
@@ -14,11 +15,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) return { title: "Not found" };
-  return {
+  return pageMeta({
     title: p.name + ": " + p.tagline.replace(/\.$/, ""),
     description: p.summary,
-    alternates: { canonical: "/projects/" + p.slug }
-  };
+    path: "/projects/" + p.slug
+  });
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
