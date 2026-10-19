@@ -49,6 +49,9 @@ export default function AboutPage() {
           <p>
             <strong>Find me.</strong> <a href={SITE.github} target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>github.com/Aj-Niplex</a>. The same facts in plain text for AI assistants are at <a href="/llms.txt" style={{ color: "var(--accent-text)" }}>/llms.txt</a>.
           </p>
+          <p>
+            <strong>Credits.</strong> The animations are from <a href="https://lottiefiles.com" target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>LottieFiles</a>: the robot by Oshie Labs, the archive search by Rita Veríssimo, the error animation by Boltbite, the account setup walk by Irfan M and the 404 cat by Alice Costa.
+          </p>
           <h2 id="portfolios">Portfolios and profiles</h2>
           <ul className="link-list">
             {PORTFOLIOS.map((p) => (
