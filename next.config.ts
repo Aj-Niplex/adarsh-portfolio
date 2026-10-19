@@ -4,14 +4,16 @@ const isProd = process.env.NODE_ENV === "production";
 
 // Every source the pages need is listed here; anything else is blocked by the browser.
 // 'unsafe-inline' stays for scripts and styles because Next.js writes small inline scripts and
-// styles into each page (theme setup, hydration data). Nothing is loaded from other sites.
+// styles into each page (theme setup, hydration data). The animation player runs as WebAssembly
+// served from this site ('wasm-unsafe-eval' allows that and nothing else), and the animation
+// files themselves are the only thing fetched from another host.
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  "connect-src 'self' https://assets-v2.lottiefiles.com",
   "media-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -35,7 +37,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // The player engine has its version in the file name, so it can be cached for good.
+      { source: "/lottie/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] }
+    ];
   }
 };
 

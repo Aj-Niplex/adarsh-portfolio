@@ -1,13 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
-import { forks, projectsByTier, TIERS } from "@/lib/projects";
+import ScrollMorphHero from "@/components/ui/scroll-morph-hero";
+import { heroItems } from "@/lib/heroItems";
+import { forks, projects, projectsByTier, TIERS } from "@/lib/projects";
 import { FACTS, HEADLINE, LEDE, META_DESCRIPTION, SERVICES, SITE } from "@/lib/site";
 
 export default function Home() {
   const core = projectsByTier("core");
   const tools = projectsByTier("tools");
   const side = projectsByTier("side");
+  const cards = heroItems();
+  const toolGroups = cards.filter((c) => c.count).length;
 
   const profile = {
     "@context": "https://schema.org",
@@ -47,6 +51,14 @@ export default function Home() {
           </aside>
         </div>
       </section>
+
+      <ScrollMorphHero
+        items={cards}
+        intro="What I have built."
+        hint="SCROLL TO EXPLORE"
+        heading="Projects and tools"
+        blurb={projects.length + " projects, plus the " + toolGroups + " groups of tools inside NiPlex-MCP. Scroll along the arc, hover a card to read more, then open it."}
+      />
 
       <section className="section" id="core">
         <div className="container">

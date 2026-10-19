@@ -1,9 +1,11 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown, LoaderCircle, MessageSquare, RotateCcw, Send, X } from "lucide-react";
+import { Bot, Check, ChevronDown, LoaderCircle, RotateCcw, Search, Send, TriangleAlert, X } from "lucide-react";
 import type { ChatEvent, SessionInfo } from "@/lib/chatTypes";
-import { CONSENT_TEXT, FREE_PER_MINUTE, SIGNED_IN_PER_MINUTE } from "@/lib/consent";
+import { FREE_PER_MINUTE, SIGNED_IN_PER_MINUTE } from "@/lib/consent";
+import { LottiePlayer } from "./LottiePlayer";
+import { SignIn } from "./SignIn";
 import { Markdown } from "./Markdown";
 
 type Step = { id: string; label: string; detail?: string; status: "running" | "done" };
@@ -142,10 +144,14 @@ function Answer({ msg }: { msg: Msg }) {
 
   return (
     <>
+      {live && !text && (
+        <div className="ai-anim">
+          <LottiePlayer name="searching" label="" size={72} fallback={<Search size={28} className="pulse" />} />
+          {(!msg.steps || msg.steps.length === 0) && <span className="chat-wait">One moment</span>}
+        </div>
+      )}
       {msg.steps && msg.steps.length > 0 && <Trace steps={msg.steps} phase={msg.phase} ms={msg.ms} />}
       {text && <Markdown text={text} streaming={typing} allowLink={allowLink} />}
-      {live && !text && (!msg.steps || msg.steps.length === 0) && <p className="chat-wait">One moment</p>}
-      {msg.phase === "writing" && !text && <p className="chat-wait">Writing</p>}
       {!typing && msg.sources && msg.sources.length > 0 && msg.phase === "done" && (
         <div className="sources">
           <span>Sources</span>
@@ -170,10 +176,6 @@ export function AIWidget() {
   const [blockedUntil, setBlockedUntil] = useState(0);
   const [now, setNow] = useState(() => Date.now());
   const [signInOpen, setSignInOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [formError, setFormError] = useState("");
-  const [formBusy, setFormBusy] = useState(false);
 
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -361,42 +363,11 @@ export function AIWidget() {
     void ask(draft);
   }
 
-  async function signIn(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFormError("");
-    if (!consent) {
-      setFormError("Tick the box to agree to product emails.");
-      return;
-    }
-    setFormBusy(true);
-    try {
-      const response = await fetch("/api/session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, consent: true })
-      });
-      const raw = await response.text();
-      let data: (SessionInfo & { error?: string }) | null = null;
-      try {
-        data = JSON.parse(raw);
-      } catch {
-        /* not JSON */
-      }
-      if (!response.ok || !data || !data.signedIn) {
-        setFormError(data?.error || "Sign-in did not work. Please try again.");
-        return;
-      }
-      setSession(data);
-      setSignInOpen(false);
-      setEmail("");
-      setConsent(false);
-      setRemaining(null);
-      setBlockedUntil(0);
-    } catch {
-      setFormError("Could not reach the server. Please try again.");
-    } finally {
-      setFormBusy(false);
-    }
+  function onSignedIn(info: SessionInfo) {
+    setSession(info);
+    setSignInOpen(false);
+    setRemaining(null);
+    setBlockedUntil(0);
   }
 
   async function signOut(forget: boolean) {
@@ -446,6 +417,11 @@ export function AIWidget() {
               Answers come from Google Gemini and only from this site&apos;s public project docs. Do not send passwords, keys or private data.
             </p>
             <div className="chat-msg from-ai">
+              {messages.length === 0 && (
+                <div className="ai-anim">
+                  <LottiePlayer name="robot" label="" size={88} fallback={<Bot size={32} />} />
+                </div>
+              )}
               <p className="chat-plain">{GREETING}</p>
               {messages.length === 0 && (
                 <div className="suggest">
@@ -475,6 +451,9 @@ export function AIWidget() {
                 <div className={"chat-msg from-ai" + (m.phase === "error" ? " is-error" : "")} key={m.id}>
                   {m.phase === "error" ? (
                     <>
+                      <div className="ai-anim">
+                        <LottiePlayer name="error" label="Something went wrong" size={112} fallback={<TriangleAlert size={40} />} />
+                      </div>
                       {m.steps && m.steps.length > 0 && <Trace steps={m.steps} phase="error" />}
                       <p className="chat-plain">{m.content}</p>
                     </>
@@ -518,30 +497,7 @@ export function AIWidget() {
             )}
           </div>
 
-          {signInOpen && !session.signedIn && (
-            <form className="signin" onSubmit={signIn}>
-              <label>
-                <span>Email</span>
-                <input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" maxLength={254} />
-              </label>
-              <label className="consent">
-                <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-                <span>{CONSENT_TEXT}</span>
-              </label>
-              <p className="signin-note">
-                We keep your email and the date you agreed, only for those emails. Nothing else is stored about you. Use &quot;Delete my email&quot; once you are signed in to remove it.
-              </p>
-              {formError && <p className="signin-error" role="alert">{formError}</p>}
-              <div className="signin-actions">
-                <button type="submit" className="chat-submit" disabled={formBusy}>
-                  {formBusy ? "Signing in" : "Sign in"}
-                </button>
-                <button type="button" className="link-btn" onClick={() => setSignInOpen(false)}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
+          {signInOpen && !session.signedIn && <SignIn onSignedIn={onSignedIn} onCancel={() => setSignInOpen(false)} />}
 
           <form className="chat-form" onSubmit={onSubmit}>
             <textarea
@@ -574,7 +530,11 @@ export function AIWidget() {
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Ask about the work"}
       >
-        <MessageSquare size={18} />
+        {open ? (
+          <X size={18} />
+        ) : (
+          <LottiePlayer name="robot" label="" size={34} defer fallback={<Bot size={20} />} />
+        )}
         <span>{open ? "Close" : "Ask"}</span>
       </button>
     </>

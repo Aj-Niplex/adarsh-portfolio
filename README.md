@@ -38,6 +38,28 @@ Limits: 2 questions a minute per visitor, 5 a minute when signed in, and a daily
 
 Optional variables: `GEMINI_MODEL` (default `gemini-3.1-flash-lite`; `gemini-3.8-flash` and then `gemini-2.5-flash` are tried if it is busy or retired), `GEMINI_BASE_URL` (for tests), `CHAT_DAILY_CAP`.
 
+## Sign-in (email code, then a password)
+Signing in raises the chat limit and puts the visitor on the product-updates list, so the address has to be proven first:
+1. Enter an email and tick the consent box, then **Send OTP**. A six-digit code is emailed (valid for 10 minutes, 5 tries, one new code every 45 seconds). The same reply is given whether or not the address already has an account.
+2. After the code is verified, the code screen is replaced by **Create a Password**. Passwords are hashed with scrypt (`src/lib/password.ts`); the site never stores or logs one in plain text.
+3. Next time, **I already have a password** signs in with email and password. "Delete my email" removes the subscriber row and the account together.
+
+Routes: `/api/auth/start`, `/api/auth/verify`, `/api/auth/password`, `/api/auth/login`, plus `/api/session` for the current state. Codes are stored only as a keyed hash; the database functions are closed to the public keys and only the site's server can call them. Send limits: 10 codes an hour per network address and 5 per email.
+
+The email is sent by one provider chosen from the environment (`src/lib/mailer.ts`): AgentMail (`AGENTMAIL_API_KEY` + `AGENTMAIL_INBOX`), Resend (`RESEND_API_KEY` + `MAIL_FROM`) or Brevo (`BREVO_API_KEY` + `MAIL_FROM`). `CHAT_SIGNING_SECRET` signs the cookies. If no provider is configured, the sign-in option is hidden rather than broken.
+
+## Animations
+Animations are LottieFiles `.lottie` files played by `@lottiefiles/dotlottie-web`. The player engine (`public/lottie/*.wasm`) is served from this site; only the animation files themselves load from `assets-v2.lottiefiles.com`, which is allowed in the Content-Security-Policy. They are used for the idle chat button, the "reading the docs" state, the error shown inside the AI answer, the account setup screen and the 404 page. If an animation cannot load, or the visitor prefers reduced motion or has data saver on, a simple built-in icon is shown instead. The paper plane while a code is sent is drawn in SVG. The list of files is in `src/lib/lottie.ts`.
+
+## 404 page
+Any address that is not a real page shows the cat animation with a 404 status (`src/app/not-found.tsx`). If the address is close to a real page, it suggests it: `/abt` offers `/about` (`src/lib/didYouMean.ts`).
+
+## Scroll hero
+`src/components/ui/scroll-morph-hero.tsx` sits on the homepage under the first section. Cards for each project and each NiPlex-MCP tool group (read from `src/lib/projects.ts` through `src/lib/heroItems.ts`) scatter, line up, form a circle and settle into an arc as the page scrolls. It uses the normal page scroll with a sticky stage, so nothing captures the wheel or touch events. With reduced motion, or without JavaScript, a plain grid is shown instead.
+
+## Credits
+Animations from [LottieFiles](https://lottiefiles.com), used under the Lottie Simple License: the robot by Oshie Labs, the archive search by Rita Veríssimo, the error animation by Boltbite, the account setup walk by Irfan M and the 404 cat by Alice Costa.
+
 ## Visit counter
 The footer shows a total visit count that is stored outside the site, so it keeps counting from where it left off after every redeploy. The browser asks `/api/views`, which calls a small database function using two server-side variables, `VIEWS_ENDPOINT` and `VIEWS_SECRET`. One visit is counted per browser session; crawlers and rapid repeats are read-only. If the variables are missing or the store is unreachable, the counter simply does not appear.
 
