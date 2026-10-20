@@ -35,7 +35,7 @@ export default function AboutPage() {
       <div className="layout-2">
         <div className="prose">
           <p>
-            <strong>What I do.</strong> I build agents that people can run and control from the apps they already use, and servers that give AI clients real tools. NiPlex-Harness is a personal agent you drive from Discord or Telegram. NiPlex-MCP is a Model Context Protocol server that puts 73 tools behind one authenticated connection.
+            <strong>What I do.</strong> I build agents that people can run and control from the apps they already use, and servers that give AI clients real tools. NiPlex-Harness, also called Kaizen Manas, is a personal agent you drive from Discord or Telegram. It keeps memory, runs code in a limited sandbox and asks for approval before anything risky. NiPlex-MCP is a Model Context Protocol server that puts 73 tools behind one authenticated connection.
           </p>
           <p>
             <strong>How I work.</strong> Backend and agents first. Chat apps are the interface. Context is bounded, permissions are explicit, and anything that can write or run code waits for approval. I ship working systems and then improve them.

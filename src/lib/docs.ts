@@ -81,7 +81,7 @@ export function buildDocs(): Doc[] {
       title: p.name,
       url: "/projects/" + p.slug,
       kind: "project",
-      text: clip(lines.join("\n"), 4200),
+      text: clip(lines.join("\n"), 6500),
       keywords: [p.name, p.slug.replace(/-/g, " "), ...p.tags, p.appCategory, p.tier]
     });
   }

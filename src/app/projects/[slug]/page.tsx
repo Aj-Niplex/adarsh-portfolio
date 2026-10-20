@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return pageMeta({
     title: p.name + ": " + p.tagline.replace(/\.$/, ""),
     description: p.summary,
-    path: "/projects/" + p.slug
+    path: "/projects/" + p.slug,
+    image: p.share
   });
 }
 
@@ -37,6 +38,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         name: p.name,
         url,
         description: p.summary,
+        ...(p.share ? { image: SITE.url + p.share.src } : {}),
         applicationCategory: p.appCategory,
         operatingSystem: "Cross-platform",
         author: { "@id": SITE.url + "/#person" },
@@ -75,6 +77,23 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         ))}
       </div>
+
+      {p.gallery && (
+        <section className="gallery" aria-label={p.gallery.title}>
+          <div className="gallery-head">
+            <h2>{p.gallery.title}</h2>
+            <p>{p.gallery.text}</p>
+          </div>
+          <div className="gallery-grid">
+            {p.gallery.images.map((img) => (
+              <figure key={img.src}>
+                <Image src={img.src} alt={img.alt} width={560} height={560} sizes="(min-width: 860px) 280px, 90vw" />
+                <figcaption>{img.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="layout-2">
         <div>
@@ -138,7 +157,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <aside className="aside">
           {p.logo && (
             <div className="aside-card">
-              <Image src={p.logo.src} alt={p.logo.alt} width={240} height={160} style={{ width: "100%", height: "auto", background: "#fff", borderRadius: "var(--radius)" }} />
+              <Image src={p.logo.src} alt={p.logo.alt} width={240} height={p.logo.plain ? 240 : 160} style={{ width: "100%", height: "auto", borderRadius: "var(--radius)", ...(p.logo.plain ? {} : { background: "#fff" }) }} />
             </div>
           )}
           <div className="aside-card">

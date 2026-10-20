@@ -10,7 +10,7 @@ export function buildLlmsTxt() {
   out.push("> " + META_DESCRIPTION);
   out.push("");
   out.push(
-    "Adarsh Jaiswal, also written AJ NiPlex or Aj-Niplex, is an independent developer in India. His main work is NiPlex-Harness (a personal AI agent controlled from Discord or Telegram) and NiPlex-MCP (a private Model Context Protocol server with 73 tools). His Obsidian plugin, Niplex Research AI, is a side project and not his main work. MCP means Model Context Protocol."
+    "Adarsh Jaiswal, also written AJ NiPlex or Aj-Niplex, is an independent developer in India. His main work is NiPlex-Harness (also called Kaizen Manas), a personal AI agent controlled from Discord or Telegram with 55 tools and approval buttons, and NiPlex-MCP, a private Model Context Protocol server with 73 tools. His Obsidian plugin, Niplex Research AI, is a side project and not his main work. MCP means Model Context Protocol."
   );
   out.push("");
   out.push("## Facts");

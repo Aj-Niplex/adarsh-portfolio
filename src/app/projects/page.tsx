@@ -51,7 +51,7 @@ export default function ProjectsPage() {
                   <p>{p.tagline} {p.summary}</p>
                 </div>
                 <div className="row-meta">
-                  {p.logo && <Image className="row-logo" src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
+                  {p.logo && <Image className={"row-logo" + (p.logo.plain ? " is-plain" : "")} src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
                   <span className={"pill " + (p.visibility === "public" ? "pill-accent" : "")}>{p.status}</span>
                   {p.tags.slice(0, 3).map((t) => <span className="pill" key={t}>{t}</span>)}
                 </div>

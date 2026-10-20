@@ -2,13 +2,15 @@
 
 import { Cat } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { didYouMean } from "@/lib/didYouMean";
 import { LottiePlayer } from "./LottiePlayer";
 
 export function NotFoundView({ routes }: { routes: string[] }) {
-  const pathname = usePathname() || "/";
-  const guess = didYouMean(pathname, routes);
+  // The page is prerendered once for every missing address, so the real address is only known in the browser.
+  const [pathname, setPathname] = useState<string | null>(null);
+  useEffect(() => setPathname(window.location.pathname || "/"), []);
+  const guess = pathname ? didYouMean(pathname, routes) : null;
 
   return (
     <main className="notfound">
@@ -19,7 +21,12 @@ export function NotFoundView({ routes }: { routes: string[] }) {
         <p className="eyebrow">Error 404</p>
         <h1>This page does not exist</h1>
         <p className="lede">
-          There is nothing at <code className="notfound-path">{pathname.length > 60 ? pathname.slice(0, 57) + "..." : pathname}</code>. The address may have a typo, or the page may have moved.
+          {pathname ? (
+            <>There is nothing at <code className="notfound-path">{pathname.length > 60 ? pathname.slice(0, 57) + "..." : pathname}</code>.</>
+          ) : (
+            <>There is nothing at this address.</>
+          )}{" "}
+          The address may have a typo, or the page may have moved.
         </p>
         {guess && (
           <p className="notfound-guess">
