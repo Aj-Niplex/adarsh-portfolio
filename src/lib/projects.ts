@@ -17,7 +17,9 @@ export type Project = {
   reference?: { title: string; rows: { name: string; purpose: string }[] };
   boundaries: string[];
   links: { label: string; href: string }[];
-  logo?: { src: string; alt: string };
+  logo?: { src: string; alt: string; plain?: boolean };
+  gallery?: { title: string; text: string; images: { src: string; alt: string; caption: string }[] };
+  share?: { src: string; width: number; height: number; alt: string };
   appCategory: string;
   repo?: string;
 };
@@ -33,77 +35,102 @@ export const projects: Project[] = [
     slug: "niplex-harness",
     name: "NiPlex-Harness",
     tier: "core",
-    visibility: "public",
-    status: "Public · MIT",
+    visibility: "private",
+    status: "Private · In development",
     tagline: "A personal AI agent you run from Discord or Telegram.",
     summary:
-      "Built for people on free hosts who have no PC: your phone is the control panel. Message the agent in chat and it can search the web, keep notes, remember context and run Python in a sandbox that asks for your approval first.",
+      "Also known as Kaizen Manas, with the agent itself named Manas. The name joins kaizen (continuous improvement) and manas (Sanskrit for mind), and replaced NiPlex Harness on 17 September 2026. One Python process built for a single owner and for free hosts with no PC, so your phone is the control panel. It keeps notes, searches the web and runs Python in a resource-limited sandbox, and it stops at approval buttons before anything risky. The current source is private; this page describes what it does. An older public snapshot is on GitHub.",
     tags: ["Python", "Discord", "Telegram", "Sandbox", "Agents"],
     stats: [
+      { label: "Tools", value: "55 in 11 switchable groups" },
       { label: "Chat apps", value: "Discord, Telegram" },
-      { label: "Code execution", value: "Python sandbox + approval buttons" },
-      { label: "Access", value: "Allow-list only" },
-      { label: "Licence", value: "MIT" }
+      { label: "Code execution", value: "Limited sandbox + approval buttons" },
+      { label: "Tests", value: "43, run in CI on Python 3.12 and 3.13" }
     ],
     groups: [
       {
         title: "Set up from chat",
         items: [
-          "/setup walks through provider, API key and model, and lists the models the provider offers.",
-          "Providers: Agnes, Google Gemini, OpenAI, Anthropic, OpenRouter, or any OpenAI-compatible endpoint."
+          "/setup walks through provider, API key and model. The model list comes from the provider's own API, and you can answer with a number, an ID or random.",
+          "Providers: Agnes, Google Gemini, OpenAI, OpenRouter, any OpenAI-compatible endpoint, and Anthropic through an OpenAI-compatible proxy.",
+          "The bot tries to delete the chat message that holds your API key. The key is saved in a local file that is never committed."
         ]
       },
       {
         title: "What the agent can do",
         items: [
-          "Run Python in a sandbox. Risky commands show approval buttons instead of running silently.",
-          "Keep Markdown notes in a vault folder that opens directly in Obsidian.",
-          "Remember context with global and per-session memory, and load reusable skills.",
-          "Search the web and use terminal tools, which are privileged and gated by the allow-list."
+          "Memory: notes kept globally or per chat, keyword search, semantic search through Gemini embeddings, a small knowledge graph, search across past sessions and a timestamped event log.",
+          "Terminal: run Python in the sandbox, keep several terminal sessions open and reset the sandbox's installed packages.",
+          "Files and vault: create, edit and delete files inside folders, with an Obsidian-ready vault. Files are never written to the project root.",
+          "Skills: write, load and search reusable skills in personal, market and custom folders.",
+          "Web: DuckDuckGo search with no API key, and page reading that refuses private and cloud-metadata addresses.",
+          "Also: scheduled jobs, sub-goal tracking, GitHub tools (off by default), push notifications, offline voice replies (off by default) and a to-do list and clarify question for long tasks.",
+          "Every group can be switched on or off by asking the agent, so it only sees the tools you want it to have."
         ]
       },
       {
         title: "Safe by default",
         items: [
-          "Only numeric user IDs on the allow-list can talk to the agent.",
-          "Crash reporting to GitHub is off unless you turn it on.",
-          "launch.py reinstalls dependencies only when requirements.txt changes."
+          "Only numeric user IDs on the allow-list can talk to it. An empty list lets nobody in.",
+          "Risky code stops at Allow Once, Allow Session, Always Allow (that exact command only) or Deny buttons. Waiting approvals survive a restart.",
+          "/allow opens a 5, 10 or 30 minute window with no prompts, then closes it by itself.",
+          "The sandbox runs with a scrubbed environment, so tokens and keys are not passed in, plus limits on memory, CPU time, file size, open files and processes. A timeout stops the whole process group.",
+          "Secret Vault: store a secret once and write {=NAME=} in code. The value is filled in at run time and removed from the output before the model sees it.",
+          "Scheduled jobs that run on their own can only use read-only tools.",
+          "Web results and saved skills are screened for prompt-injection phrases and hidden characters. The harness's own code is hard-blocked from the agent's file tools.",
+          "Crash reports to GitHub are off unless you turn them on, and secrets are stripped first."
+        ]
+      },
+      {
+        title: "Keeps itself running",
+        items: [
+          "Auto-deploy (needs a GitHub token): a supervisor checks the deploy branch about every two minutes, rejects code that does not compile, restarts on the new commit and rolls back if the bot crashes within two minutes of a deploy.",
+          "A crash restarts the bot with growing delays, from 5 seconds up to 5 minutes.",
+          "Long chats are compressed in the middle so the history stays inside the model's limit.",
+          "Settings live in .env: GATEWAY, the bot token, the allow-list IDs, SANDBOX_MODE (builtin or external), SANDBOX_TIMEOUT (60 s by default) and SANDBOX_MAX_MEMORY_MB (512 by default)."
         ]
       }
     ],
-    stepsTitle: "Five-minute start",
+    stepsTitle: "How a message is handled",
     steps: [
-      { title: "Create a bot", body: "Make a Discord or Telegram bot token." },
-      { title: "Configure", body: "Copy .env.example to .env, then set GATEWAY, the token and your user ID." },
-      { title: "Launch", body: "pip install -r requirements.txt, then python launch.py." },
-      { title: "Set up the model", body: "In chat, send /setup and pick a provider, key and model. Send /help for the rest." }
+      { title: "Receive", body: "A message arrives from Discord or Telegram. Anyone who is not on the allow-list is ignored." },
+      { title: "Think", body: "The agent sends the chat and the tools that are switched on to your chosen model. One message can use up to eight rounds of tool calls." },
+      { title: "Check", body: "Risky code or commands pause with approval buttons. Safe ones run straight away." },
+      { title: "Act", body: "Tools use the sandbox, the vault, memory or the web, and the results go back to the agent." },
+      { title: "Reply", body: "The answer returns to the chat, with files attached when needed." }
     ],
-    setup: [
-      "Python 3.10 or newer.",
-      "GATEWAY is discord or telegram, with the matching bot token.",
-      "ALLOWED_DISCORD_IDS and/or ALLOWED_TELEGRAM_IDS hold the numeric IDs allowed to use it.",
-      "Optional sandbox settings: SANDBOX_MODE, SANDBOX_TIMEOUT, SANDBOX_MAX_MEMORY_MB."
-    ],
+    setup: [],
     reference: {
       title: "Commands",
       rows: [
         { name: "/setup", purpose: "Choose provider, API key and model." },
         { name: "/help", purpose: "Show usage help." },
-        { name: "/reset", purpose: "Clear the current chat session." }
+        { name: "/reset", purpose: "Clear the current chat session." },
+        { name: "/allow", purpose: "Skip approval buttons for 5, 10 or 30 minutes." }
       ]
     },
     boundaries: [
-      "It is a personal harness, not a hosted multi-user service.",
-      "Sandbox isolation depends on the configured mode and host. A time or memory limit is not the same as OS-level isolation.",
-      "Terminal, file and web tools carry real authority. Keep the allow-list on and read approval prompts before accepting.",
-      "A provider key typed into chat can stay in message history if the message cannot be deleted."
+      "It is a personal harness for one owner, not a hosted multi-user service.",
+      "The approval gate, file protection, content screening and secret removal are checks that catch real mistakes. They are not a security boundary. The real boundary is the host or container it runs in.",
+      "The built-in sandbox is a limited subprocess on the same host, not a container or a virtual machine. An external sandbox service can be used instead.",
+      "Sub-agents are named trackers for a sub-goal, not separate running agents.",
+      "Connecting outside MCP servers is scaffolding only and is not yet part of the agent loop.",
+      "Semantic memory search needs a Google key and falls back to keyword search without one.",
+      "The current source is private and the public repository is an older snapshot, so the snapshot does not match everything on this page."
     ],
-    links: [
-      { label: "Source on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" },
-      { label: "Setup guide", href: "https://github.com/Aj-Niplex/NiPlex-Harness/blob/main/docs/SETUP.md" }
-    ],
-    appCategory: "DeveloperApplication",
-    repo: "https://github.com/Aj-Niplex/NiPlex-Harness"
+    links: [{ label: "Older public snapshot on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" }],
+    logo: { src: "/logos/kaizen-manas.webp", alt: "Manas, the Kaizen Manas mascot: a purple axolotl plush wearing a teal harness", plain: true },
+    gallery: {
+      title: "Meet Manas",
+      text: "Manas is the agent's mascot, a plush axolotl wearing a harness.",
+      images: [
+        { src: "/logos/manas-wave.webp", alt: "Manas the purple axolotl plush waving hello", caption: "Saying hello" },
+        { src: "/logos/manas-reading.webp", alt: "Manas reading a book in a cosy room at night", caption: "Reading up: notes, memory and skills" },
+        { src: "/logos/manas-garden.webp", alt: "Manas watering a small seedling in a garden", caption: "Kaizen: small, steady improvement" }
+      ]
+    },
+    share: { src: "/logos/kaizen-manas-share.jpg", width: 1200, height: 1200, alt: "Manas, the Kaizen Manas mascot, waving" },
+    appCategory: "DeveloperApplication"
   },
   {
     slug: "niplex-mcp",
@@ -388,9 +415,9 @@ export const projects: Project[] = [
     tier: "side",
     visibility: "public",
     status: "Public · Static site",
-    tagline: "The docs site for NiPlex-Harness.",
+    tagline: "The docs site for the first public release of NiPlex-Harness.",
     summary:
-      "A static landing and documentation site for NiPlex-Harness, with an agent-ready page that offers a copy-paste prompt so any AI assistant can walk a new user through setup.",
+      "A static landing and documentation site written for the first public release of NiPlex-Harness, with an agent-ready page that offers a copy-paste prompt so any AI assistant can walk a new user through setup.",
     tags: ["HTML", "CSS", "Cloudflare Pages"],
     stats: [
       { label: "Type", value: "Static site" },
@@ -418,7 +445,8 @@ export const projects: Project[] = [
     setup: ["Deployable from the repository root on any static host."],
     boundaries: [
       "Version 1 is static only: no accounts, forum or voting.",
-      "It documents the harness. It is not the agent runtime."
+      "It documents the harness. It is not the agent runtime.",
+      "It describes the first public release. The current version, also called Kaizen Manas, is covered on the NiPlex-Harness page."
     ],
     links: [{ label: "Source on GitHub", href: "https://github.com/Aj-Niplex/niplex-harness-site" }],
     appCategory: "WebApplication",
@@ -452,7 +480,7 @@ export function buildAssistantContext() {
     lines.push(p.name + " (" + p.status + "): " + p.tagline + " " + p.summary);
   }
   lines.push(
-    "Never claim unfinished features are production-ready. NiPlex-MCP is private: do not describe its source code or infrastructure. Do not reveal private repositories, credentials, personal data or internal notes. If asked about private work, say the portfolio only documents public-facing information. Do not share or guess personal details such as age, school or contact information."
+    "Never claim unfinished features are production-ready. NiPlex-MCP and the current NiPlex-Harness are private: describe what they do, but not their source code, hosting or infrastructure. Do not reveal private repositories, credentials, personal data or internal notes. If asked about private work, say the portfolio only documents public-facing information. Do not share or guess personal details such as age, school or contact information."
   );
   return lines.join(" ");
 }

@@ -70,4 +70,4 @@ The footer shows a total visit count that is stored outside the site, so it keep
 `NEXT_PUBLIC_SITE_URL` sets the canonical URL. It defaults to https://aj-niplex.vercel.app.
 
 ## What is published
-Public repositories, plus a description of what the private NiPlex-MCP server does. Credentials, private repositories and personal data are not published. OpenDots is labelled as a fork of CopilotKit's project.
+Public repositories, plus a description of what the private NiPlex-MCP server and the current private NiPlex-Harness (Kaizen Manas) do. The public NiPlex-Harness repository is an older snapshot and is labelled that way. The Manas mascot images are in `public/logos/`. Credentials, private repositories and personal data are not published. OpenDots is labelled as a fork of CopilotKit's project.

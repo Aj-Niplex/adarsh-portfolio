@@ -71,7 +71,10 @@ export default function Home() {
               <Link href={"/projects/" + p.slug} className="slab" key={p.slug}>
                 <div className="slab-body">
                   <div className="slab-top">
-                    <h3>{p.name}</h3>
+                    <div className="slab-name">
+                      {p.logo && <Image className="slab-logo" src={p.logo.src} alt="" width={56} height={56} />}
+                      <h3>{p.name}</h3>
+                    </div>
                     <span className={"pill " + (p.visibility === "public" ? "pill-accent" : "")}>{p.status}</span>
                   </div>
                   <p className="tagline">{p.tagline}</p>
@@ -106,7 +109,7 @@ export default function Home() {
                   <p>{p.tagline} {p.summary}</p>
                 </div>
                 <div className="row-meta">
-                  {p.logo && <Image className="row-logo" src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
+                  {p.logo && <Image className={"row-logo" + (p.logo.plain ? " is-plain" : "")} src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
                   <span className="pill pill-accent">{p.status}</span>
                   {p.tags.slice(0, 3).map((t) => <span className="pill" key={t}>{t}</span>)}
                 </div>
@@ -148,7 +151,7 @@ export default function Home() {
                   <p>{p.tagline}</p>
                 </div>
                 <div className="row-meta">
-                  {p.logo && <Image className="row-logo" src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
+                  {p.logo && <Image className={"row-logo" + (p.logo.plain ? " is-plain" : "")} src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
                   <span className="pill">{p.status}</span>
                 </div>
               </Link>
