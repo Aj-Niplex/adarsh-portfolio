@@ -577,3 +577,5 @@ textarea.field-input { resize: vertical; min-height: 120px; line-height: 1.45; }
 .sub-meta { font-size: 0.78rem; color: var(--muted); overflow-wrap: anywhere; }
 @media (max-width: 860px) { .submit-layout { grid-template-columns: 1fr; gap: 24px; } }
 @media (max-width: 520px) { .nav-ext { display: none; } }
+
+.kind-option input, .news-consent input, .consent input { accent-color: var(--accent); }
