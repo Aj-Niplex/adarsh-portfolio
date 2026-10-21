@@ -77,11 +77,10 @@ export function SignupView() {
   if (!info.available) {
     return (
       <div className="signup-card">
-        <h2>Account sign-up is paused</h2>
+        <h2>Join the list now, account next</h2>
         <p>
-          Signing up works by emailing you a 6-digit code, and the email service that sends those codes is not connected yet. The form is switched off rather than left half working, and this page turns it on by itself once the service is connected.
+          Leave your email below and you are on the product and promotions list today. The account part (the 6-digit code and a password) needs the email service that sends the codes, which is not connected yet. This page adds that step by itself once it is.
         </p>
-        <p>The newsletter works today. Leave your email below and you will be on the list.</p>
         <NewsletterForm tone="page" />
       </div>
     );
