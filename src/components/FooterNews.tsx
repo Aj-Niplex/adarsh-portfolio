@@ -13,7 +13,7 @@ export function FooterNews() {
       <div className="footer-news-copy">
         <h2 id="footer-news-title">Product updates and promotions</h2>
         <p>
-          Product updates and promotions from NiPlex-Harness, NiPlex-MCP and what comes next. <Link href="/newsletter">More about it</Link>.
+          News from NiPlex-Harness, NiPlex-MCP and whatever is built next. <Link href="/newsletter">More about it</Link>.
         </p>
       </div>
       <NewsletterForm />
