@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 // Any address that is not a real page ends up here, with a 404 status.
-const ROUTES = ["/", "/about", "/projects", "/signup", "/newsletter", ...projects.map((p) => "/projects/" + p.slug)];
+const ROUTES = ["/", "/about", "/projects", "/submit", "/signup", "/newsletter", ...projects.map((p) => "/projects/" + p.slug)];
 
 export default function NotFound() {
   return <NotFoundView routes={ROUTES} />;

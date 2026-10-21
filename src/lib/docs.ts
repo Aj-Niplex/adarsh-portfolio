@@ -24,6 +24,7 @@ export function allowedLinks(): string[] {
     "/",
     "/about",
     "/projects",
+    "/submit",
     "/signup",
     "/newsletter",
     "/llms.txt",
@@ -116,6 +117,19 @@ export function buildDocs(): Doc[] {
       "- This site: " + SITE.url + " (plain-text version for AI assistants at " + SITE.url + "/llms.txt)"
     ].join("\n"),
     keywords: ["links", "github", "portfolio", "profile", "repo", "repository", "source", "contact", "find", "website"]
+  });
+
+  docs.push({
+    id: "site-pages",
+    title: "Sign up, newsletter and submissions",
+    url: "/signup",
+    kind: "links",
+    text: [
+      "Sign up: " + SITE.url + "/signup. The visitor enters an email, ticks the box to agree to product and promotional emails, types the 6-digit code that is emailed, then picks a password. Signed-in visitors can ask this assistant 5 questions a minute instead of 2. If the page says the email service is not connected yet, leaving the email there still adds it to the list.",
+      "Newsletter: " + SITE.url + "/newsletter, and a box at the bottom of every page. No account is needed. It is the same product updates and promotions list. A new address is confirmed with a 6-digit code once the email service is on.",
+      "Submit: " + SITE.url + "/submit. Anyone can send an idea, a request or feedback with a title (up to 80 characters) and a description (up to 500). Links, email addresses and phone numbers are not accepted. The latest submissions are shown publicly on that page with their descriptions."
+    ].join("\n"),
+    keywords: ["signup", "newsletter", "subscribe", "submit", "submission", "register", "promotion"]
   });
 
   cache = docs;

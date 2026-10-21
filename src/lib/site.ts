@@ -23,6 +23,7 @@ export const PORTFOLIOS = [
 export const NAV = [
   { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
+  { href: "/submit", label: "Submit" },
   { href: "/signup", label: "Sign up" }
 ] as const;
 
