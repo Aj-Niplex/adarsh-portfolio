@@ -24,6 +24,7 @@ export function allowedLinks(): string[] {
     "/",
     "/about",
     "/projects",
+    "/submit",
     "/signup",
     "/newsletter",
     "/llms.txt",
