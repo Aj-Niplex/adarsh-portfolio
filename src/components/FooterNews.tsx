@@ -11,9 +11,9 @@ export function FooterNews() {
   return (
     <div className="container footer-news" role="region" aria-labelledby="footer-news-title">
       <div className="footer-news-copy">
-        <h2 id="footer-news-title">Newsletter</h2>
+        <h2 id="footer-news-title">Product updates and promotions</h2>
         <p>
-          Occasional updates on NiPlex-Harness, NiPlex-MCP and what comes next. <Link href="/newsletter">More about it</Link>.
+          Product updates and promotions from NiPlex-Harness, NiPlex-MCP and what comes next. <Link href="/newsletter">More about it</Link>.
         </p>
       </div>
       <NewsletterForm />
