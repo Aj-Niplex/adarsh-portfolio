@@ -490,3 +490,60 @@ button { font: inherit; color: inherit; }
 .gallery img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: calc(var(--radius) - 2px); background: var(--bg-soft, var(--surface)); }
 .gallery figcaption { color: var(--muted); font-size: 0.85rem; }
 @media (min-width: 700px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---------- Sign-up page, newsletter form ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.signup-steps { list-style: none; counter-reset: step; display: grid; gap: 10px; margin: 26px 0 0; padding: 0; max-width: 62ch; }
+.signup-steps li { counter-increment: step; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--muted); }
+.signup-steps li::before { content: counter(step); display: inline-grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 999px; font-family: var(--f-mono); font-size: 0.78rem; color: var(--accent-text); }
+.signup-steps strong { color: var(--text); }
+.signup-card { margin-top: 28px; max-width: 520px; display: grid; gap: 14px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.signup-card h2 { margin: 0; font-size: 1.15rem; }
+.signup-card p { margin: 0; color: var(--muted); }
+.signup-card p strong { color: var(--text); }
+.signup-email { word-break: break-all; }
+.signup-muted { color: var(--muted); }
+.signup-actions { display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center; }
+.signup-points { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); font-size: 0.88rem; }
+.signup-points a, .signup-more a, .news-small a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+.signup-more { margin-top: 18px; color: var(--muted); }
+
+.signin.is-page { max-height: none; overflow: visible; background: transparent; border: 0; padding: 0; gap: 12px; font-size: 0.95rem; }
+.signin.is-page .signin-note { font-size: 0.82rem; }
+.signin.is-page .signin-lead { font-size: 0.92rem; }
+.signin.is-page input[type="email"], .signin.is-page input[type="text"], .signin.is-page input[type="password"] { padding: 11px 12px; }
+.signin.is-page .chat-submit { min-height: 44px; padding: 0 22px; }
+
+.news-form { display: grid; gap: 8px; font-size: 0.88rem; }
+.news-form form { display: grid; gap: 8px; }
+.news-row { display: flex; gap: 8px; align-items: stretch; }
+.news-input { flex: 1 1 auto; min-width: 0; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 0 12px; min-height: 44px; font: inherit; }
+.news-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.news-input.otp { text-align: center; letter-spacing: 0.3em; font-variant-numeric: tabular-nums; }
+.news-button { flex: 0 0 auto; }
+.news-button:disabled { opacity: 0.6; cursor: default; }
+.news-consent { display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: start; color: var(--muted); font-size: 0.78rem; }
+.news-consent input { margin: 2px 0 0; }
+.news-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.news-error { margin: 0; color: var(--accent-text); }
+.news-lead { margin: 0; color: var(--muted); }
+.news-lead strong { color: var(--text); word-break: break-all; }
+.news-small { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.news-state { display: grid; justify-items: center; gap: 6px; text-align: center; padding: 4px 0; }
+.news-state.left { justify-items: start; text-align: left; }
+.news-state p { margin: 0; }
+.news-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.82rem; }
+.news-code { display: grid; gap: 8px; }
+
+.footer-news { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px 40px; align-items: start; padding-bottom: 26px; margin-bottom: 26px; border-bottom: 1px solid var(--border); }
+.footer-news h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--text); }
+.footer-news-copy p { margin: 0; max-width: 40ch; }
+.footer-news-copy a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 760px) {
+  .footer-news { grid-template-columns: 1fr; }
+  .news-row { flex-direction: column; }
+  .news-button { width: 100%; }
+}
+
+@media (max-width: 520px) { .nav { gap: 12px; font-size: 0.86rem; } .header-inner { gap: 10px 16px; } }

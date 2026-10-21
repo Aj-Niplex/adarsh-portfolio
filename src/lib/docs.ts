@@ -24,6 +24,8 @@ export function allowedLinks(): string[] {
     "/",
     "/about",
     "/projects",
+    "/signup",
+    "/newsletter",
     "/llms.txt",
     SITE.github,
     SITE.profileRepo,

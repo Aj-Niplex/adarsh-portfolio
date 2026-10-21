@@ -48,6 +48,11 @@ Routes: `/api/auth/start`, `/api/auth/verify`, `/api/auth/password`, `/api/auth/
 
 The email is sent by one provider chosen from the environment (`src/lib/mailer.ts`): AgentMail (`AGENTMAIL_API_KEY` + `AGENTMAIL_INBOX`), Resend (`RESEND_API_KEY` + `MAIL_FROM`) or Brevo (`BREVO_API_KEY` + `MAIL_FROM`). `CHAT_SIGNING_SECRET` signs the cookies. If no provider is configured, the sign-in option is hidden rather than broken.
 
+### Where the visitor finds it
+- `/signup` is the full account form (linked as **Sign up** in the header and footer). While no mail provider is configured it says so honestly and offers the newsletter box instead, then switches itself on once a provider exists.
+- `/newsletter` and the box at the bottom of every page (`src/components/FooterNews.tsx`, `NewsletterForm.tsx`) take an email and the consent tick without needing an account. Route: `/api/newsletter`. The address and the exact wording agreed to are saved, limited to 8 requests an hour per network address and 4 a day per email, with a hidden field to catch bots.
+- With a mail provider, the newsletter box also sends the six-digit code and marks the address confirmed. Without one the address is saved as unconfirmed and nothing may be sent to it until it is confirmed.
+
 ## Animations
 Animations are LottieFiles `.lottie` files played by `@lottiefiles/dotlottie-web`. The player engine (`public/lottie/*.wasm`) is served from this site; only the animation files themselves load from `assets-v2.lottiefiles.com`, which is allowed in the Content-Security-Policy. They are used for the idle chat button, the "reading the docs" state, the error shown inside the AI answer, the account setup screen and the 404 page. If an animation cannot load, or the visitor prefers reduced motion or has data saver on, a simple built-in icon is shown instead. The paper plane while a code is sent is drawn in SVG. The list of files is in `src/lib/lottie.ts`.
 

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CONSENT_TEXT } from "@/lib/consent";
 import type { SessionInfo } from "@/lib/chatTypes";
 import { LottiePlayer } from "./LottiePlayer";
+import { PaperPlane } from "./PaperPlane";
 
 type Step = "email" | "sending" | "code" | "password" | "login" | "setup";
 type Reply = { ok: boolean; data: Record<string, unknown> };
@@ -33,29 +34,7 @@ async function post(url: string, body: Record<string, unknown>): Promise<Reply> 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const message = (data: Record<string, unknown>, fallback: string) => (typeof data.error === "string" && data.error ? data.error : fallback);
 
-const PLANE_PATH = "M6 62 C 40 62, 52 22, 92 30 S 130 18, 150 14";
-
-/** A small paper plane that flies along a dashed trail while the code is on its way. */
-function PaperPlane() {
-  const still = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-  return (
-    <svg className="plane" viewBox="0 0 160 80" width="160" height="80" aria-hidden="true">
-      <path className="plane-trail" d={PLANE_PATH} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 7" />
-      <g className="plane-body" transform={still ? "translate(150 14) rotate(-15)" : undefined}>
-        <path d="M0 0 L-4 -9 L26 0 L-4 9 Z" fill="currentColor" />
-        <path d="M-4 -9 L8 0 L-4 9 Z" fill="currentColor" opacity="0.55" />
-        {!still && (
-          <>
-            <animateMotion dur="2.2s" repeatCount="indefinite" rotate="auto" path={PLANE_PATH} calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.55 1" />
-            <animate attributeName="opacity" dur="2.2s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.12;0.88;1" />
-          </>
-        )}
-      </g>
-    </svg>
-  );
-}
-
-export function SignIn({ onSignedIn, onCancel }: { onSignedIn: (info: SessionInfo) => void; onCancel: () => void }) {
+export function SignIn({ onSignedIn, onCancel, variant = "panel" }: { onSignedIn: (info: SessionInfo) => void; onCancel?: () => void; variant?: "panel" | "page" }) {
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -191,7 +170,7 @@ export function SignIn({ onSignedIn, onCancel }: { onSignedIn: (info: SessionInf
   );
 
   return (
-    <div className="signin" ref={rootRef} aria-live="polite">
+    <div className={"signin" + (variant === "page" ? " is-page" : "")} ref={rootRef} aria-live="polite">
       {step === "email" && (
         <form onSubmit={sendCode} className="signin-form">
           <label>
@@ -215,9 +194,11 @@ export function SignIn({ onSignedIn, onCancel }: { onSignedIn: (info: SessionInf
             <button type="button" className="link-btn" onClick={() => { setError(""); setPassword(""); setStep("login"); }}>
               I already have a password
             </button>
-            <button type="button" className="link-btn" onClick={onCancel}>
-              Cancel
-            </button>
+            {onCancel && (
+              <button type="button" className="link-btn" onClick={onCancel}>
+                Cancel
+              </button>
+            )}
           </div>
         </form>
       )}
@@ -299,9 +280,11 @@ export function SignIn({ onSignedIn, onCancel }: { onSignedIn: (info: SessionInf
             <button type="button" className="link-btn" onClick={() => { setError(""); setStep("email"); }}>
               Email me a code instead
             </button>
-            <button type="button" className="link-btn" onClick={onCancel}>
-              Cancel
-            </button>
+            {onCancel && (
+              <button type="button" className="link-btn" onClick={onCancel}>
+                Cancel
+              </button>
+            )}
           </div>
         </form>
       )}

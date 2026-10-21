@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NAV, PORTFOLIOS, SITE } from "@/lib/site";
+import { FooterNews } from "./FooterNews";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { ViewCounter } from "./ViewCounter";
 
@@ -34,6 +35,7 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="site-footer">
+      <FooterNews />
       <div className="container footer-inner">
         <div>
           <strong>{SITE.name}</strong> · {SITE.alias}
@@ -47,6 +49,12 @@ export function Footer() {
             </li>
             <li>
               <Link href="/about">About</Link>
+            </li>
+            <li>
+              <Link href="/signup">Sign up</Link>
+            </li>
+            <li>
+              <Link href="/newsletter">Newsletter</Link>
             </li>
             <li>
               <a href={SITE.github} target="_blank" rel="noreferrer">

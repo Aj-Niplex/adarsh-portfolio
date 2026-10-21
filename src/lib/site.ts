@@ -22,7 +22,8 @@ export const PORTFOLIOS = [
 
 export const NAV = [
   { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About" }
+  { href: "/about", label: "About" },
+  { href: "/signup", label: "Sign up" }
 ] as const;
 
 export const HEADLINE = "I build AI agents and MCP servers.";
