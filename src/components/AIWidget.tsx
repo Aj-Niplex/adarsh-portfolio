@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Bot, Check, ChevronDown, LoaderCircle, RotateCcw, Search, Send, TriangleAlert, X } from "lucide-react";
+import { Bot, Check, ChevronDown, LoaderCircle, RotateCcw, Search, Send, Square, TriangleAlert, X } from "lucide-react";
 import type { ChatEvent, SessionInfo } from "@/lib/chatTypes";
 import { FREE_PER_MINUTE, SIGNED_IN_PER_MINUTE } from "@/lib/consent";
 import { LottiePlayer } from "./LottiePlayer";
@@ -21,12 +21,35 @@ type Msg = {
   phase?: "working" | "writing" | "done" | "error";
   ms?: number;
   question?: string;
+  /** A short line under a finished answer, for example when the connection dropped before the end. */
+  note?: string;
 };
+
+// The server sends a heartbeat every few seconds, so a connection that says nothing for this long is dead.
+const IDLE_MS = 25_000;
+// No answer takes longer than this from first byte to last.
+const TOTAL_MS = 75_000;
+
+function readWithin(read: Promise<ReadableStreamReadResult<Uint8Array>>, ms: number) {
+  return new Promise<ReadableStreamReadResult<Uint8Array>>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("stalled")), ms);
+    read.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
+  });
+}
 
 const GREETING =
   "Ask me about the projects: what NiPlex-Harness does, how NiPlex-MCP is built, or which one fits what you need. I read the site's docs before I answer, and you can watch each step.";
 
-const SUGGESTIONS = ["What is NiPlex-MCP?", "How does NiPlex-Harness keep code execution safe?", "Show how a request flows through NiPlex-MCP"];
+const SUGGESTIONS = ["What can you do?", "What is NiPlex-MCP?", "How does NiPlex-Harness keep code execution safe?", "Show how a request flows through NiPlex-MCP"];
 
 let nextId = 1;
 
@@ -152,6 +175,7 @@ function Answer({ msg }: { msg: Msg }) {
       )}
       {msg.steps && msg.steps.length > 0 && <Trace steps={msg.steps} phase={msg.phase} ms={msg.ms} />}
       {text && <Markdown text={text} streaming={typing} allowLink={allowLink} />}
+      {!typing && msg.note && <p className="chat-endnote">{msg.note}</p>}
       {!typing && msg.sources && msg.sources.length > 0 && msg.phase === "done" && (
         <div className="sources">
           <span>Sources</span>
@@ -183,6 +207,7 @@ export function AIWidget() {
   const queueRef = useRef<Promise<void>>(Promise.resolve());
   const abortRef = useRef<AbortController | null>(null);
   const stickRef = useRef(true);
+  const stoppedRef = useRef(false);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -247,10 +272,13 @@ export function AIWidget() {
       .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
     const answerId = nextId++;
+    const userId = nextId++;
     stickRef.current = true;
+    stoppedRef.current = false;
+    let gotText = false;
     setMessages((cur) => [
       ...cur,
-      { id: nextId++, role: "user", content: text },
+      { id: userId, role: "user", content: text },
       { id: answerId, role: "assistant", content: "", steps: [], phase: "working", question: text }
     ]);
     setDraft("");
@@ -262,6 +290,18 @@ export function AIWidget() {
 
     const fail = (message: string) =>
       enqueue(0, () => patch(answerId, (m) => ({ ...m, content: message, phase: "error", steps: m.steps?.map((s) => ({ ...s, status: "done" as const })) })));
+
+    // Ends an answer that already has text, so the chat is never left waiting for an end that is not coming.
+    const finish = (note?: string) =>
+      enqueue(0, () =>
+        patch(answerId, (m) => ({
+          ...m,
+          phase: "done",
+          note,
+          ms: Date.now() - started,
+          steps: m.steps?.map((s) => ({ ...s, status: "done" as const }))
+        }))
+      );
 
     const apply = (ev: ChatEvent) => {
       if (ev.type === "step") {
@@ -283,10 +323,17 @@ export function AIWidget() {
       } else if (ev.type === "sources") {
         enqueue(0, () => patch(answerId, (m) => ({ ...m, sources: ev.items, links: ev.links })));
       } else if (ev.type === "token") {
+        if (ev.text) gotText = true;
         enqueue(0, () => patch(answerId, (m) => ({ ...m, content: m.content + ev.text })));
       } else if (ev.type === "done") {
         enqueue(0, () => {
-          patch(answerId, (m) => ({ ...m, phase: "done", ms: Date.now() - started, steps: m.steps?.map((s) => ({ ...s, status: "done" as const })) }));
+          patch(answerId, (m) => ({
+            ...m,
+            phase: "done",
+            note: ev.cut ? "This answer was cut short. Ask again to get the rest." : undefined,
+            ms: Date.now() - started,
+            steps: m.steps?.map((s) => ({ ...s, status: "done" as const }))
+          }));
           if (ev.usage.remaining !== null) setRemaining(ev.usage.remaining);
         });
       } else if (ev.type === "error") {
@@ -332,30 +379,64 @@ export function AIWidget() {
       const decoder = new TextDecoder();
       let buffer = "";
       let sawDone = false;
-      for (;;) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          try {
-            const ev = JSON.parse(line) as ChatEvent;
-            if (ev.type === "done" || ev.type === "error") sawDone = true;
-            apply(ev);
-          } catch {
-            /* skip a malformed line */
+      let stalled = false;
+      try {
+        for (;;) {
+          const { value, done } = await readWithin(reader.read(), IDLE_MS);
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || "";
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const ev = JSON.parse(line) as ChatEvent;
+              if (ev.type === "done" || ev.type === "error") sawDone = true;
+              apply(ev);
+            } catch {
+              /* skip a malformed line */
+            }
+          }
+          if (sawDone) break;
+          if (Date.now() - started > TOTAL_MS) {
+            stalled = true;
+            break;
           }
         }
+      } catch (error) {
+        if (stoppedRef.current) throw error;
+        // A silent or broken connection ends the wait; it does not hold the chat.
+        stalled = (error as Error).message === "stalled";
       }
-      if (!sawDone) await fail("The connection dropped before the answer finished. Please try again.");
+      // Release the connection whatever happened; the answer is complete or it is not coming.
+      reader.cancel().catch(() => {});
+      controller.abort();
+      if (!sawDone) {
+        if (gotText) await finish("The connection dropped, so this answer may be cut short.");
+        else await fail(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
+      }
     } catch (error) {
-      if ((error as Error).name !== "AbortError") await fail("Could not reach the assistant. Check your connection and try again.");
+      if ((error as Error).name === "AbortError" || stoppedRef.current) {
+        if (stoppedRef.current) {
+          if (gotText) await finish("Stopped.");
+          else {
+            // Nothing came back yet: take the question back so it can be edited and sent again.
+            setMessages((cur) => cur.filter((m) => m.id !== answerId && m.id !== userId));
+            setDraft(text);
+          }
+        }
+      } else {
+        await (gotText ? finish("The connection dropped, so this answer may be cut short.") : fail("Could not reach the assistant. Check your connection and try again."));
+      }
     } finally {
       await queueRef.current;
       setBusy(false);
     }
+  }
+
+  function stop() {
+    stoppedRef.current = true;
+    abortRef.current?.abort();
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -516,9 +597,24 @@ export function AIWidget() {
                 }
               }}
             />
-            <button type="submit" className="chat-send" aria-label="Send" disabled={busy || blocked || !draft.trim()}>
-              <Send size={16} />
-            </button>
+            {busy ? (
+              <button
+                key="stop"
+                type="button"
+                className="chat-send is-stop"
+                aria-label="Stop answering"
+                onClick={(e) => {
+                  e.preventDefault();
+                  stop();
+                }}
+              >
+                <Square size={14} fill="currentColor" />
+              </button>
+            ) : (
+              <button key="send" type="submit" className="chat-send" aria-label="Send" disabled={blocked || !draft.trim()}>
+                <Send size={16} />
+              </button>
+            )}
           </form>
         </section>
       )}

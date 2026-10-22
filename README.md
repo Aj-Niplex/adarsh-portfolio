@@ -34,6 +34,9 @@ How it works:
 - Links in an answer are only clickable when they point to a page that exists on this site or to one of the project links in `src/lib/projects.ts`. Anything else is shown as plain text.
 - The system prompt (`src/lib/chatPrompt.ts`) keeps the assistant to the docs: the projects, how they compare with other tools, and the site itself. It declines unrelated tasks, code writing, and questions about private details.
 
+- "What can you do?", "how can you help", "who are you" and similar questions are answered at once from a fixed reply (`src/lib/intent.ts`) with no model call and no question used. It lists what the assistant covers and links the site pages.
+- An answer never keeps the chat waiting. The server ends the stream as soon as the model reports it is finished, treats a model that goes quiet for 12 seconds after it started writing as finished (the answer is kept and marked as cut short), and sends a heartbeat every 5 seconds. The browser gives up on a connection that is silent for 25 seconds, keeps the text it has and unlocks the input. While an answer is being written, the send button becomes a Stop button.
+
 Limits: 2 questions a minute per visitor, 5 a minute when signed in, and a daily cap for the whole site (`CHAT_DAILY_CAP`, default 400). Counters live in the database behind `VIEWS_ENDPOINT`; if it cannot be reached, a per-instance in-memory counter is used.
 
 Optional variables: `GEMINI_MODEL` (default `gemini-3.1-flash-lite`; `gemini-3.8-flash` and then `gemini-2.5-flash` are tried if it is busy or retired), `GEMINI_BASE_URL` (for tests), `CHAT_DAILY_CAP`.
