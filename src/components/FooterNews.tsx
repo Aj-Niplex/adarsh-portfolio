@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NewsletterForm } from "./NewsletterForm";
 
-/** The newsletter box at the bottom of every page. The newsletter page has its own form, so it is left out there. */
+/** The newsletter box at the bottom of every page. The newsletter page has its own form and the unsubscribe page is for leaving, so both leave it out. */
 export function FooterNews() {
   const pathname = usePathname();
-  if (pathname === "/newsletter") return null;
+  if (pathname === "/newsletter" || pathname === "/unsubscribe") return null;
   return (
     <div className="container footer-news" role="region" aria-labelledby="footer-news-title">
       <div className="footer-news-copy">
