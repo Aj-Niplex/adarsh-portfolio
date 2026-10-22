@@ -49,13 +49,37 @@ type GeminiChunk = {
   promptFeedback?: { blockReason?: string };
 };
 
-/** Reads Server-Sent Events from Gemini and yields the text pieces. */
+// Once the text has started, a model that goes quiet this long is treated as finished.
+const IDLE_MS = 12_000;
+
+function readWithin<T>(read: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("idle")), ms);
+    read.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
+  });
+}
+
+/**
+ * Reads Server-Sent Events from Gemini and yields the text pieces. It stops as soon as the model reports
+ * that it is finished, without waiting for the connection to close, and it fails a stream that goes
+ * quiet once text has started, so a stuck connection can never hold an answer open.
+ */
 async function* readGemini(body: ReadableStream<Uint8Array>) {
   const reader = body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
   let finish = "";
   let blocked = false;
+  let yielded = false;
 
   const parse = (rawEvent: string) => {
     const data = rawEvent
@@ -79,25 +103,38 @@ async function* readGemini(body: ReadableStream<Uint8Array>) {
       .join("");
   };
 
-  for (;;) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    // stream:true keeps a multi-byte character together when it is split across chunks.
-    buffer += decoder.decode(value, { stream: true });
-    const events = buffer.split(/\r?\n\r?\n/);
-    buffer = events.pop() || "";
-    for (const ev of events) {
-      const text = parse(ev);
-      if (text) yield text;
+  try {
+    for (;;) {
+      // Quiet for too long once the text began: this throws, and the answer so far is kept as a cut-short one.
+      const result = yielded ? await readWithin(reader.read(), IDLE_MS) : await reader.read();
+      if (result.done) break;
+      // stream:true keeps a multi-byte character together when it is split across chunks.
+      buffer += decoder.decode(result.value, { stream: true });
+      const events = buffer.split(/\r?\n\r?\n/);
+      buffer = events.pop() || "";
+      for (const ev of events) {
+        const text = parse(ev);
+        if (text) {
+          yielded = true;
+          yield text;
+        }
+        if (finish) break;
+      }
+      if (finish) break;
     }
+    if (!finish) {
+      buffer += decoder.decode();
+      if (buffer.trim()) {
+        const text = parse(buffer);
+        if (text) yield text;
+      }
+    }
+    if (blocked) throw new Error("blocked");
+    if (finish && finish !== "STOP" && finish !== "MAX_TOKENS") throw new Error("finish_" + finish);
+  } finally {
+    // Let go of the connection without waiting for it.
+    reader.cancel().catch(() => {});
   }
-  buffer += decoder.decode();
-  if (buffer.trim()) {
-    const text = parse(buffer);
-    if (text) yield text;
-  }
-  if (blocked) throw new Error("blocked");
-  if (finish && finish !== "STOP" && finish !== "MAX_TOKENS") throw new Error("finish_" + finish);
 }
 
 /**
@@ -170,6 +207,7 @@ function instantReply(text: string, limit: number, signedIn: boolean) {
   const pieces: string[] = [];
   for (let i = 0; i < words.length; i += 6) pieces.push(words.slice(i, i + 6).join(" ") + (i + 6 < words.length ? " " : ""));
   const events: ChatEvent[] = [
+    { type: "sources", items: [], links: allowedLinks() },
     ...pieces.map((piece): ChatEvent => ({ type: "token", text: piece })),
     { type: "done", usage: { limit, remaining: null, signedIn } }
   ];
@@ -275,6 +313,8 @@ export async function POST(request: Request) {
           /* the visitor closed the chat; nothing left to write to */
         }
       };
+      // A short heartbeat while a model thinks, so the browser can tell a slow answer from a dead connection.
+      const beat = setInterval(() => send({ type: "ping" }), 5000);
       try {
         send({
           type: "step",
@@ -297,18 +337,37 @@ export async function POST(request: Request) {
         send({ type: "step", id: "write", label: "Writing the answer", status: "running" });
 
         let total = 0;
-        const reply = answerStream(apiKey, system, contents, abort.signal, () =>
-          send({ type: "step", id: "write", label: "Writing the answer", detail: "The first AI model is slow, switching to a backup", status: "running" })
-        );
-        for await (const text of reply) {
-          total += text.length;
-          if (total > 7000) break;
-          send({ type: "token", text });
+        let switched = false;
+        let cut = false;
+        const reply = answerStream(apiKey, system, contents, abort.signal, () => {
+          switched = true;
+          send({ type: "step", id: "write", label: "Writing the answer", detail: "The first AI model is slow, switching to a backup", status: "running" });
+        });
+        try {
+          for await (const text of reply) {
+            total += text.length;
+            if (total > 7000) {
+              cut = true;
+              break;
+            }
+            send({ type: "token", text });
+          }
+        } catch (error) {
+          // Text has already reached the visitor. A late failure must not wipe it or leave the chat waiting.
+          if (total === 0) throw error;
+          cut = true;
+          console.error("chat stream ended early:", error instanceof Error ? error.message : "");
         }
         if (total === 0) throw new Error("empty");
 
-        send({ type: "step", id: "write", label: "Writing the answer", status: "done" });
-        send({ type: "done", usage: { limit, remaining: usage.remaining, signedIn: Boolean(session) } });
+        send({
+          type: "step",
+          id: "write",
+          label: "Writing the answer",
+          detail: switched ? "Answered by a backup AI model" : undefined,
+          status: "done"
+        });
+        send({ type: "done", usage: { limit, remaining: usage.remaining, signedIn: Boolean(session) }, cut });
       } catch (error) {
         const code = error instanceof Error ? error.message : "";
         console.error("chat stream failed:", code);
@@ -320,11 +379,14 @@ export async function POST(request: Request) {
         send({ type: "error", message });
       } finally {
         clearTimeout(timer);
+        clearInterval(beat);
         try {
           controller.close();
         } catch {
           /* already closed */
         }
+        // Whatever is still open towards Gemini is finished with.
+        abort.abort();
       }
     },
     cancel() {

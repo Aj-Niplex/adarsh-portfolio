@@ -300,6 +300,8 @@ button { font: inherit; color: inherit; }
 .chat-form textarea { flex: 1; min-width: 0; resize: none; max-height: 96px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 9px 10px; font: inherit; font-size: 0.9rem; }
 .chat-send { width: 40px; border: 0; border-radius: var(--radius); background: var(--accent); color: var(--on-accent); cursor: pointer; display: grid; place-items: center; }
 .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.chat-send.is-stop { background: var(--surface-2, var(--border)); color: var(--text); border: 1px solid var(--border); }
+.chat-endnote { margin: 8px 0 0; color: var(--muted); font-size: 0.78rem; }
 .chat-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 6px 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.76rem; }
 .meta-actions { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
 .link-btn { border: 0; background: none; padding: 0; font: inherit; color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
