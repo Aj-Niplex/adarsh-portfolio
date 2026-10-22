@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { pageMeta } from "@/lib/meta";
-import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   ...pageMeta({
@@ -25,7 +24,7 @@ export default function NewsletterPage() {
           <li>The emails are about these projects only, and they are sent rarely.</li>
           <li>The address is kept with the wording you agreed to and the date, only for these emails.</li>
           <li>
-            To have it deleted, sign in and choose &quot;Delete my email&quot;, or <a href={SITE.github} target="_blank" rel="noreferrer">message me on GitHub</a>.
+            You can leave any time on the <Link href="/unsubscribe">unsubscribe page</Link>. The address is deleted with it.
           </li>
         </ul>
       </div>

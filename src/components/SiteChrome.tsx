@@ -60,6 +60,9 @@ export function Footer() {
               <Link href="/newsletter">Newsletter</Link>
             </li>
             <li>
+              <Link href="/unsubscribe">Unsubscribe</Link>
+            </li>
+            <li>
               <a href={SITE.github} target="_blank" rel="noreferrer">
                 GitHub
               </a>
