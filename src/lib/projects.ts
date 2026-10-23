@@ -89,11 +89,18 @@ export const projects: Project[] = [
           "Long chats are compressed in the middle so the history stays inside the model's limit.",
           "Settings live in .env: GATEWAY, the bot token, the allow-list IDs, SANDBOX_MODE (builtin or external), SANDBOX_TIMEOUT (60 s by default) and SANDBOX_MAX_MEMORY_MB (512 by default)."
         ]
+      },
+      {
+        title: "In review, not released yet",
+        items: [
+          "Live progress in the chat: one line for each tool the agent uses while it works, its own words before a tool call sent as they happen, long replies split instead of cut off, and up to 25 tool rounds for one message (8 today) with a proper wrap-up message when the limit is reached.",
+          "A persistent shell terminal, a 12th tool group with 5 tools. It keeps its folder, files and background jobs between commands and runs any language installed on the host, such as Python, Node or git. It is off by default, only the owner can switch it on in .env and never from chat, and risky commands use the same approval buttons."
+        ]
       }
     ],
     stepsTitle: "How a message is handled",
     steps: [
-      { title: "Receive", body: "A message arrives from Discord or Telegram. Anyone who is not on the allow-list is ignored." },
+      { title: "Receive", body: "A message arrives from Discord or Telegram. Anyone who is not on the allow-list is ignored. Messages in the same chat are handled one at a time, in the order they arrive." },
       { title: "Think", body: "The agent sends the chat and the tools that are switched on to your chosen model. One message can use up to eight rounds of tool calls." },
       { title: "Check", body: "Risky code or commands pause with approval buttons. Safe ones run straight away." },
       { title: "Act", body: "Tools use the sandbox, the vault, memory or the web, and the results go back to the agent." },
@@ -116,6 +123,7 @@ export const projects: Project[] = [
       "Sub-agents are named trackers for a sub-goal, not separate running agents.",
       "Connecting outside MCP servers is scaffolding only and is not yet part of the agent loop.",
       "Semantic memory search needs a Google key and falls back to keyword search without one.",
+      "Features listed as in review are not part of the running version yet and may change or be dropped before release.",
       "The current source is private and the public repository is an older snapshot, so the snapshot does not match everything on this page."
     ],
     links: [{ label: "Older public snapshot on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" }],
