@@ -42,10 +42,10 @@ export const projects: Project[] = [
       "Also known as Kaizen Manas, with the agent itself named Manas. The name joins kaizen (continuous improvement) and manas (Sanskrit for mind), and replaced NiPlex Harness on 17 September 2026. One Python process built for a single owner and for free hosts with no PC, so your phone is the control panel. It keeps notes, searches the web and runs Python in a resource-limited sandbox, and it stops at approval buttons before anything risky. The current source is private; this page describes what it does. An older public snapshot is on GitHub.",
     tags: ["Python", "Discord", "Telegram", "Sandbox", "Agents"],
     stats: [
-      { label: "Tools", value: "55 in 11 switchable groups" },
+      { label: "Tools", value: "61 in 13 switchable groups" },
       { label: "Chat apps", value: "Discord, Telegram" },
       { label: "Code execution", value: "Limited sandbox + approval buttons" },
-      { label: "Tests", value: "43, run in CI on Python 3.12 and 3.13" }
+      { label: "Tests", value: "484, run on Python 3.12 and 3.13" }
     ],
     groups: [
       {
@@ -91,17 +91,19 @@ export const projects: Project[] = [
         ]
       },
       {
-        title: "In review, not released yet",
+        title: "Merged in October, rolling out",
         items: [
-          "Live progress in the chat: one line for each tool the agent uses while it works, its own words before a tool call sent as they happen, long replies split instead of cut off, and up to 25 tool rounds for one message (8 today) with a proper wrap-up message when the limit is reached.",
-          "A persistent shell terminal, a 12th tool group with 5 tools. It keeps its folder, files and background jobs between commands and runs any language installed on the host, such as Python, Node or git. It is off by default, only the owner can switch it on in .env and never from chat, and risky commands use the same approval buttons."
+          "Live progress in the chat: one line per tool call, the agent's text before a tool call sent as it happens, long replies split instead of cut off, and 25 tool rounds per message by default.",
+          "A persistent shell terminal, a group of 5 tools. It keeps its state between commands and runs any installed language. Off by default; only the owner can switch it on in .env, never from chat. Risky commands use the same approval buttons.",
+          "Model routing: small, medium and power tiers, each one model plus up to three fallbacks, set with /routing. With a power model set, hard jobs can be handed over automatically, or you use /model and /escalate.",
+          "/ui shows each kind of button, menu, poll and card the bot can send. Normal replies do not use them yet."
         ]
       }
     ],
     stepsTitle: "How a message is handled",
     steps: [
       { title: "Receive", body: "A message arrives from Discord or Telegram. Anyone who is not on the allow-list is ignored. Messages in the same chat are handled one at a time, in the order they arrive." },
-      { title: "Think", body: "The agent sends the chat and the tools that are switched on to your chosen model. One message can use up to eight rounds of tool calls." },
+      { title: "Think", body: "The agent sends the chat and the tools that are switched on to your chosen model. One message can use up to 25 rounds of tool calls." },
       { title: "Check", body: "Risky code or commands pause with approval buttons. Safe ones run straight away." },
       { title: "Act", body: "Tools use the sandbox, the vault, memory or the web, and the results go back to the agent." },
       { title: "Reply", body: "The answer returns to the chat, with files attached when needed." }
@@ -113,7 +115,11 @@ export const projects: Project[] = [
         { name: "/setup", purpose: "Choose provider, API key and model." },
         { name: "/help", purpose: "Show usage help." },
         { name: "/reset", purpose: "Clear the current chat session." },
-        { name: "/allow", purpose: "Skip approval buttons for 5, 10 or 30 minutes." }
+        { name: "/allow", purpose: "Skip approval buttons for 5, 10 or 30 minutes." },
+        { name: "/routing", purpose: "Model tiers and automatic escalation." },
+        { name: "/model", purpose: "See or pin the model tier." },
+        { name: "/escalate", purpose: "Send a task to the power model." },
+        { name: "/ui", purpose: "Show the UI styles." }
       ]
     },
     boundaries: [
@@ -123,7 +129,7 @@ export const projects: Project[] = [
       "Sub-agents are named trackers for a sub-goal, not separate running agents.",
       "Connecting outside MCP servers is scaffolding only and is not yet part of the agent loop.",
       "Semantic memory search needs a Google key and falls back to keyword search without one.",
-      "Features listed as in review are not part of the running version yet and may change or be dropped before release.",
+      "Merged features are in the private main branch; a bot has them only after it updates and restarts.",
       "The current source is private and the public repository is an older snapshot, so the snapshot does not match everything on this page."
     ],
     links: [{ label: "Older public snapshot on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" }],
