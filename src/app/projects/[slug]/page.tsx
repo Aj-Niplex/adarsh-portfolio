@@ -78,35 +78,34 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         ))}
       </div>
 
-      {p.gallery && (
-        <section className="gallery" aria-label={p.gallery.title}>
-          <div className="gallery-head">
-            <h2>{p.gallery.title}</h2>
-            <p>{p.gallery.text}</p>
-          </div>
-          <div className="gallery-grid">
-            {p.gallery.images.map((img) => (
-              <figure key={img.src}>
-                <Image src={img.src} alt={img.alt} width={560} height={560} sizes="(min-width: 860px) 280px, 90vw" />
-                <figcaption>{img.caption}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
-
       <div className="layout-2">
         <div>
           <section className="block" style={{ borderTop: 0, paddingTop: 0 }}>
             <h2>What it does</h2>
-            {p.groups.map((g) => (
-              <div className="group" key={g.title}>
-                <h3>{g.title}</h3>
-                <ul className="list">
-                  {g.items.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </div>
-            ))}
+            {p.groups.map((g) => {
+              const fig = g.figure;
+              const beside = fig && fig.item === undefined ? fig : null;
+              const figure = (f: NonNullable<typeof fig>) => (
+                <figure className="group-fig">
+                  <Image src={f.src} alt={f.alt} width={560} height={560} sizes="(min-width: 700px) 220px, 90vw" />
+                  <figcaption>{f.caption}</figcaption>
+                </figure>
+              );
+              return (
+                <div className="group" key={g.title}>
+                  <h3>{g.title}</h3>
+                  {beside && figure(beside)}
+                  <ul className="list">
+                    {g.items.map((item, i) => (
+                      <li key={item} className={fig && fig.item === i ? "has-fig" : undefined}>
+                        {item}
+                        {fig && fig.item === i && figure(fig)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </section>
 
           <section className="block">

@@ -1,5 +1,8 @@
 export type Tier = "core" | "tools" | "side";
 
+// A picture that belongs to one group. With `item`, it sits under that bullet; without, beside the group's heading.
+export type Figure = { src: string; alt: string; caption: string; item?: number };
+
 export type Project = {
   slug: string;
   name: string;
@@ -10,7 +13,7 @@ export type Project = {
   summary: string;
   tags: string[];
   stats: { label: string; value: string }[];
-  groups: { title: string; items: string[] }[];
+  groups: { title: string; items: string[]; figure?: Figure }[];
   steps: { title: string; body: string }[];
   stepsTitle: string;
   setup: string[];
@@ -18,7 +21,6 @@ export type Project = {
   boundaries: string[];
   links: { label: string; href: string }[];
   logo?: { src: string; alt: string; plain?: boolean };
-  gallery?: { title: string; text: string; images: { src: string; alt: string; caption: string }[] };
   share?: { src: string; width: number; height: number; alt: string };
   appCategory: string;
   repo?: string;
@@ -50,6 +52,7 @@ export const projects: Project[] = [
     groups: [
       {
         title: "Set up from chat",
+        figure: { src: "/logos/manas-wave.webp", alt: "Manas, the purple axolotl plush, waving hello", caption: "Saying hello: the first thing you do is chat with it" },
         items: [
           "/setup walks through provider, API key and model. The model list comes from the provider's own API, and you can answer with a number, an ID or random.",
           "Providers: Agnes, Google Gemini, OpenAI, OpenRouter, any OpenAI-compatible endpoint, and Anthropic through an OpenAI-compatible proxy.",
@@ -58,6 +61,7 @@ export const projects: Project[] = [
       },
       {
         title: "What the agent can do",
+        figure: { src: "/logos/manas-reading.webp", alt: "Manas reading a book in a cosy room at night", caption: "Skills are short guides the agent reads and reuses", item: 3 },
         items: [
           "Memory: notes kept globally or per chat, keyword search, semantic search through Gemini embeddings, a small knowledge graph, search across past sessions and a timestamped event log.",
           "Terminal: run Python in the sandbox, keep several terminal sessions open and reset the sandbox's installed packages.",
@@ -92,6 +96,7 @@ export const projects: Project[] = [
       },
       {
         title: "Merged in October, rolling out",
+        figure: { src: "/logos/manas-garden.webp", alt: "Manas watering a small seedling in a garden", caption: "Kaizen: small, steady improvement" },
         items: [
           "Live progress in the chat: one line per tool call, the agent's text before a tool call sent as it happens, long replies split instead of cut off, and 25 tool rounds per message by default.",
           "A persistent shell terminal, a group of 5 tools. It keeps its state between commands and runs any installed language. Off by default; only the owner can switch it on in .env, never from chat. Risky commands use the same approval buttons.",
@@ -134,15 +139,6 @@ export const projects: Project[] = [
     ],
     links: [{ label: "Older public snapshot on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" }],
     logo: { src: "/logos/kaizen-manas.webp", alt: "Manas, the Kaizen Manas mascot: a purple axolotl plush wearing a teal harness", plain: true },
-    gallery: {
-      title: "Meet Manas",
-      text: "Manas is the agent's mascot, a plush axolotl wearing a harness.",
-      images: [
-        { src: "/logos/manas-wave.webp", alt: "Manas the purple axolotl plush waving hello", caption: "Saying hello" },
-        { src: "/logos/manas-reading.webp", alt: "Manas reading a book in a cosy room at night", caption: "Reading up: notes, memory and skills" },
-        { src: "/logos/manas-garden.webp", alt: "Manas watering a small seedling in a garden", caption: "Kaizen: small, steady improvement" }
-      ]
-    },
     share: { src: "/logos/kaizen-manas-share.jpg", width: 1200, height: 1200, alt: "Manas, the Kaizen Manas mascot, waving" },
     appCategory: "DeveloperApplication"
   },
