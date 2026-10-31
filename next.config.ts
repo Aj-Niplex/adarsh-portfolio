@@ -37,7 +37,13 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   // The documentation text is read from files at run time by the assistant, so the files ship with it.
-  outputFileTracingIncludes: { "/api/chat": ["./content/km/**/*"], "/llms-full.txt": ["./content/km/**/*"] },
+  outputFileTracingIncludes: {
+    "/api/chat": ["./content/km/**/*"],
+    "/llms-full.txt": ["./content/km/**/*"],
+    // A mistyped documentation address is rendered on demand, and that reads the same files.
+    "/projects/niplex-harness/**": ["./content/km/**/*"],
+    "/projects/[slug]": ["./content/km/**/*"]
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

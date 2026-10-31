@@ -33,7 +33,7 @@ export function ViewCounter() {
       .then((data) => {
         if (cancelled || !data || typeof data.count !== "number") return;
         setCount(data.count);
-        if (!alreadyCounted) {
+        if (!alreadyCounted && (data.counted === true || data.already === true)) {
           try {
             localStorage.setItem(FLAG, String(Date.now()));
           } catch {
