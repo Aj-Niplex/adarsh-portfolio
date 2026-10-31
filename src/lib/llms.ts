@@ -34,11 +34,15 @@ export function buildLlmsTxt() {
     if (p) out.push("- [" + p.title + "](" + SITE.url + kmUrl(p.path) + "): " + p.summary);
   }
   out.push("");
+  out.push("## Markdown versions");
+  out.push("Every page is also available as Markdown. Add .md to a page address (for example " + SITE.url + "/about.md), or send the header Accept: text/markdown to the normal address, or read the index at " + SITE.url + "/md.");
+  out.push("");
   out.push("## Links");
   out.push("- [GitHub](" + SITE.github + ")");
   for (const p of PORTFOLIOS) out.push("- [" + p.label + "](" + p.href + "): " + p.note + ".");
   out.push("- [Obsidian Community profile](" + SITE.obsidian + ")");
   out.push("- [Full details for AI assistants](" + SITE.url + "/llms-full.txt)");
+  out.push("- [Markdown index of every page](" + SITE.url + "/md)");
   out.push("");
   return out.join("\n");
 }

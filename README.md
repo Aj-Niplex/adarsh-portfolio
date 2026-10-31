@@ -16,6 +16,7 @@ Live: https://aj-niplex.vercel.app
 ## Built for search and AI assistants
 - Structured data (schema.org JSON-LD): Person, WebSite, ProfilePage, one SoftwareApplication per project, breadcrumbs
 - `/llms.txt` and `/llms-full.txt`, generated from the same data
+- A Markdown version of every page (`src/lib/mdExport.ts`): add `.md` to a page address (`/about.md`), send `Accept: text/markdown` to the normal address, or browse the index at `/md`. The pages list `<link rel="alternate" type="text/markdown">`, and the Markdown copies are marked `noindex` so search engines keep the HTML page.
 - `/robots.txt` and `/sitemap.xml`
 - Per-page titles, descriptions, canonical URLs and share-preview (Open Graph / Twitter) tags
 
@@ -24,8 +25,16 @@ Live: https://aj-niplex.vercel.app
 2. `npm install`
 3. `npm run dev`, then open http://localhost:3000
 
+## Two services, one codebase
+The repository is deployed twice, as two Vercel projects.
+- **The public site** (the default) serves every page and holds no secrets. With `API_ORIGIN` set (the address of the second service), `next.config.ts` forwards every `/api/*` request to it behind the same address, so the browser never leaves the site, never sees the second address, and cookies stay on the site's own domain.
+- **The API service** (`SERVICE_ROLE=api`) holds the keys and runs the chat, sign-in, newsletter, submissions and visit counter. Everything that is not `/api/*`, the Markdown pages or `robots.txt` answers "not found", it asks search engines to stay away, and its `SITE_HOSTS` variable lists the public site's address so browser requests from the site pass the origin check (`src/lib/origin.ts`).
+- With neither variable set (local development) everything runs in one process.
+
+The public site shows the assistant only when the API service is running: `src/components/AssistantGate.tsx` asks `/api/assistant`, and only if the service answers (with its key in place) does it load the chat window. If the service is off, the button is simply absent and the rest of the site is unaffected. Secrets (`GEMINI_API_KEY`, `VIEWS_ENDPOINT`, `VIEWS_SECRET`, `CHAT_SIGNING_SECRET`, the mail keys) belong to the API service only; the public site needs just `API_ORIGIN`.
+
 ## Optional chat assistant
-Set `GEMINI_API_KEY` as a server-side environment variable (Production and Preview) and redeploy. The chat button only appears when the key exists. Never use a `NEXT_PUBLIC_` prefix for it.
+Set `GEMINI_API_KEY` as a server-side environment variable on the API service (Production and Preview) and redeploy it. The chat button only appears when the key exists and the service answers. Never use a `NEXT_PUBLIC_` prefix for it.
 
 How it works:
 - Before each answer the server picks the pages of this site that match the question and sends only those to Gemini. The visitor sees the steps as they happen: reading the question, searching the docs, reading each page, writing.
@@ -58,7 +67,7 @@ The email is sent by one provider chosen from the environment (`src/lib/mailer.t
 - With a mail provider, the newsletter box also sends the six-digit code and marks the address confirmed. Without one the address is saved as unconfirmed and nothing may be sent to it until it is confirmed.
 
 ## Submit page
-`/submit` takes an idea, a request or feedback (title up to 80 characters, description up to 500, optional name up to 40) and lists the latest 30 below the form with their descriptions. Rules are in `src/lib/submissions.ts` and run in the browser and again in `/api/submit`: no links, email addresses or phone numbers, no spam-looking repeats, a hidden field for bots, and limits of 1 per 30 seconds, 6 an hour and 20 a day per network address. The database adds its own length checks, drops an identical repeat within a day and stops at 300 a day in total. Text is always shown as plain text. Rows are in `portfolio.submissions`; to take one down, set its `status` to `hidden` and it disappears from the page (`update portfolio.submissions set status = 'hidden' where id = …`). Only the site's server can read or write the table, through the edge function actions `submit` and `submissions`.
+`/submit` takes an idea, a request or feedback (title up to 80 characters, description up to 500, optional name up to 40) and lists the latest 30 below the form with their descriptions (the page loads the list from `GET /api/submit` when it opens, so the page itself holds no store access). Rules are in `src/lib/submissions.ts` and run in the browser and again in `/api/submit`: no links, email addresses or phone numbers, no spam-looking repeats, a hidden field for bots, and limits of 1 per 30 seconds, 6 an hour and 20 a day per network address. The database adds its own length checks, drops an identical repeat within a day and stops at 300 a day in total. Text is always shown as plain text. Rows are in `portfolio.submissions`; to take one down, set its `status` to `hidden` and it disappears from the page (`update portfolio.submissions set status = 'hidden' where id = …`). Only the site's server can read or write the table, through the edge function actions `submit` and `submissions`.
 
 ## Animations
 Animations are LottieFiles `.lottie` files played by `@lottiefiles/dotlottie-web`. The player engine (`public/lottie/*.wasm`) is served from this site; only the animation files themselves load from `assets-v2.lottiefiles.com`, which is allowed in the Content-Security-Policy. They are used for the idle chat button, the "reading the docs" state, the error shown inside the AI answer, the account setup screen and the 404 page. If an animation cannot load, or the visitor prefers reduced motion or has data saver on, a simple built-in icon is shown instead. The paper plane while a code is sent is drawn in SVG. The list of files is in `src/lib/lottie.ts`.

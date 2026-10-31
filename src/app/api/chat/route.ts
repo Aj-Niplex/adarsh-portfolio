@@ -4,6 +4,7 @@ import type { ChatEvent } from "@/lib/chatTypes";
 import { FREE_PER_MINUTE, SIGNED_IN_PER_MINUTE } from "@/lib/consent";
 import { allowedLinks, buildDocs, mentionsProject, retrieve } from "@/lib/docs";
 import { classify } from "@/lib/intent";
+import { sameOrigin } from "@/lib/origin";
 import { take, takeMemory } from "@/lib/limiter";
 import { clientIp, hashId, readSession, signInAvailable } from "@/lib/session";
 
@@ -18,17 +19,6 @@ const MODELS = Array.from(new Set([PRIMARY_MODEL, "gemini-3.8-flash", "gemini-2.
 const DAILY_CAP = Number(process.env.CHAT_DAILY_CAP || 400);
 
 type IncomingMessage = { role: "user" | "assistant"; content: string };
-
-function sameOrigin(request: Request) {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (!origin || !host) return true;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
-}
 
 function fail(error: string, status: number, extra: Record<string, unknown> = {}) {
   return NextResponse.json({ error, ...extra }, { status, headers: { "Cache-Control": "no-store" } });

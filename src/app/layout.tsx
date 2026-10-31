@@ -11,7 +11,7 @@ import {
   Syne
 } from "next/font/google";
 import "./globals.css";
-import { AIWidget } from "@/components/AIWidget";
+import { AssistantGate } from "@/components/AssistantGate";
 import { JsonLd } from "@/components/JsonLd";
 import { Footer, Header } from "@/components/SiteChrome";
 import { META_DESCRIPTION, SITE } from "@/lib/site";
@@ -123,7 +123,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <div id="main">{children}</div>
         <Footer />
-        {process.env.GEMINI_API_KEY ? <AIWidget /> : null}
+        <AssistantGate />
       </body>
     </html>
   );

@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Two services are built from this one codebase.
+//  - The public site (the default) holds no secrets. When API_ORIGIN is set, every /api/* request
+//    is forwarded to the second service behind the same address, so visitors never see it.
+//  - The API service (SERVICE_ROLE=api) holds the keys. It answers /api/*, the Markdown pages and
+//    robots.txt, and shows a plain "not found" for everything else.
+// With neither set (local development) everything runs in one process.
+const isApiService = process.env.SERVICE_ROLE === "api";
+const apiOrigin = (process.env.API_ORIGIN || "").replace(/\/+$/, "");
+
 // Every source the pages need is listed here; anything else is blocked by the browser.
 // 'unsafe-inline' stays for scripts and styles because Next.js writes small inline scripts and
 // styles into each page (theme setup, hydration data). The animation player runs as WebAssembly
@@ -44,8 +53,33 @@ const nextConfig: NextConfig = {
     "/projects/niplex-harness/**": ["./content/km/**/*"],
     "/projects/[slug]": ["./content/km/**/*"]
   },
+  async rewrites() {
+    // A request that asks for Markdown (Accept: text/markdown) gets the Markdown version of the page.
+    const wantsMarkdown = [{ type: "header" as const, key: "accept", value: ".*text/markdown.*" }];
+    const markdown = [
+      { source: "/index.md", destination: "/md/home" },
+      { source: "/:path(.+)\\.md", destination: "/md/:path" },
+      { source: "/", has: wantsMarkdown, destination: "/md/home" },
+      { source: "/:path(about|projects|projects/.+)", has: wantsMarkdown, destination: "/md/:path" }
+    ];
+    const forward = !isApiService && apiOrigin ? [{ source: "/api/:path*", destination: apiOrigin + "/api/:path*" }] : [];
+    // On the API service, anything that is not meant to be public is answered with "not found".
+    const closed = isApiService
+      ? [
+          { source: "/", destination: "/api/gone" },
+          { source: "/:path((?!api(?:/|$)|md(?:/|$)|robots\\.txt$).*)", destination: "/api/gone" }
+        ]
+      : [];
+    return { beforeFiles: [...forward, ...markdown, ...closed], afterFiles: [], fallback: [] };
+  },
   async headers() {
     return [
+      // The API service is not a website: keep it out of search results.
+      ...(isApiService ? [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }] : []),
+      // The same address answers in HTML or Markdown depending on the Accept header.
+      { source: "/", headers: [{ key: "Vary", value: "Accept" }] },
+      { source: "/about", headers: [{ key: "Vary", value: "Accept" }] },
+      { source: "/projects/:path*", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/:path*", headers: securityHeaders },
       // The player engine has its version in the file name, so it can be cached for good.
       // The scrambled pictures never change under the same name.

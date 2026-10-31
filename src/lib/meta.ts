@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { hasMarkdown, mdUrl } from "./mdPath";
 import { SITE } from "./site";
 
 const IMAGE = { url: "/logos/niplex-logo.png", width: 550, height: 454, alt: "NiPlex logo" };
@@ -13,7 +14,7 @@ export function pageMeta(input: { title: string; description: string; path: stri
   return {
     title: input.title,
     description: input.description,
-    alternates: { canonical: input.path },
+    alternates: { canonical: input.path, ...(hasMarkdown(input.path) ? { types: { "text/markdown": mdUrl(input.path) } } : {}) },
     openGraph: {
       type: "website",
       siteName: SITE.alias,

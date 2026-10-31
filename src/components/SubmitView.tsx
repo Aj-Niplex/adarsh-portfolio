@@ -1,14 +1,14 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
-import { KINDS, LIMITS, checkSubmission, formatDay, type Kind, type Submission } from "@/lib/submissions";
-
-type Props = { initial: Submission[] | null };
+import { useEffect, useId, useState, type FormEvent } from "react";
+import { KINDS, LIMITS, checkSubmission, formatDay, toSubmission, type Kind, type Submission } from "@/lib/submissions";
 
 /** The form, and the latest submissions below it. A new one shows up at the top as soon as it is saved. */
-export function SubmitView({ initial }: Props) {
+export function SubmitView() {
   const uid = useId();
-  const [items, setItems] = useState<Submission[]>(initial ?? []);
+  const [items, setItems] = useState<Submission[]>([]);
+  // The list comes from the API service when the page opens: "loading", then "ready" or "failed".
+  const [listState, setListState] = useState<"loading" | "ready" | "failed">("loading");
   const [kind, setKind] = useState<Kind>("idea");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -18,6 +18,29 @@ export function SubmitView({ initial }: Props) {
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [fresh, setFresh] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/submit", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { items?: unknown[] } | null) => {
+        if (cancelled) return;
+        if (!data || !Array.isArray(data.items)) {
+          setListState("failed");
+          return;
+        }
+        const list = data.items.map(toSubmission).filter((x): x is Submission => x !== null);
+        // A submission sent while the list was loading stays on top.
+        setItems((current) => [...current, ...list.filter((l) => !current.some((c) => c.id === l.id))].slice(0, 30));
+        setListState("ready");
+      })
+      .catch(() => {
+        if (!cancelled) setListState("failed");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function send(event: FormEvent) {
     event.preventDefault();
@@ -153,7 +176,9 @@ export function SubmitView({ initial }: Props) {
 
       <section className="submit-list" aria-labelledby={uid + "-latest"}>
         <h2 id={uid + "-latest"}>Latest submissions</h2>
-        {initial === null && items.length === 0 ? (
+        {listState === "loading" && items.length === 0 ? (
+          <p className="submit-empty">Loading the latest submissions…</p>
+        ) : listState === "failed" && items.length === 0 ? (
           <p className="submit-empty">The list could not be loaded right now. Please try again in a moment.</p>
         ) : items.length === 0 ? (
           <p className="submit-empty">Nothing here yet. The first one is yours.</p>

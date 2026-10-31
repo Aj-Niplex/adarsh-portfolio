@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { sameOrigin } from "@/lib/origin";
 import { callViews, looksLikeBot } from "@/lib/views";
 
 export const runtime = "nodejs";
@@ -11,17 +12,6 @@ const hits = new Map<string, { count: number; resetAt: number }>();
 function clientKey(request: Request) {
   const forwarded = request.headers.get("x-forwarded-for");
   return (forwarded ? forwarded.split(",")[0].trim() : "unknown").slice(0, 80);
-}
-
-function sameOrigin(request: Request) {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (!origin || !host) return true;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
 }
 
 const noStore = { "Cache-Control": "no-store" };

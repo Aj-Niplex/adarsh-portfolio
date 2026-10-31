@@ -3,10 +3,18 @@ import { fail, noStore, readObject, sameOrigin } from "@/lib/authApi";
 import { take } from "@/lib/limiter";
 import { clientIp, hashId } from "@/lib/session";
 import { callStore, storeConfigured } from "@/lib/store";
-import { checkSubmission } from "@/lib/submissions";
+import { checkSubmission, toSubmission } from "@/lib/submissions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// The latest submissions. The Submit page reads them here, so the page itself holds no store access.
+export async function GET() {
+  const result = await callStore<{ items?: unknown[] }>({ action: "submissions", limit: 30 });
+  if (!result || !Array.isArray(result.items)) return fail("The list could not be loaded right now.", 503);
+  const items = result.items.map(toSubmission).filter((s) => s !== null);
+  return NextResponse.json({ items }, { headers: noStore });
+}
 
 // A visitor sends an idea, a request or feedback. It appears on the Submit page straight away,
 // so the text is checked here (no links, emails or phone numbers) and the sender is rate limited.
