@@ -1,0 +1,62 @@
+id,name,group,title,risk,needs_approval,default_state,status
+tool.save_memory,save_memory,memory,Save a note,low,never,on,merged
+tool.search_memory,search_memory,memory,Search notes,none,never,on,merged
+tool.list_memory,list_memory,memory,List notes,none,never,on,merged
+tool.graph_add_node,graph_add_node,memory,Add a graph node,low,never,on,merged
+tool.graph_add_edge,graph_add_edge,memory,Link two graph nodes,low,never,on,merged
+tool.graph_query,graph_query,memory,Read the graph,none,never,on,merged
+tool.vector_search,vector_search,memory,Meaning-based search,low,never,on,merged
+tool.get_learning_graph,get_learning_graph,memory,Skills and related notes,none,never,on,merged
+tool.session_search,session_search,memory,Search past chats,none,never,on,merged
+tool.record_event,record_event,memory,Log an event,low,never,on,merged
+tool.recall_events,recall_events,memory,Read the event log,none,never,on,merged
+tool.start_new_terminal,start_new_terminal,terminal,Start a terminal,none,never,on,merged
+tool.run_code,run_code,terminal,Run Python,high,sometimes,on,merged
+tool.get_results,get_results,terminal,Recent results,none,never,on,merged
+tool.set_terminal_lifecycle,set_terminal_lifecycle,terminal,Manage a terminal,low,never,on,merged
+tool.list_terminals,list_terminals,terminal,List terminals,none,never,on,merged
+tool.reset_sandbox_venv,reset_sandbox_venv,terminal,Reset the sandbox venv,medium,never,on,merged
+tool.shell_exec,shell_exec,shell,Run a shell command,high,sometimes,off,merged
+tool.shell_view,shell_view,shell,View shell output,none,never,off,merged
+tool.shell_send,shell_send,shell,Type into a shell program,medium,sometimes,off,merged
+tool.shell_kill,shell_kill,shell,Stop a shell command,low,never,off,merged
+tool.shell_info,shell_info,shell,Shell facts,none,never,off,merged
+tool.create_folder,create_folder,files,Create a folder,low,never,on,merged
+tool.create_file,create_file,files,Create a file,low,never,on,merged
+tool.edit_file,edit_file,files,Overwrite a file,medium,never,on,merged
+tool.edit_selected_part,edit_selected_part,files,Replace text in a file,medium,never,on,merged
+tool.delete_file,delete_file,files,Delete a file,medium,never,on,merged
+tool.list_files,list_files,files,List files,none,never,on,merged
+tool.send_file,send_file,files,Send a file to chat,low,never,on,merged
+tool.get_super_skill,get_super_skill,skills,Skill index,none,never,on,merged
+tool.list_skills,list_skills,skills,List skills,none,never,on,merged
+tool.load_skill,load_skill,skills,Load a skill,none,never,on,merged
+tool.create_skill,create_skill,skills,Create a skill,low,never,on,merged
+tool.edit_skill,edit_skill,skills,Edit a skill,low,never,on,merged
+tool.search_skill,search_skill,skills,Search skills,none,never,on,merged
+tool.web_search,web_search,web,Search the web,low,never,on,merged
+tool.web_read,web_read,web,Read a web page,low,never,on,merged
+tool.search_web_or_github_for_skill,search_web_or_github_for_skill,web,Search for skill ideas,low,never,on,merged
+tool.add_cron_job,add_cron_job,cron,Add a scheduled job,medium,never,on,merged
+tool.list_cron_jobs,list_cron_jobs,cron,List scheduled jobs,none,never,on,merged
+tool.remove_cron_job,remove_cron_job,cron,Remove a scheduled job,low,never,on,merged
+tool.spawn_subagent,spawn_subagent,subagents,Record a sub-agent goal,none,never,on,merged
+tool.list_subagents,list_subagents,subagents,List sub-agents,none,never,on,merged
+tool.subagent_report,subagent_report,subagents,Finish a sub-agent record,none,never,on,merged
+tool.git_list_repos,git_list_repos,git,List GitHub repos,low,never,off,merged
+tool.git_list_files,git_list_files,git,List repo files,low,never,off,merged
+tool.git_read_file,git_read_file,git,Read a repo file,low,never,off,merged
+tool.git_list_issues,git_list_issues,git,List issues,low,never,off,merged
+tool.git_create_issue,git_create_issue,git,Open an issue,medium,never,off,merged
+tool.git_list_commits,git_list_commits,git,List commits,low,never,off,merged
+tool.send_notification,send_notification,notifications,Send a push message,low,never,on,merged
+tool.speak,speak,voice,Speak text,low,never,off,merged
+tool.set_voice,set_voice,voice,Choose a voice,low,never,off,merged
+tool.todo,todo,session,Chat to-do list,low,never,on,merged
+tool.clarify,clarify,session,Ask the user,none,never,on,merged
+tool.request_escalation,request_escalation,routing,Ask for the power model,low,never,on,merged
+tool.who_am_i,who_am_i,always-on,Identity,none,never,on,merged
+tool.report_status,report_status,always-on,Post a progress note,none,never,on,merged
+tool.get_progress,get_progress,always-on,Read progress,none,never,on,merged
+tool.list_tool_categories,list_tool_categories,always-on,List tool groups,none,never,on,merged
+tool.set_tool_category,set_tool_category,always-on,Switch a tool group,medium,never,on,merged

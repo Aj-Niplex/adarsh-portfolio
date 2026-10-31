@@ -1,0 +1,58 @@
+{
+ "id": "sample.approval-allow-once",
+ "title": "Allow Once for a package install",
+ "summary": "Allow Once for a package install (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "allow once for a package install"
+ ],
+ "platform": "telegram",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Install the requests package."
+  },
+  {
+   "role": "manas",
+   "text": "I need approval.",
+   "tool_calls": [
+    {
+     "tool": "run_code",
+     "args": {
+      "code": "pip install requests"
+     },
+     "result_summary": "Approval requested, level MEDIUM"
+    }
+   ],
+   "approval": {
+    "shown": true,
+    "buttons": [
+     "Allow Once",
+     "Allow Session",
+     "Always Allow",
+     "Deny"
+    ],
+    "chosen": "Allow Once"
+   }
+  },
+  {
+   "role": "manas",
+   "text": "Installed.",
+   "tool_calls": [
+    {
+     "tool": "run_code",
+     "args": {
+      "code": "pip install requests"
+     },
+     "result_summary": "returncode 0"
+    }
+   ]
+  }
+ ],
+ "what_to_notice": [
+  "Nothing ran until the button."
+ ]
+}

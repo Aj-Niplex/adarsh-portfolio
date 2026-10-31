@@ -1,0 +1,329 @@
+[
+ {
+  "id": "tool.shell_exec",
+  "title": "Run a shell command",
+  "summary": "Runs a bash command in a persistent session. Off unless the operator enables the shell.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "shell_exec",
+   "run a shell command"
+  ],
+  "name": "shell_exec",
+  "group": "shell",
+  "description": "The command is scanned. Hard blocks never run. Risky commands wait for a button. The shell keeps its folder and variables between calls. Output is redacted.",
+  "parameters": [
+   {
+    "name": "command",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The shell command text.",
+    "limits": null
+   },
+   {
+    "name": "session",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "Name of a persistent shell session.",
+    "limits": null
+   },
+   {
+    "name": "wait",
+    "type": "number",
+    "required": false,
+    "default": null,
+    "meaning": "Seconds to wait for output before returning.",
+    "limits": null
+   },
+   {
+    "name": "cwd",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Starting folder, inside the shell workspace.",
+    "limits": null
+   },
+   {
+    "name": "interactive",
+    "type": "boolean",
+    "required": false,
+    "default": false,
+    "meaning": "Keep the process open so shell_send can type into it.",
+    "limits": null
+   }
+  ],
+  "returns": "Output so far, and whether the command is still running.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "command": "demo"
+   },
+   "result": "$ git status\nOn branch demo"
+  },
+  "risk": "high",
+  "needs_approval": "sometimes",
+  "approval_rule": "Depends on SHELL_APPROVAL. Default risky: MEDIUM and HIGH need a button. HARD BLOCK commands never run.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Runs as the bot's OS user",
+   "Can change files, use the network and start processes."
+  ],
+  "failure_modes": [
+   {
+    "when": "Shell is off",
+    "what_the_agent_sees": "A message that the shell is disabled by the operator"
+   },
+   {
+    "when": "Hard block",
+    "what_the_agent_sees": "HARD BLOCK with the reason"
+   },
+   {
+    "when": "Needs approval",
+    "what_the_agent_sees": "Command Approval Required"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.shell_view",
+  "title": "View shell output",
+  "summary": "Shows new output of a shell session.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "shell_view",
+   "view shell output"
+  ],
+  "name": "shell_view",
+  "group": "shell",
+  "description": "Shows new output of a shell session.",
+  "parameters": [
+   {
+    "name": "session",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "Name of a persistent shell session.",
+    "limits": null
+   },
+   {
+    "name": "wait",
+    "type": "number",
+    "required": false,
+    "default": 0,
+    "meaning": "Seconds to wait for output before returning.",
+    "limits": null
+   },
+   {
+    "name": "lines",
+    "type": "integer",
+    "required": false,
+    "default": 60,
+    "meaning": "How many output lines to show.",
+    "limits": null
+   },
+   {
+    "name": "tail",
+    "type": "boolean",
+    "required": false,
+    "default": false,
+    "meaning": "Show the last lines instead of the first.",
+    "limits": null
+   }
+  ],
+  "returns": "Output lines and status.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "(running) 3 lines"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "Shell is off",
+    "what_the_agent_sees": "Shell disabled message"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.shell_send",
+  "title": "Type into a shell program",
+  "summary": "Sends text to an interactive program.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "shell_send",
+   "type into a shell program"
+  ],
+  "name": "shell_send",
+  "group": "shell",
+  "description": "Only works for sessions started with interactive true. Goes through the same scan.",
+  "parameters": [
+   {
+    "name": "session",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "Name of a persistent shell session.",
+    "limits": null
+   },
+   {
+    "name": "text",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Text to type or say.",
+    "limits": null
+   },
+   {
+    "name": "enter",
+    "type": "boolean",
+    "required": false,
+    "default": true,
+    "meaning": "Press Enter after the text.",
+    "limits": null
+   },
+   {
+    "name": "eof",
+    "type": "boolean",
+    "required": false,
+    "default": false,
+    "meaning": "Send end-of-input.",
+    "limits": null
+   }
+  ],
+  "returns": "Output after the input.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "text": "demo"
+   },
+   "result": "Sent 1 line."
+  },
+  "risk": "medium",
+  "needs_approval": "sometimes",
+  "approval_rule": "Text is scanned like a command.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Sends input to a running process."
+  ],
+  "failure_modes": [
+   {
+    "when": "No interactive program",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.shell_kill",
+  "title": "Stop a shell command",
+  "summary": "Interrupts, terminates, kills or closes a session.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "shell_kill",
+   "stop a shell command"
+  ],
+  "name": "shell_kill",
+  "group": "shell",
+  "description": "Interrupts, terminates, kills or closes a session.",
+  "parameters": [
+   {
+    "name": "session",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "Name of a persistent shell session.",
+    "limits": null
+   },
+   {
+    "name": "mode",
+    "type": "string",
+    "required": false,
+    "default": "interrupt",
+    "meaning": "How hard to stop the process.",
+    "limits": "One of: interrupt, terminate, kill, close."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "Interrupted main."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Stops a running process."
+  ],
+  "failure_modes": [
+   {
+    "when": "No such session",
+    "what_the_agent_sees": "Not found text"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.shell_info",
+  "title": "Shell facts",
+  "summary": "Shows workspace folder, free disk, sessions and tools.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "shell_info",
+   "shell facts"
+  ],
+  "name": "shell_info",
+  "group": "shell",
+  "description": "Shows workspace folder, free disk, sessions and tools.",
+  "parameters": [],
+  "returns": "A text summary.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "workspace: <workspace>\nsessions: 1"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "Shell is off",
+    "what_the_agent_sees": "Shell disabled message"
+   }
+  ],
+  "default_state": "off"
+ }
+]

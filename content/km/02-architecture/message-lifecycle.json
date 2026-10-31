@@ -1,0 +1,260 @@
+[
+ {
+  "order": 1,
+  "id": "step.receive",
+  "title": "Message arrives",
+  "body": "The gateway gets a Telegram update or a Discord message.",
+  "can_fail_how": "The adapter is down or the platform drops the update.",
+  "touches": [
+   "component.gateway-telegram",
+   "component.gateway-discord"
+  ],
+  "summary": "The gateway gets a Telegram update or a Discord message.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "message arrives"
+  ]
+ },
+ {
+  "order": 2,
+  "id": "step.allow-list",
+  "title": "Allow-list check",
+  "body": "Only listed user ids continue. An empty list refuses everyone.",
+  "can_fail_how": "Unlisted users get a refusal.",
+  "touches": [
+   "component.gateway-telegram",
+   "component.gateway-discord"
+  ],
+  "summary": "Only listed user ids continue. An empty list refuses everyone.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "allow-list check"
+  ]
+ },
+ {
+  "order": 3,
+  "id": "step.ordering",
+  "title": "Wait for the chat lock",
+  "body": "Each chat or channel has one lock. A second message waits in arrival order.",
+  "can_fail_how": "A long first turn delays the second message.",
+  "touches": [
+   "component.gateway-telegram",
+   "component.gateway-discord"
+  ],
+  "summary": "Each chat or channel has one lock. A second message waits in arrival order.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "wait for the chat lock"
+  ]
+ },
+ {
+  "order": 4,
+  "id": "step.context",
+  "title": "Build the prompt",
+  "body": "System text, tool list, memory context and recent history are put together. Long history is shortened.",
+  "can_fail_how": "Very long chats are summarised with a simple text method, not by a model.",
+  "touches": [
+   "component.agent-loop",
+   "component.memory-store"
+  ],
+  "summary": "System text, tool list, memory context and recent history are put together. Long history is shortened.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "build the prompt"
+  ]
+ },
+ {
+  "order": 5,
+  "id": "step.route",
+  "title": "Pick a model",
+  "body": "The router picks small, medium or power from the message and the settings.",
+  "can_fail_how": "An empty tier falls back to the next one.",
+  "touches": [
+   "component.router"
+  ],
+  "summary": "The router picks small, medium or power from the message and the settings.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "pick a model"
+  ]
+ },
+ {
+  "order": 6,
+  "id": "step.model-call",
+  "title": "Call the model",
+  "body": "The provider layer sends messages and tool schemas.",
+  "can_fail_how": "The API returns an error. Fallback candidates are tried when set.",
+  "touches": [
+   "component.provider-layer"
+  ],
+  "summary": "The provider layer sends messages and tool schemas.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "call the model"
+  ]
+ },
+ {
+  "order": 7,
+  "id": "step.tool-round",
+  "title": "Tool round",
+  "body": "If the model asks for tools, each is run and the results go back. The default limit is 25 rounds.",
+  "can_fail_how": "At the limit the model is asked once for a wrap-up without tools.",
+  "touches": [
+   "component.agent-loop",
+   "component.tool-registry"
+  ],
+  "summary": "If the model asks for tools, each is run and the results go back. The default limit is 25 rounds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "tool round"
+  ]
+ },
+ {
+  "order": 8,
+  "id": "step.approval",
+  "title": "Approval pause",
+  "body": "Risky code or commands return an approval request and the turn ends.",
+  "can_fail_how": "The owner does not tap. The request stays saved and can be denied or reset.",
+  "touches": [
+   "component.approval-gate"
+  ],
+  "summary": "Risky code or commands return an approval request and the turn ends.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "approval pause"
+  ]
+ },
+ {
+  "order": 9,
+  "id": "step.execute",
+  "title": "Run approved work",
+  "body": "After a button press the code or command runs with secrets filled in.",
+  "can_fail_how": "A timeout or an error is reported as text.",
+  "touches": [
+   "component.sandbox",
+   "component.shell",
+   "component.secret-vault"
+  ],
+  "summary": "After a button press the code or command runs with secrets filled in.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "run approved work"
+  ]
+ },
+ {
+  "order": 10,
+  "id": "step.screening",
+  "title": "Screen results",
+  "body": "Web text is checked for injection phrasing. Output is redacted for known secrets.",
+  "can_fail_how": "Pattern checks can miss new phrasing.",
+  "touches": [
+   "component.content-guard",
+   "component.secret-vault"
+  ],
+  "summary": "Web text is checked for injection phrasing. Output is redacted for known secrets.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "screen results"
+  ]
+ },
+ {
+  "order": 11,
+  "id": "step.reply",
+  "title": "Split and send",
+  "body": "Long replies are split to fit (Telegram 4,000 characters, Discord 1,900).",
+  "can_fail_how": "Some paths still cut text blindly, such as scheduled-job sends.",
+  "touches": [
+   "component.gateway-telegram",
+   "component.gateway-discord"
+  ],
+  "summary": "Long replies are split to fit (Telegram 4,000 characters, Discord 1,900).",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "split and send"
+  ]
+ },
+ {
+  "order": 12,
+  "id": "step.progress",
+  "title": "Progress lines",
+  "body": "Tool lines and interim text can be shown while the turn runs.",
+  "can_fail_how": "Setting TOOL_PROGRESS to off hides them.",
+  "touches": [
+   "component.gateway-telegram",
+   "component.gateway-discord"
+  ],
+  "summary": "Tool lines and interim text can be shown while the turn runs.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "progress lines"
+  ]
+ },
+ {
+  "order": 13,
+  "id": "step.end",
+  "title": "Turn ends",
+  "body": "History is kept. Pending approvals are saved to disk.",
+  "can_fail_how": "A restart clears time-boxed windows and session allows.",
+  "touches": [
+   "component.agent-loop",
+   "component.approval-gate"
+  ],
+  "summary": "History is kept. Pending approvals are saved to disk.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "turn ends"
+  ]
+ }
+]

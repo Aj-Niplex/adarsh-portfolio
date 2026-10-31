@@ -1,0 +1,35 @@
+{
+ "id": "sample.shell-off",
+ "title": "Shell is off",
+ "summary": "Shell is off (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "shell is off"
+ ],
+ "platform": "telegram",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Run ls on the server."
+  },
+  {
+   "role": "manas",
+   "text": "The shell is off.",
+   "tool_calls": [
+    {
+     "tool": "shell_exec",
+     "args": {
+      "command": "ls"
+     },
+     "result_summary": "Shell disabled by the operator"
+    }
+   ]
+  }
+ ],
+ "what_to_notice": [
+  "Only the operator can turn it on."
+ ]
+}

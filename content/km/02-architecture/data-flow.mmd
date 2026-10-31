@@ -1,0 +1,12 @@
+flowchart LR
+  U["Owner"] --> G["Gateway"]
+  G --> L["Allow-list check"]
+  L --> A["Agent loop"]
+  A --> M["Model provider"]
+  A --> R["Tool registry"]
+  R --> S["Approval gate"]
+  S --> X["Sandbox or shell"]
+  R --> Y["Memory and skills"]
+  X --> A
+  Y --> A
+  A --> G

@@ -1,0 +1,52 @@
+[
+ {
+  "id": "host.hidencloud",
+  "title": "HidenCloud (Pterodactyl panel)",
+  "summary": "Runs the bot from launch.py. Auto-deploys from the main branch through the supervisor.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "hidencloud (pterodactyl panel)"
+  ],
+  "kind": "free",
+  "what_works": "Runs the bot from launch.py. Auto-deploys from the main branch through the supervisor.",
+  "what_does_not": "Not tested by this author's pack. Limits not verified.",
+  "memory_limit": "unverified",
+  "sleeps_when_idle": "unverified",
+  "persistent_disk": null,
+  "how_to_keep_it_awake": "Use the host's always-on setting or a process manager.",
+  "setup_steps": [
+   "Set the start file to launch.py",
+   "Fill .env",
+   "Set a GitHub token for auto-deploy"
+  ],
+  "tested": "partly",
+  "tested_on": null
+ },
+ {
+  "id": "host.own-machine",
+  "title": "Your own Linux machine",
+  "summary": "Python 3.12 or 3.13, pip install -r requirements.txt, python launch.py.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "your own linux machine"
+  ],
+  "kind": "own machine",
+  "what_works": "Python 3.12 or 3.13, pip install -r requirements.txt, python launch.py.",
+  "what_does_not": "Needs a process manager to restart after a reboot.",
+  "memory_limit": "your machine",
+  "sleeps_when_idle": "not applicable",
+  "persistent_disk": "yes",
+  "how_to_keep_it_awake": "Use the host's always-on setting or a process manager.",
+  "setup_steps": [
+   "Clone the repo",
+   "Create .env",
+   "Run python launch.py"
+  ],
+  "tested": "no",
+  "tested_on": null
+ }
+]

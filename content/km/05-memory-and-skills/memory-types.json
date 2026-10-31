@@ -1,0 +1,103 @@
+[
+ {
+  "id": "memory-notes",
+  "title": "Markdown notes",
+  "summary": "Markdown notes: Markdown files with front matter in data/global and data/sessions/<id>.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "markdown notes"
+  ],
+  "scope": "global",
+  "stored_as": "Markdown files with front matter in data/global and data/sessions/<id>",
+  "how_it_is_searched": "Keyword search with excerpts of about 25 lines, or a full note when a path is given",
+  "size_limits": "Prompt context is cut to 12,000 characters in total",
+  "needs_key": false,
+  "fallback": "None",
+  "tools": [
+   "tool.save_memory",
+   "tool.search_memory",
+   "tool.list_memory"
+  ],
+  "example": {
+   "synthetic": true,
+   "text": "Saved note 'deploy-notes' to global."
+  }
+ },
+ {
+  "id": "memory-graph",
+  "title": "Graph",
+  "summary": "Graph: JSON nodes and links.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "graph"
+  ],
+  "scope": "global",
+  "stored_as": "JSON nodes and links",
+  "how_it_is_searched": "Query by node id",
+  "size_limits": "Output cut to 8,000 characters",
+  "needs_key": false,
+  "fallback": "None",
+  "tools": [
+   "tool.graph_add_node",
+   "tool.graph_add_edge",
+   "tool.graph_query"
+  ],
+  "example": {
+   "synthetic": true,
+   "text": "Saved note 'deploy-notes' to global."
+  }
+ },
+ {
+  "id": "memory-vectors",
+  "title": "Embeddings",
+  "summary": "Embeddings: JSON files under data/embeddings, built by a background queue.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "embeddings"
+  ],
+  "scope": "global",
+  "stored_as": "JSON files under data/embeddings, built by a background queue",
+  "how_it_is_searched": "Cosine match on 768-dimension vectors from Google gemini-embedding-001",
+  "size_limits": "Queue: 5 items per batch, up to 5 attempts",
+  "needs_key": true,
+  "fallback": "Keyword search with a note that vectors are off",
+  "tools": [
+   "tool.vector_search"
+  ],
+  "example": {
+   "synthetic": true,
+   "text": "Saved note 'deploy-notes' to global."
+  }
+ },
+ {
+  "id": "memory-events",
+  "title": "Event log",
+  "summary": "Event log: One JSONL file per UTC day, append only.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "event log"
+  ],
+  "scope": "global",
+  "stored_as": "One JSONL file per UTC day, append only",
+  "how_it_is_searched": "Time window and keyword",
+  "size_limits": "Text 4,000 chars, day file about 1 MB, recall 50 default and 200 max",
+  "needs_key": false,
+  "fallback": "None",
+  "tools": [
+   "tool.record_event",
+   "tool.recall_events"
+  ],
+  "example": {
+   "synthetic": true,
+   "text": "Saved note 'deploy-notes' to global."
+  }
+ }
+]

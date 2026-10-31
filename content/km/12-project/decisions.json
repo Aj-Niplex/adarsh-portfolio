@@ -1,0 +1,254 @@
+[
+ {
+  "id": "decision.01",
+  "title": "Python for the host",
+  "summary": "Python for the host: Python chosen; one language for the bot.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "python for the host"
+  ],
+  "decision": "Python for the host",
+  "context": "The host panel allowed Python or Node.",
+  "alternatives_considered": [
+   "Node"
+  ],
+  "consequence": "Python chosen; one language for the bot.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.02",
+  "title": "Chat-only control",
+  "summary": "Chat-only control: All control is through Discord or Telegram.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "chat-only control"
+  ],
+  "decision": "Chat-only control",
+  "context": "The author has no PC.",
+  "alternatives_considered": [
+   "A web dashboard"
+  ],
+  "consequence": "All control is through Discord or Telegram.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.03",
+  "title": "Approval buttons",
+  "summary": "Approval buttons: Four buttons: Once, Session, Always (exact), Deny.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "approval buttons"
+  ],
+  "decision": "Approval buttons",
+  "context": "Risky code needs a human check.",
+  "alternatives_considered": [
+   "Always ask; never ask"
+  ],
+  "consequence": "Four buttons: Once, Session, Always (exact), Deny.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.04",
+  "title": "Always Allow is exact text",
+  "summary": "Always Allow is exact text: Only identical commands match.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "always allow is exact text"
+  ],
+  "decision": "Always Allow is exact text",
+  "context": "Broad rules approve unseen commands.",
+  "alternatives_considered": [
+   "Pattern rules"
+  ],
+  "consequence": "Only identical commands match.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.05",
+  "title": "Subprocess sandbox, not a container",
+  "summary": "Subprocess sandbox, not a container: Limited subprocess plus an optional external sandbox.",
+  "status": "merged",
+  "since": "2026-09-04",
+  "see_also": [],
+  "search_terms": [
+   "subprocess sandbox, not a container"
+  ],
+  "decision": "Subprocess sandbox, not a container",
+  "context": "The free host gives no container runtime.",
+  "alternatives_considered": [
+   "Docker; external service"
+  ],
+  "consequence": "Limited subprocess plus an optional external sandbox.",
+  "date": "2026-09-04"
+ },
+ {
+  "id": "decision.06",
+  "title": "Core code is hard blocked",
+  "summary": "Core code is hard blocked: No button exists for protected paths.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "core code is hard blocked"
+  ],
+  "decision": "Core code is hard blocked",
+  "context": "The agent could edit its own safeguards.",
+  "alternatives_considered": [
+   "Approval for core edits"
+  ],
+  "consequence": "No button exists for protected paths.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.07",
+  "title": "Allow-list fails closed",
+  "summary": "Allow-list fails closed: Everyone is refused until a list is set.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "allow-list fails closed"
+  ],
+  "decision": "Allow-list fails closed",
+  "context": "An empty list should not mean open.",
+  "alternatives_considered": [
+   "Open by default"
+  ],
+  "consequence": "Everyone is refused until a list is set.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.08",
+  "title": "One process",
+  "summary": "One process: Bot, scheduler and workers share one process.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "one process"
+  ],
+  "decision": "One process",
+  "context": "Free hosts run one process.",
+  "alternatives_considered": [
+   "Separate workers"
+  ],
+  "consequence": "Bot, scheduler and workers share one process.",
+  "date": "2026-09-02"
+ },
+ {
+  "id": "decision.09",
+  "title": "Rename to Kaizen Manas",
+  "summary": "Rename to Kaizen Manas: Display rename on 2026-09-17. Repo name unchanged.",
+  "status": "merged",
+  "since": "2026-09-17",
+  "see_also": [],
+  "search_terms": [
+   "rename to kaizen manas"
+  ],
+  "decision": "Rename to Kaizen Manas",
+  "context": "Kaizen is steady improvement. Manas is Sanskrit for mind.",
+  "alternatives_considered": [
+   "Keep Niplex Harness"
+  ],
+  "consequence": "Display rename on 2026-09-17. Repo name unchanged.",
+  "date": "2026-09-17"
+ },
+ {
+  "id": "decision.10",
+  "title": "Time-boxed /allow",
+  "summary": "Time-boxed /allow: A window of 5, 10 or 30 minutes.",
+  "status": "merged",
+  "since": "2026-09-18",
+  "see_also": [],
+  "search_terms": [
+   "time-boxed /allow"
+  ],
+  "decision": "Time-boxed /allow",
+  "context": "Always Allow is too permanent for busy sessions.",
+  "alternatives_considered": [
+   "Longer session allow"
+  ],
+  "consequence": "A window of 5, 10 or 30 minutes.",
+  "date": "2026-09-18"
+ },
+ {
+  "id": "decision.11",
+  "title": "Tool groups",
+  "summary": "Tool groups: Groups can be switched off.",
+  "status": "merged",
+  "since": "2026-09-08",
+  "see_also": [],
+  "search_terms": [
+   "tool groups"
+  ],
+  "decision": "Tool groups",
+  "context": "A long tool list costs tokens.",
+  "alternatives_considered": [
+   "One big list"
+  ],
+  "consequence": "Groups can be switched off.",
+  "date": "2026-09-08"
+ },
+ {
+  "id": "decision.12",
+  "title": "Tiers customised by commands only",
+  "summary": "Tiers customised by commands only: Only commands write the routing file.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "tiers customised by commands only"
+  ],
+  "decision": "Tiers customised by commands only",
+  "context": "The agent should not change its own routing.",
+  "alternatives_considered": [
+   "A tool that edits routing"
+  ],
+  "consequence": "Only commands write the routing file.",
+  "date": "2026-10-24"
+ },
+ {
+  "id": "decision.13",
+  "title": "Supervisor with rollback",
+  "summary": "Supervisor with rollback: deploy_watch.py rolls back on early exit.",
+  "status": "merged",
+  "since": "2026-10-12",
+  "see_also": [],
+  "search_terms": [
+   "supervisor with rollback"
+  ],
+  "decision": "Supervisor with rollback",
+  "context": "A bad commit should not take the bot down.",
+  "alternatives_considered": [
+   "Manual deploys"
+  ],
+  "consequence": "deploy_watch.py rolls back on early exit.",
+  "date": "2026-10-12"
+ },
+ {
+  "id": "decision.14",
+  "title": "Shell off by default",
+  "summary": "Shell off by default: Operator-only switch.",
+  "status": "merged",
+  "since": "2026-10-28",
+  "see_also": [],
+  "search_terms": [
+   "shell off by default"
+  ],
+  "decision": "Shell off by default",
+  "context": "A shell is high risk.",
+  "alternatives_considered": [
+   "On by default"
+  ],
+  "consequence": "Operator-only switch.",
+  "date": "2026-10-28"
+ }
+]

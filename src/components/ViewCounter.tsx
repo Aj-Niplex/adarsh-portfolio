@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-const FLAG = "viewed-this-session";
+// A browser is counted once. The flag lives in local storage (it survives closing the tab and
+// redeploys) and the server also sets a cookie. Opening any page once with ?owner=1 marks this
+// browser as the owner's, and it is never counted again.
+const FLAG = "viewed-counted";
+const OWNER = "viewed-owner";
+const DAYS_30 = 30 * 24 * 60 * 60 * 1000;
 
 export function ViewCounter() {
   const [count, setCount] = useState<number | null>(null);
@@ -11,9 +16,16 @@ export function ViewCounter() {
     let cancelled = false;
     let alreadyCounted = false;
     try {
-      alreadyCounted = sessionStorage.getItem(FLAG) === "1";
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("owner") === "1") {
+        localStorage.setItem(OWNER, "1");
+        url.searchParams.delete("owner");
+        window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+      }
+      const seen = Number(localStorage.getItem(FLAG) || 0);
+      alreadyCounted = localStorage.getItem(OWNER) === "1" || (seen > 0 && Date.now() - seen < DAYS_30);
     } catch {
-      // Storage can be blocked. Treat that as a first visit.
+      // Storage can be blocked. The cookie on the server side still stops repeat counting.
     }
 
     fetch("/api/views", { method: alreadyCounted ? "GET" : "POST", cache: "no-store" })
@@ -23,7 +35,7 @@ export function ViewCounter() {
         setCount(data.count);
         if (!alreadyCounted) {
           try {
-            sessionStorage.setItem(FLAG, "1");
+            localStorage.setItem(FLAG, String(Date.now()));
           } catch {
             // Ignore. The worst case is one extra count on the next page load.
           }

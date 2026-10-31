@@ -1,0 +1,112 @@
+[
+ {
+  "id": "tool.speak",
+  "title": "Speak text",
+  "summary": "Makes a WAV voice message with Piper.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.voice"
+  ],
+  "search_terms": [
+   "speak",
+   "speak text"
+  ],
+  "name": "speak",
+  "group": "voice",
+  "description": "Text is cut to 2,000 characters. Times out after 60 seconds.",
+  "parameters": [
+   {
+    "name": "text",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Text to type or say.",
+    "limits": null
+   }
+  ],
+  "returns": "A status line and an audio file.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "text": "demo"
+   },
+   "result": "Spoke it using 'en_US-lessac-medium'."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes a WAV file and queues it for sending."
+  ],
+  "failure_modes": [
+   {
+    "when": "No voice chosen",
+    "what_the_agent_sees": "No voice picked yet."
+   },
+   {
+    "when": "Piper missing",
+    "what_the_agent_sees": "The piper command isn't installed"
+   },
+   {
+    "when": "Timeout",
+    "what_the_agent_sees": "Speech synthesis timed out."
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.set_voice",
+  "title": "Choose a voice",
+  "summary": "Picks a Piper voice and downloads it if needed.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.voice"
+  ],
+  "search_terms": [
+   "set_voice",
+   "choose a voice"
+  ],
+  "name": "set_voice",
+  "group": "voice",
+  "description": "Picks a Piper voice and downloads it if needed.",
+  "parameters": [
+   {
+    "name": "voice",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Piper voice id, such as en_US-lessac-medium.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "voice": "demo"
+   },
+   "result": "Voice set."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Downloads a model file and saves a setting."
+  ],
+  "failure_modes": [
+   {
+    "when": "Bad voice name",
+    "what_the_agent_sees": "Rejected"
+   },
+   {
+    "when": "Download fails",
+    "what_the_agent_sees": "Could not download voice"
+   }
+  ],
+  "default_state": "off"
+ }
+]

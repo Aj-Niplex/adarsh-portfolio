@@ -1,0 +1,65 @@
+[
+  {
+    "id": "stat.tools",
+    "label": "Tools",
+    "value": 61,
+    "how": "len(tools.registry.schemas()) at the recorded commit. See VERIFY.md.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.tool-groups",
+    "label": "Tool groups",
+    "value": 13,
+    "how": "len(agent.capabilities.CATEGORIES). Five more tools are always on.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.always-on",
+    "label": "Always-on tools",
+    "value": 5,
+    "how": "len(agent.capabilities.ALWAYS_ON_TOOLS).",
+    "status": "merged"
+  },
+  {
+    "id": "stat.commands",
+    "label": "Distinct chat commands",
+    "value": 9,
+    "how": "Union of Discord and Telegram registrations. /start is Telegram only. See VERIFY.md.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.providers",
+    "label": "Providers",
+    "value": 6,
+    "how": "PROVIDER_CHOICES in setup/flow.py.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.tests",
+    "label": "Tests collected",
+    "value": 484,
+    "how": "pytest --collect-only -q on Python 3.12 and 3.13.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.config-settings",
+    "label": "Settings documented",
+    "value": 45,
+    "how": "Entries in config-reference.json.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.commits",
+    "label": "Commits on main",
+    "value": 459,
+    "how": "git rev-list --count HEAD. See VERIFY.md.",
+    "status": "merged"
+  },
+  {
+    "id": "stat.performance",
+    "label": "Measured performance",
+    "value": null,
+    "how": "No measurements were taken.",
+    "status": "merged"
+  }
+]

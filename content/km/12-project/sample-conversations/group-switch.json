@@ -1,0 +1,36 @@
+{
+ "id": "sample.group-switch",
+ "title": "Switch a tool group",
+ "summary": "Switch a tool group (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "switch a tool group"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Turn on voice."
+  },
+  {
+   "role": "manas",
+   "text": "Done.",
+   "tool_calls": [
+    {
+     "tool": "set_tool_category",
+     "args": {
+      "category": "voice",
+      "enabled": true
+     },
+     "result_summary": "voice is now ON"
+    }
+   ]
+  }
+ ],
+ "what_to_notice": [
+  "Shell cannot be switched this way."
+ ]
+}

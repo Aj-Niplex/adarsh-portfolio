@@ -1,0 +1,39 @@
+{
+ "id": "sample.tool-failure",
+ "title": "A tool failure",
+ "summary": "A tool failure (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "a tool failure"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Read https://example.org/private"
+  },
+  {
+   "role": "manas",
+   "text": "The page failed.",
+   "tool_calls": [
+    {
+     "tool": "web_read",
+     "args": {
+      "url": "https://example.org/private"
+     },
+     "result_summary": "Error text: HTTP 403"
+    }
+   ]
+  },
+  {
+   "role": "manas",
+   "text": "The site refused access. Try another source?"
+  }
+ ],
+ "what_to_notice": [
+  "The agent sees an error text and reports it."
+ ]
+}

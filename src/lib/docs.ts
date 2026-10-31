@@ -1,5 +1,6 @@
 import { FACTS, PORTFOLIOS, SITE } from "./site";
 import { forks, projects, TIERS } from "./projects";
+import { getKm, kmUrl, pageText } from "./km/pages";
 
 // Every URL the assistant may show as a link. Anything else it writes is shown as plain text.
 
@@ -10,7 +11,7 @@ export type Doc = {
   id: string;
   title: string;
   url: string;
-  kind: "project" | "about" | "links";
+  kind: "project" | "about" | "links" | "docs";
   text: string;
   keywords: string[];
 };
@@ -41,6 +42,7 @@ export function allowedLinks(): string[] {
     for (const l of p.links) urls.add(l.href);
   }
   for (const f of forks) urls.add(f.href);
+  for (const p of getKm().pages) urls.add(kmUrl(p.path));
   const out = new Set<string>();
   for (const u of urls) {
     const clean = u.replace(/\/+$/, "") || "/";
@@ -85,8 +87,19 @@ export function buildDocs(): Doc[] {
       title: p.name,
       url: "/projects/" + p.slug,
       kind: "project",
-      text: clip(lines.join("\n"), 6500),
+      text: clip(lines.join("\n"), 8000),
       keywords: [p.name, p.slug.replace(/-/g, " "), ...p.tags, p.appCategory, p.tier]
+    });
+  }
+
+  for (const p of getKm().pages) {
+    docs.push({
+      id: "km:" + p.path,
+      title: p.title + " (Kaizen Manas)",
+      url: kmUrl(p.path),
+      kind: "docs",
+      text: clip(pageText(p), 5000),
+      keywords: [p.title, ...p.keywords, "kaizen manas", "manas", "niplex harness"]
     });
   }
 

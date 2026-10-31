@@ -1,0 +1,72 @@
+[
+ {
+  "id": "tool.send_notification",
+  "title": "Send a push message",
+  "summary": "Sends a push message through ntfy.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.notifications"
+  ],
+  "search_terms": [
+   "send_notification",
+   "send a push message"
+  ],
+  "name": "send_notification",
+  "group": "notifications",
+  "description": "Message is cut to 4,000 bytes.",
+  "parameters": [
+   {
+    "name": "title",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short title for the note.",
+    "limits": "Cut to 200 characters for notifications."
+   },
+   {
+    "name": "message",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Text to send.",
+    "limits": "Cut to 4,000 bytes."
+   },
+   {
+    "name": "priority",
+    "type": "string",
+    "required": false,
+    "default": "default",
+    "meaning": "ntfy priority level.",
+    "limits": "One of: min, low, default, high, urgent."
+   }
+  ],
+  "returns": "Notification sent.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "title": "demo",
+    "message": "demo"
+   },
+   "result": "Notification sent."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Makes an outbound request to the ntfy server."
+  ],
+  "failure_modes": [
+   {
+    "when": "No topic",
+    "what_the_agent_sees": "Notifications aren't configured"
+   },
+   {
+    "when": "HTTP error",
+    "what_the_agent_sees": "Notification failed: HTTP 4xx"
+   }
+  ],
+  "default_state": "on"
+ }
+]

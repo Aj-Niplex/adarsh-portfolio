@@ -1,0 +1,647 @@
+[
+ {
+  "id": "tool.save_memory",
+  "title": "Save a note",
+  "summary": "Saves a Markdown note to global or session memory.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "save_memory",
+   "save a note"
+  ],
+  "name": "save_memory",
+  "group": "memory",
+  "description": "Writes a note with a title, optional tags and the text. Global notes are shared by all chats. Session notes belong to one chat.",
+  "parameters": [
+   {
+    "name": "content",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The text to store or write.",
+    "limits": "Memory notes are read back into prompts in slices of 4,000 characters (global) or 1,500 (session)."
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short title for the note.",
+    "limits": "Cut to 200 characters for notifications."
+   },
+   {
+    "name": "scope",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Where the note lives: global (all chats) or session (this chat).",
+    "limits": "One of: global, session."
+   },
+   {
+    "name": "tags",
+    "type": "array",
+    "required": false,
+    "default": null,
+    "meaning": "Optional labels.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation with the saved path.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "content": "demo",
+    "title": "demo",
+    "scope": "global"
+   },
+   "result": "Saved note 'deploy-notes' to global."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Writes inside the memory folder only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Creates or updates a Markdown file on disk."
+  ],
+  "failure_modes": [
+   {
+    "when": "The content is empty",
+    "what_the_agent_sees": "An error text saying content is needed"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.search_memory",
+  "title": "Search notes",
+  "summary": "Keyword search over notes. A path limits it to one note.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "search_memory",
+   "search notes"
+  ],
+  "name": "search_memory",
+  "group": "memory",
+  "description": "Looks for words in global notes, session notes or both and returns short excerpts. With a path it returns the whole note.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   },
+   {
+    "name": "scope",
+    "type": "string",
+    "required": false,
+    "default": "both",
+    "meaning": "Where the note lives: global (all chats) or session (this chat).",
+    "limits": "One of: global, session, both."
+   },
+   {
+    "name": "path",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   }
+  ],
+  "returns": "Matching excerpts, about 25 lines each.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "global/deploy-notes.md: ...port 8080 is used by the demo..."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "The path leaves the memory folder",
+    "what_the_agent_sees": "The path is rejected"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_memory",
+  "title": "List notes",
+  "summary": "Lists the note files in memory.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "list_memory",
+   "list notes"
+  ],
+  "name": "list_memory",
+  "group": "memory",
+  "description": "Returns file names for global notes, session notes or both.",
+  "parameters": [
+   {
+    "name": "scope",
+    "type": "string",
+    "required": false,
+    "default": "both",
+    "meaning": "Where the note lives: global (all chats) or session (this chat).",
+    "limits": "One of: global, session, both."
+   }
+  ],
+  "returns": "A list of note paths.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "global/deploy-notes.md\nsession/todo.md"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.graph_add_node",
+  "title": "Add a graph node",
+  "summary": "Adds a node to the memory graph.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "graph_add_node",
+   "add a graph node"
+  ],
+  "name": "graph_add_node",
+  "group": "memory",
+  "description": "The graph is a JSON file of nodes and links. Use it for simple relations between ideas.",
+  "parameters": [
+   {
+    "name": "node_id",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Identifier of a graph node.",
+    "limits": null
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Human-readable name of the node.",
+    "limits": null
+   },
+   {
+    "name": "node_type",
+    "type": "string",
+    "required": false,
+    "default": "note",
+    "meaning": "Kind of node, such as note or skill.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "node_id": "demo",
+    "label": "demo"
+   },
+   "result": "Added node demo-project."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes the graph JSON file."
+  ],
+  "failure_modes": [
+   {
+    "when": "The id or label is empty",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.graph_add_edge",
+  "title": "Link two graph nodes",
+  "summary": "Adds a named link between two nodes.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "graph_add_edge",
+   "link two graph nodes"
+  ],
+  "name": "graph_add_edge",
+  "group": "memory",
+  "description": "Links a source node to a target node with a relation name.",
+  "parameters": [
+   {
+    "name": "source",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Node id the link starts from.",
+    "limits": null
+   },
+   {
+    "name": "target",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Node id the link points to.",
+    "limits": null
+   },
+   {
+    "name": "relation",
+    "type": "string",
+    "required": false,
+    "default": "related",
+    "meaning": "Name of the link, such as related.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "target": "demo"
+   },
+   "result": "Linked demo-project -> notes (related)."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes the graph JSON file."
+  ],
+  "failure_modes": [
+   {
+    "when": "A node id is missing",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.graph_query",
+  "title": "Read the graph",
+  "summary": "Returns one node and its links, or the whole graph.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "graph_query",
+   "read the graph"
+  ],
+  "name": "graph_query",
+  "group": "memory",
+  "description": "Output is cut to 8,000 characters.",
+  "parameters": [
+   {
+    "name": "node_id",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Identifier of a graph node.",
+    "limits": null
+   }
+  ],
+  "returns": "JSON text.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "{\"node\": \"demo-project\", \"links\": [\"notes\"]}"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "The node does not exist",
+    "what_the_agent_sees": "A not-found text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.vector_search",
+  "title": "Meaning-based search",
+  "summary": "Semantic search over notes. Falls back to keyword search.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "vector_search",
+   "meaning-based search"
+  ],
+  "name": "vector_search",
+  "group": "memory",
+  "description": "Uses Google embeddings when a Google key is set. Otherwise it searches by keyword and says so.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   },
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": 5,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "Ranked matches.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "1. global/deploy-notes.md (score 0.82)"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "Read only. Sends note text to Google when embeddings are on.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "Sends text to the embedding service",
+   "Writes embedding files in the background."
+  ],
+  "failure_modes": [
+   {
+    "when": "No Google key",
+    "what_the_agent_sees": "A keyword result with a note that vectors are off"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.get_learning_graph",
+  "title": "Skills and related notes",
+  "summary": "Shows skills used and the notes linked to them.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "get_learning_graph",
+   "skills and related notes"
+  ],
+  "name": "get_learning_graph",
+  "group": "memory",
+  "description": "Reads the skills list and the notes and shows how often each skill was used.",
+  "parameters": [],
+  "returns": "A text summary.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "deploy-checklist: used 3 times; related: deploy-notes"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.session_search",
+  "title": "Search past chats",
+  "summary": "Keyword search over past session memory and global notes.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "session_search",
+   "search past chats"
+  ],
+  "name": "session_search",
+  "group": "memory",
+  "description": "A wrapper over search_memory with scope both.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   },
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": 8,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "Matching excerpts.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "session/tg_1001/todo.md: ..."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "The query is empty",
+    "what_the_agent_sees": "session_search needs a query."
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.record_event",
+  "title": "Log an event",
+  "summary": "Appends a dated event to an append-only log.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "record_event",
+   "log an event"
+  ],
+  "name": "record_event",
+  "group": "memory",
+  "description": "Stores kind, text and optional metadata. Text goes through a redaction step and is cut to 4,000 characters. One file per UTC day.",
+  "parameters": [
+   {
+    "name": "kind",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Short event category.",
+    "limits": null
+   },
+   {
+    "name": "text",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Text to type or say.",
+    "limits": null
+   },
+   {
+    "name": "metadata",
+    "type": "object",
+    "required": false,
+    "default": null,
+    "meaning": "Optional extra fields.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation with the event id.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "kind": "demo",
+    "text": "demo"
+   },
+   "result": "Recorded event note-1."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Appends a line to a JSONL file under data."
+  ],
+  "failure_modes": [
+   {
+    "when": "The day file is full (about 1 MB)",
+    "what_the_agent_sees": "An error text from the log"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.recall_events",
+  "title": "Read the event log",
+  "summary": "Reads events by time window or keyword.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.memory"
+  ],
+  "search_terms": [
+   "recall_events",
+   "read the event log"
+  ],
+  "name": "recall_events",
+  "group": "memory",
+  "description": "Default limit 50, maximum 200.",
+  "parameters": [
+   {
+    "name": "since",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Start of the time window, ISO-8601 UTC.",
+    "limits": null
+   },
+   {
+    "name": "until",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "End of the time window, ISO-8601 UTC.",
+    "limits": null
+   },
+   {
+    "name": "query",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   },
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": null,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "A list of events.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "2026-10-01T09:00Z note: demo started"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "A time value is not ISO-8601",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "on"
+ }
+]

@@ -1,0 +1,12 @@
+{
+ "ref": "f4fd89fc46c0a045fe4bff71f07d94d0e4c3810b",
+ "read_on": "2026-10-29",
+ "counts": {
+  "tools": 61,
+  "tool_groups": 13,
+  "commands": 9,
+  "providers": 6,
+  "tests": 484
+ },
+ "python_min": "3.12"
+}

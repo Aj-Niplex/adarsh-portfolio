@@ -1,5 +1,6 @@
 import { forks, projects, TIERS, type Tier } from "./projects";
 import { FACTS, META_DESCRIPTION, PORTFOLIOS, SITE } from "./site";
+import { getKm, KM_BASE, KM_CHAPTERS, kmUrl, pageText } from "./km/pages";
 
 const TIER_ORDER: Tier[] = ["core", "tools", "side"];
 
@@ -10,7 +11,7 @@ export function buildLlmsTxt() {
   out.push("> " + META_DESCRIPTION);
   out.push("");
   out.push(
-    "Adarsh Jaiswal, also written AJ NiPlex or Aj-Niplex, is an independent developer in India. His main work is NiPlex-Harness (also called Kaizen Manas), a personal AI agent controlled from Discord or Telegram with 55 tools and approval buttons, and NiPlex-MCP, a private Model Context Protocol server with 73 tools. His Obsidian plugin, Niplex Research AI, is a side project and not his main work. MCP means Model Context Protocol."
+    "Adarsh Jaiswal, also written AJ NiPlex or Aj-Niplex, is an independent developer in India. His main work is NiPlex-Harness (also called Kaizen Manas), a personal AI agent controlled from Discord or Telegram with 61 tools and approval buttons, and NiPlex-MCP, a private Model Context Protocol server with 73 tools. His Obsidian plugin, Niplex Research AI, is a side project and not his main work. MCP means Model Context Protocol."
   );
   out.push("");
   out.push("## Facts");
@@ -26,6 +27,13 @@ export function buildLlmsTxt() {
     }
     out.push("");
   }
+  out.push("## Kaizen Manas documentation");
+  out.push("Kaizen Manas (also called NiPlex-Harness) has " + getKm().pages.length + " documentation pages, each on its own address, written from the source code. Full text: " + SITE.url + "/llms-full.txt");
+  for (const path of KM_CHAPTERS.flatMap((c) => c.paths)) {
+    const p = getKm().byPath.get(path);
+    if (p) out.push("- [" + p.title + "](" + SITE.url + kmUrl(p.path) + "): " + p.summary);
+  }
+  out.push("");
   out.push("## Links");
   out.push("- [GitHub](" + SITE.github + ")");
   for (const p of PORTFOLIOS) out.push("- [" + p.label + "](" + p.href + "): " + p.note + ".");
@@ -68,6 +76,10 @@ export function buildLlmsFull() {
     out.push("");
     for (const l of p.links) out.push("- " + l.label + ": " + l.href);
     out.push("");
+  }
+  out.push("---", "", "# Kaizen Manas documentation (full text)", "");
+  for (const p of getKm().pages) {
+    out.push("## " + p.title, "URL: " + SITE.url + kmUrl(p.path), "", pageText(p), "");
   }
   return out.join("\n");
 }

@@ -1,0 +1,53 @@
+{
+ "id": "sample.memory-save-search",
+ "title": "Save then find a note",
+ "summary": "Save then find a note (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "save then find a note"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Remember that the demo uses port 9000."
+  },
+  {
+   "role": "manas",
+   "text": "Saved.",
+   "tool_calls": [
+    {
+     "tool": "save_memory",
+     "args": {
+      "title": "demo port",
+      "scope": "global"
+     },
+     "result_summary": "saved"
+    }
+   ]
+  },
+  {
+   "role": "owner",
+   "text": "What port does the demo use?"
+  },
+  {
+   "role": "manas",
+   "text": "9000.",
+   "tool_calls": [
+    {
+     "tool": "search_memory",
+     "args": {
+      "query": "demo port"
+     },
+     "result_summary": "1 match"
+    }
+   ]
+  }
+ ],
+ "what_to_notice": [
+  "Keyword search."
+ ]
+}

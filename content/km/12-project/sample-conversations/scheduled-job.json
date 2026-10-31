@@ -1,0 +1,46 @@
+{
+ "id": "sample.scheduled-job",
+ "title": "A scheduled job",
+ "summary": "A scheduled job (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "a scheduled job"
+ ],
+ "platform": "telegram",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Every day at 09:00, search for Python news."
+  },
+  {
+   "role": "manas",
+   "text": "Added.",
+   "tool_calls": [
+    {
+     "tool": "add_cron_job",
+     "args": {
+      "name": "news",
+      "schedule": "daily 09:00",
+      "prompt": "Search for Python news and summarise."
+     },
+     "result_summary": "Cron job added"
+    }
+   ]
+  },
+  {
+   "role": "system",
+   "text": "09:00 UTC: job news ran with read-only tools."
+  },
+  {
+   "role": "manas",
+   "text": "Top items: ..."
+  }
+ ],
+ "what_to_notice": [
+  "Time is UTC.",
+  "Only read-only tools in jobs."
+ ]
+}

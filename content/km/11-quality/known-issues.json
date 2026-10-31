@@ -1,0 +1,226 @@
+[
+ {
+  "id": "ki-setup-not-applied",
+  "title": "Chosen model not applied after /setup",
+  "summary": "After /setup, the bot may keep calling an older model and fail with a 404.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "chosen model not applied after /setup"
+  ],
+  "affects": "Discord and Telegram",
+  "workaround": "Restart the bot after /setup.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-sandbox-not-isolation",
+  "title": "Sandbox is not isolation",
+  "summary": "The builtin sandbox is a limited subprocess, not a container or VM.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "sandbox is not isolation"
+  ],
+  "affects": "run_code",
+  "workaround": "Run on a host you can afford to lose data on.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-shell-same-user",
+  "title": "Shell runs as the bot's user",
+  "summary": "The guard lists reduce mistakes but are not a boundary.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "shell runs as the bot's user"
+  ],
+  "affects": "shell group",
+  "workaround": "Leave the shell off unless needed.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-vault-plaintext",
+  "title": "Vault file is plain JSON",
+  "summary": "Secrets are stored unencrypted in data/secrets_vault.json.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "vault file is plain json"
+  ],
+  "affects": "secret vault",
+  "workaround": "Protect the host disk.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-no-chat-secret-store",
+  "title": "No chat way to store a secret",
+  "summary": "The vault has no chat command to add secrets yet.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "no chat way to store a secret"
+  ],
+  "affects": "secret vault",
+  "workaround": "Edit the vault file on the host.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-discord-session-channel",
+  "title": "Discord approval session is per channel",
+  "summary": "Allow Session applies to everyone in that channel.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "discord approval session is per channel"
+  ],
+  "affects": "Discord",
+  "workaround": "Use a private channel.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-drop-pending",
+  "title": "Telegram drops pending updates at start",
+  "summary": "Messages sent while the bot was down are ignored.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "telegram drops pending updates at start"
+  ],
+  "affects": "Telegram",
+  "workaround": "Resend after restart.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-telegram-plain",
+  "title": "Telegram replies are plain text",
+  "summary": "No formatting is applied.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "telegram replies are plain text"
+  ],
+  "affects": "Telegram",
+  "workaround": "None.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-no-slash-discord",
+  "title": "Discord uses prefix commands",
+  "summary": "The slash command tree is synced but empty.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "discord uses prefix commands"
+  ],
+  "affects": "Discord",
+  "workaround": "Use the prefix commands.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-no-media",
+  "title": "No inbound media",
+  "summary": "Photos and files sent to the bot are not read.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "no inbound media"
+  ],
+  "affects": "both",
+  "workaround": "Paste text.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-mcp-scaffold",
+  "title": "MCP connectors are not wired in",
+  "summary": "Config-only code exists. The agent loop does not use it.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "mcp connectors are not wired in"
+  ],
+  "affects": "MCP",
+  "workaround": "None.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-skill-market",
+  "title": "Skill Market is not built",
+  "summary": "The market folder is a placeholder.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "skill market is not built"
+  ],
+  "affects": "skills",
+  "workaround": "Use personal or custom.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-subagents-notes",
+  "title": "Sub-agents are notes",
+  "summary": "No second model runs. Records are lost on restart.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "sub-agents are notes"
+  ],
+  "affects": "subagents",
+  "workaround": "Use todo for tracking.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-dns-rebinding",
+  "title": "DNS rebinding in the page reader",
+  "summary": "Fixed in PR #22: each hop resolves once and connects to the checked address.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "dns rebinding in the page reader"
+  ],
+  "affects": "web_read",
+  "workaround": "None.",
+  "issue_status": "fixed"
+ },
+ {
+  "id": "ki-compressor-naive",
+  "title": "History shortening is not model-based",
+  "summary": "Old messages are replaced by a simple text summary.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "history shortening is not model-based"
+  ],
+  "affects": "long chats",
+  "workaround": "Start a new chat with /reset.",
+  "issue_status": "open"
+ },
+ {
+  "id": "ki-no-perf-data",
+  "title": "No measured performance data",
+  "summary": "No benchmarks have been run.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "no measured performance data"
+  ],
+  "affects": "all",
+  "workaround": "None.",
+  "issue_status": "open"
+ }
+]

@@ -1,0 +1,626 @@
+[
+ {
+  "id": "term.kaizen",
+  "title": "kaizen",
+  "summary": "A Japanese word for steady, continuous improvement.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "kaizen"
+  ],
+  "term": "kaizen",
+  "definition": "A Japanese word for steady, continuous improvement."
+ },
+ {
+  "id": "term.manas",
+  "title": "manas",
+  "summary": "Sanskrit for mind or consciousness. Also the agent's short name.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "manas"
+  ],
+  "term": "manas",
+  "definition": "Sanskrit for mind or consciousness. Also the agent's short name."
+ },
+ {
+  "id": "term.harness",
+  "title": "harness",
+  "summary": "The code around a language model: chat adapters, tools, safety checks and memory.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "harness"
+  ],
+  "term": "harness",
+  "definition": "The code around a language model: chat adapters, tools, safety checks and memory."
+ },
+ {
+  "id": "term.agent",
+  "title": "agent",
+  "summary": "The model plus the harness, acting through tools.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "agent"
+  ],
+  "term": "agent",
+  "definition": "The model plus the harness, acting through tools."
+ },
+ {
+  "id": "term.gateway",
+  "title": "gateway",
+  "summary": "The part that talks to Telegram or Discord.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "gateway"
+  ],
+  "term": "gateway",
+  "definition": "The part that talks to Telegram or Discord."
+ },
+ {
+  "id": "term.tool",
+  "title": "tool",
+  "summary": "A function the model can ask the harness to run.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "tool"
+  ],
+  "term": "tool",
+  "definition": "A function the model can ask the harness to run."
+ },
+ {
+  "id": "term.tool-group",
+  "title": "tool group",
+  "summary": "A set of tools switched on or off together.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "tool group"
+  ],
+  "term": "tool group",
+  "definition": "A set of tools switched on or off together."
+ },
+ {
+  "id": "term.allow-list",
+  "title": "allow-list",
+  "summary": "The list of user ids that may use the bot.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "allow-list"
+  ],
+  "term": "allow-list",
+  "definition": "The list of user ids that may use the bot."
+ },
+ {
+  "id": "term.approval-gate",
+  "title": "approval gate",
+  "summary": "The check that stops risky actions until the owner presses a button.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "approval gate"
+  ],
+  "term": "approval gate",
+  "definition": "The check that stops risky actions until the owner presses a button."
+ },
+ {
+  "id": "term.allow-once",
+  "title": "Allow Once",
+  "summary": "Approve this one call.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "allow once"
+  ],
+  "term": "Allow Once",
+  "definition": "Approve this one call."
+ },
+ {
+  "id": "term.allow-session",
+  "title": "Allow Session",
+  "summary": "Approve similar non-HIGH calls until reset or restart.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "allow session"
+  ],
+  "term": "Allow Session",
+  "definition": "Approve similar non-HIGH calls until reset or restart."
+ },
+ {
+  "id": "term.always-allow",
+  "title": "Always Allow",
+  "summary": "Approve one exact command from now on.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "always allow"
+  ],
+  "term": "Always Allow",
+  "definition": "Approve one exact command from now on."
+ },
+ {
+  "id": "term.allow-window",
+  "title": "/allow window",
+  "summary": "A time-boxed period with no prompts.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/allow window"
+  ],
+  "term": "/allow window",
+  "definition": "A time-boxed period with no prompts."
+ },
+ {
+  "id": "term.hard-block",
+  "title": "hard block",
+  "summary": "A rule that refuses even when the owner would allow it.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "hard block"
+  ],
+  "term": "hard block",
+  "definition": "A rule that refuses even when the owner would allow it."
+ },
+ {
+  "id": "term.sandbox",
+  "title": "sandbox",
+  "summary": "A limited place to run code.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "sandbox"
+  ],
+  "term": "sandbox",
+  "definition": "A limited place to run code."
+ },
+ {
+  "id": "term.process-group",
+  "title": "process group",
+  "summary": "A set of related processes that can be stopped together.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "process group"
+  ],
+  "term": "process group",
+  "definition": "A set of related processes that can be stopped together."
+ },
+ {
+  "id": "term.builtin-sandbox",
+  "title": "builtin sandbox",
+  "summary": "The default sandbox: a subprocess with limits.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "builtin sandbox"
+  ],
+  "term": "builtin sandbox",
+  "definition": "The default sandbox: a subprocess with limits."
+ },
+ {
+  "id": "term.external-sandbox",
+  "title": "external sandbox",
+  "summary": "A sandbox server reached over HTTP.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "external sandbox"
+  ],
+  "term": "external sandbox",
+  "definition": "A sandbox server reached over HTTP."
+ },
+ {
+  "id": "term.venv",
+  "title": "venv",
+  "summary": "A Python virtual environment.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "venv"
+  ],
+  "term": "venv",
+  "definition": "A Python virtual environment."
+ },
+ {
+  "id": "term.secret-vault",
+  "title": "secret vault",
+  "summary": "A file of named secrets filled in at run time.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "secret vault"
+  ],
+  "term": "secret vault",
+  "definition": "A file of named secrets filled in at run time."
+ },
+ {
+  "id": "term.placeholder",
+  "title": "placeholder",
+  "summary": "A name like {=NAME=} standing in for a secret.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "placeholder"
+  ],
+  "term": "placeholder",
+  "definition": "A name like {=NAME=} standing in for a secret."
+ },
+ {
+  "id": "term.redaction",
+  "title": "redaction",
+  "summary": "Replacing secret text in output.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "redaction"
+  ],
+  "term": "redaction",
+  "definition": "Replacing secret text in output."
+ },
+ {
+  "id": "term.prompt-injection",
+  "title": "prompt injection",
+  "summary": "Text that tries to give the model new orders.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "prompt injection"
+  ],
+  "term": "prompt injection",
+  "definition": "Text that tries to give the model new orders."
+ },
+ {
+  "id": "term.content-guard",
+  "title": "content guard",
+  "summary": "The check that flags injection-like text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "content guard"
+  ],
+  "term": "content guard",
+  "definition": "The check that flags injection-like text."
+ },
+ {
+  "id": "term.ssrf",
+  "title": "SSRF",
+  "summary": "Tricking a server into requesting private addresses.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "ssrf"
+  ],
+  "term": "SSRF",
+  "definition": "Tricking a server into requesting private addresses."
+ },
+ {
+  "id": "term.mcp",
+  "title": "MCP",
+  "summary": "Model Context Protocol, a way to connect tools. Not wired in here.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "mcp"
+  ],
+  "term": "MCP",
+  "definition": "Model Context Protocol, a way to connect tools. Not wired in here."
+ },
+ {
+  "id": "term.embeddings",
+  "title": "embeddings",
+  "summary": "Numbers that capture the meaning of text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "embeddings"
+  ],
+  "term": "embeddings",
+  "definition": "Numbers that capture the meaning of text."
+ },
+ {
+  "id": "term.vector-search",
+  "title": "vector search",
+  "summary": "Search by meaning using embeddings.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "vector search"
+  ],
+  "term": "vector search",
+  "definition": "Search by meaning using embeddings."
+ },
+ {
+  "id": "term.knowledge-graph",
+  "title": "knowledge graph",
+  "summary": "Nodes and links between ideas.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "knowledge graph"
+  ],
+  "term": "knowledge graph",
+  "definition": "Nodes and links between ideas."
+ },
+ {
+  "id": "term.episodic-log",
+  "title": "episodic log",
+  "summary": "A dated, append-only list of events.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "episodic log"
+  ],
+  "term": "episodic log",
+  "definition": "A dated, append-only list of events."
+ },
+ {
+  "id": "term.skill",
+  "title": "skill",
+  "summary": "A Markdown file of instructions the agent can load.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "skill"
+  ],
+  "term": "skill",
+  "definition": "A Markdown file of instructions the agent can load."
+ },
+ {
+  "id": "term.super-skill",
+  "title": "Super Skill",
+  "summary": "The index of all skills.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "super skill"
+  ],
+  "term": "Super Skill",
+  "definition": "The index of all skills."
+ },
+ {
+  "id": "term.vault-folder",
+  "title": "vault folder",
+  "summary": "The folder of Markdown notes you can open in Obsidian.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "vault folder"
+  ],
+  "term": "vault folder",
+  "definition": "The folder of Markdown notes you can open in Obsidian."
+ },
+ {
+  "id": "term.supervisor",
+  "title": "supervisor",
+  "summary": "The process that runs the bot and watches for updates.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "supervisor"
+  ],
+  "term": "supervisor",
+  "definition": "The process that runs the bot and watches for updates."
+ },
+ {
+  "id": "term.rollback",
+  "title": "rollback",
+  "summary": "Returning to the last good commit.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "rollback"
+  ],
+  "term": "rollback",
+  "definition": "Returning to the last good commit."
+ },
+ {
+  "id": "term.tier",
+  "title": "tier",
+  "summary": "A model level: small, medium or power.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "tier"
+  ],
+  "term": "tier",
+  "definition": "A model level: small, medium or power."
+ },
+ {
+  "id": "term.escalation",
+  "title": "escalation",
+  "summary": "Handing a task to the power model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "escalation"
+  ],
+  "term": "escalation",
+  "definition": "Handing a task to the power model."
+ },
+ {
+  "id": "term.fallback",
+  "title": "fallback",
+  "summary": "The next model tried when one fails.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "fallback"
+  ],
+  "term": "fallback",
+  "definition": "The next model tried when one fails."
+ },
+ {
+  "id": "term.handoff",
+  "title": "handoff",
+  "summary": "The package given to the power model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "handoff"
+  ],
+  "term": "handoff",
+  "definition": "The package given to the power model."
+ },
+ {
+  "id": "term.provider",
+  "title": "provider",
+  "summary": "The service that serves the model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "provider"
+  ],
+  "term": "provider",
+  "definition": "The service that serves the model."
+ },
+ {
+  "id": "term.scheduled-job",
+  "title": "scheduled job",
+  "summary": "A saved prompt that runs on a timer.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "scheduled job"
+  ],
+  "term": "scheduled job",
+  "definition": "A saved prompt that runs on a timer."
+ },
+ {
+  "id": "term.cron-safe-tools",
+  "title": "CRON_SAFE tools",
+  "summary": "The read-only tools scheduled jobs may use.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "cron_safe tools"
+  ],
+  "term": "CRON_SAFE tools",
+  "definition": "The read-only tools scheduled jobs may use."
+ },
+ {
+  "id": "term.operator",
+  "title": "operator",
+  "summary": "The person who runs the server.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "operator"
+  ],
+  "term": "operator",
+  "definition": "The person who runs the server."
+ },
+ {
+  "id": "term.owner",
+  "title": "owner",
+  "summary": "The person on the allow-list who chats with the bot.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "owner"
+  ],
+  "term": "owner",
+  "definition": "The person on the allow-list who chats with the bot."
+ },
+ {
+  "id": "term.session",
+  "title": "session",
+  "summary": "One chat's history and state.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "session"
+  ],
+  "term": "session",
+  "definition": "One chat's history and state."
+ },
+ {
+  "id": "term.context-compressor",
+  "title": "context compressor",
+  "summary": "The step that shortens long history.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "context compressor"
+  ],
+  "term": "context compressor",
+  "definition": "The step that shortens long history."
+ },
+ {
+  "id": "term.progress-line",
+  "title": "progress line",
+  "summary": "A short live message about a tool call.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "progress line"
+  ],
+  "term": "progress line",
+  "definition": "A short live message about a tool call."
+ },
+ {
+  "id": "term.pending-approval",
+  "title": "pending approval",
+  "summary": "A saved request waiting for a button.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "pending approval"
+  ],
+  "term": "pending approval",
+  "definition": "A saved request waiting for a button."
+ }
+]

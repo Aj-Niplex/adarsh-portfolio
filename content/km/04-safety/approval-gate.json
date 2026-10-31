@@ -1,0 +1,237 @@
+[
+ {
+  "id": "approval.1",
+  "title": "run_code, low risk",
+  "summary": "run_code, low risk: allow.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "run_code, low risk"
+  ],
+  "action_kind": "run_code, low risk",
+  "example": "print(2+2)",
+  "decision": "allow",
+  "buttons": [],
+  "remembered_for": "none",
+  "survives_restart": true,
+  "notes": "Runs at once when AUTO_APPROVE_LOW is on. Detail: -"
+ },
+ {
+  "id": "approval.2",
+  "title": "run_code, medium risk",
+  "summary": "run_code, medium risk: ask.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "run_code, medium risk"
+  ],
+  "action_kind": "run_code, medium risk",
+  "example": "pip install requests",
+  "decision": "ask",
+  "buttons": [
+   "Allow Once",
+   "Allow Session",
+   "Always Allow",
+   "Deny"
+  ],
+  "remembered_for": "one press",
+  "survives_restart": false,
+  "notes": "MEDIUM needs a button. Detail: Allow Once: this call. Allow Session: until /reset or restart."
+ },
+ {
+  "id": "approval.3",
+  "title": "run_code, high risk",
+  "summary": "run_code, high risk: ask.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "run_code, high risk"
+  ],
+  "action_kind": "run_code, high risk",
+  "example": "shutil.rmtree on a folder",
+  "decision": "ask",
+  "buttons": [
+   "Allow Once",
+   "Allow Session",
+   "Always Allow",
+   "Deny"
+  ],
+  "remembered_for": "one press",
+  "survives_restart": false,
+  "notes": "HIGH needs a button every time unless an /allow window is open. Detail: Allow Once only is advised. Allow Session does not cover HIGH."
+ },
+ {
+  "id": "approval.4",
+  "title": "run_code, exact repeat",
+  "summary": "run_code, exact repeat: allow.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "run_code, exact repeat"
+  ],
+  "action_kind": "run_code, exact repeat",
+  "example": "a command saved with Always Allow",
+  "decision": "allow",
+  "buttons": [],
+  "remembered_for": "exact normalized text, all chats",
+  "survives_restart": true,
+  "notes": "Checked first. Only an identical command matches. Detail: data/always_allow.json"
+ },
+ {
+  "id": "approval.5",
+  "title": "shell command, hard block",
+  "summary": "shell command, hard block: deny.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "shell command, hard block"
+  ],
+  "action_kind": "shell command, hard block",
+  "example": "reading the harness secret files",
+  "decision": "deny",
+  "buttons": [],
+  "remembered_for": "never",
+  "survives_restart": true,
+  "notes": "Never runs, even with /allow. Detail: -"
+ },
+ {
+  "id": "approval.6",
+  "title": "shell command, high risk",
+  "summary": "shell command, high risk: ask.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "shell command, high risk"
+  ],
+  "action_kind": "shell command, high risk",
+  "example": "recursive delete",
+  "decision": "ask",
+  "buttons": [
+   "Allow Once",
+   "Allow Session",
+   "Always Allow",
+   "Deny"
+  ],
+  "remembered_for": "one press",
+  "survives_restart": true,
+  "notes": "Under SHELL_APPROVAL=risky. Detail: shell Always Allow uses the prefix '$ '"
+ },
+ {
+  "id": "approval.7",
+  "title": "shell command, medium risk",
+  "summary": "shell command, medium risk: ask.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "shell command, medium risk"
+  ],
+  "action_kind": "shell command, medium risk",
+  "example": "git push",
+  "decision": "ask",
+  "buttons": [
+   "Allow Once",
+   "Allow Session",
+   "Always Allow",
+   "Deny"
+  ],
+  "remembered_for": "one press",
+  "survives_restart": true,
+  "notes": "Under SHELL_APPROVAL=risky. Detail: as above"
+ },
+ {
+  "id": "approval.8",
+  "title": "file tool on core code",
+  "summary": "file tool on core code: deny.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "file tool on core code"
+  ],
+  "action_kind": "file tool on core code",
+  "example": "create_file in a protected folder",
+  "decision": "deny",
+  "buttons": [],
+  "remembered_for": "never",
+  "survives_restart": true,
+  "notes": "File protection is separate from the approval gate. No button exists. Detail: -"
+ },
+ {
+  "id": "approval.9",
+  "title": "/allow window open",
+  "summary": "/allow window open: allow.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "/allow window open"
+  ],
+  "action_kind": "/allow window open",
+  "example": "any code, including HIGH",
+  "decision": "allow",
+  "buttons": [],
+  "remembered_for": "5, 10 or 30 minutes",
+  "survives_restart": false,
+  "notes": "Window is lost on restart. Shell hard blocks still apply. Detail: in memory only"
+ },
+ {
+  "id": "approval.10",
+  "title": "pending approval after restart",
+  "summary": "pending approval after restart: ask.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "approval",
+   "pending approval after restart"
+  ],
+  "action_kind": "pending approval after restart",
+  "example": "a waiting request",
+  "decision": "ask",
+  "buttons": [
+   "Allow Once",
+   "Allow Session",
+   "Always Allow",
+   "Deny"
+  ],
+  "remembered_for": "until answered or /reset",
+  "survives_restart": true,
+  "notes": "Requests are saved per session. Detail: data/pending_approvals"
+ }
+]

@@ -1,0 +1,372 @@
+[
+ {
+  "id": "tool.git_list_repos",
+  "title": "List GitHub repos",
+  "summary": "Lists the token owner's repos.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_list_repos",
+   "list github repos"
+  ],
+  "name": "git_list_repos",
+  "group": "git",
+  "description": "Needs a GitHub token.",
+  "parameters": [
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": 20,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "Repo names.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "demo-org/demo-repo"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Calls the GitHub API."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Git tools need a GitHub token in the settings."
+   },
+   {
+    "when": "API error",
+    "what_the_agent_sees": "GitHub error: HTTP 401"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.git_list_files",
+  "title": "List repo files",
+  "summary": "Lists files at a path in a repo.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_list_files",
+   "list repo files"
+  ],
+  "name": "git_list_files",
+  "group": "git",
+  "description": "Lists files at a path in a repo.",
+  "parameters": [
+   {
+    "name": "repo",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Repository as owner/name.",
+    "limits": null
+   },
+   {
+    "name": "path",
+    "type": "string",
+    "required": false,
+    "default": "",
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   }
+  ],
+  "returns": "File names.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "repo": "demo"
+   },
+   "result": "README.md"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Calls the GitHub API."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Not configured text"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.git_read_file",
+  "title": "Read a repo file",
+  "summary": "Reads one file from a repo.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_read_file",
+   "read a repo file"
+  ],
+  "name": "git_read_file",
+  "group": "git",
+  "description": "Reads one file from a repo.",
+  "parameters": [
+   {
+    "name": "repo",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Repository as owner/name.",
+    "limits": null
+   },
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   }
+  ],
+  "returns": "File text.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "repo": "demo",
+    "path": "demo"
+   },
+   "result": "# Demo"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Calls the GitHub API."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Not configured text"
+   },
+   {
+    "when": "Not found",
+    "what_the_agent_sees": "GitHub error: HTTP 404"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.git_list_issues",
+  "title": "List issues",
+  "summary": "Lists issues by state.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_list_issues",
+   "list issues"
+  ],
+  "name": "git_list_issues",
+  "group": "git",
+  "description": "Default 15.",
+  "parameters": [
+   {
+    "name": "repo",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Repository as owner/name.",
+    "limits": null
+   },
+   {
+    "name": "state",
+    "type": "string",
+    "required": false,
+    "default": "open",
+    "meaning": "Issue state to list.",
+    "limits": "One of: open, closed, all."
+   },
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": 15,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "Issue lines.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "repo": "demo"
+   },
+   "result": "#4 Fix typo"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Calls the GitHub API."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Not configured text"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.git_create_issue",
+  "title": "Open an issue",
+  "summary": "Creates an issue in a repo.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_create_issue",
+   "open an issue"
+  ],
+  "name": "git_create_issue",
+  "group": "git",
+  "description": "This changes GitHub.",
+  "parameters": [
+   {
+    "name": "repo",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Repository as owner/name.",
+    "limits": null
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short title for the note.",
+    "limits": "Cut to 200 characters for notifications."
+   },
+   {
+    "name": "body",
+    "type": "string",
+    "required": false,
+    "default": "",
+    "meaning": "Issue text.",
+    "limits": null
+   }
+  ],
+  "returns": "The issue link.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "repo": "demo",
+    "title": "demo"
+   },
+   "result": "Created issue #5"
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval prompt. Needs a token with write access.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Creates an issue."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Not configured text"
+   },
+   {
+    "when": "HTTP error",
+    "what_the_agent_sees": "GitHub error: HTTP 403"
+   }
+  ],
+  "default_state": "off"
+ },
+ {
+  "id": "tool.git_list_commits",
+  "title": "List commits",
+  "summary": "Lists recent commits on a branch.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.git"
+  ],
+  "search_terms": [
+   "git_list_commits",
+   "list commits"
+  ],
+  "name": "git_list_commits",
+  "group": "git",
+  "description": "Default 10.",
+  "parameters": [
+   {
+    "name": "repo",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Repository as owner/name.",
+    "limits": null
+   },
+   {
+    "name": "branch",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "Branch name.",
+    "limits": null
+   },
+   {
+    "name": "limit",
+    "type": "integer",
+    "required": false,
+    "default": 10,
+    "meaning": "Maximum number of results.",
+    "limits": null
+   }
+  ],
+  "returns": "Commit lines.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "repo": "demo"
+   },
+   "result": "abc1234 Fix typo"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Calls the GitHub API."
+  ],
+  "failure_modes": [
+   {
+    "when": "No token",
+    "what_the_agent_sees": "Not configured text"
+   }
+  ],
+  "default_state": "off"
+ }
+]

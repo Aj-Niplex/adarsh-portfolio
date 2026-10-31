@@ -1,0 +1,112 @@
+[
+ {
+  "id": "compare.1",
+  "title": "Hermes Agent",
+  "summary": "A terminal and gateway agent from Nous Research.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "hermes agent"
+  ],
+  "other": "Hermes Agent",
+  "one_line": "A terminal and gateway agent from Nous Research.",
+  "where_this_is_different": [
+   "This project is gateway-only and phone-first, with approval buttons."
+  ],
+  "where_the_other_is_better": [
+   "Hermes has a wider feature set and a terminal client."
+  ],
+  "pick_this_if": "you want a chat-only agent on a small free host",
+  "pick_the_other_if": "you want the full terminal experience",
+  "checked_on": "2026-10-29"
+ },
+ {
+  "id": "compare.2",
+  "title": "A plain chat app with an API key",
+  "summary": "Chat with a model directly.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "a plain chat app with an api key"
+  ],
+  "other": "A plain chat app with an API key",
+  "one_line": "Chat with a model directly.",
+  "where_this_is_different": [
+   "Adds tools, memory, approvals and scheduled jobs."
+  ],
+  "where_the_other_is_better": [
+   "A chat app is simpler and has less to run."
+  ],
+  "pick_this_if": "you want an agent that acts",
+  "pick_the_other_if": "you only need answers",
+  "checked_on": "2026-10-29"
+ },
+ {
+  "id": "compare.3",
+  "title": "Running scripts over SSH",
+  "summary": "Do the work yourself on the server.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "running scripts over ssh"
+  ],
+  "other": "Running scripts over SSH",
+  "one_line": "Do the work yourself on the server.",
+  "where_this_is_different": [
+   "The agent does steps and asks first when risky."
+  ],
+  "where_the_other_is_better": [
+   "SSH gives full control and no model cost."
+  ],
+  "pick_this_if": "you work from a phone",
+  "pick_the_other_if": "you have a laptop and know the commands",
+  "checked_on": "2026-10-29"
+ },
+ {
+  "id": "compare.4",
+  "title": "Workflow tools such as n8n",
+  "summary": "Visual automation of fixed steps.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "workflow tools such as n8n"
+  ],
+  "other": "Workflow tools such as n8n",
+  "one_line": "Visual automation of fixed steps.",
+  "where_this_is_different": [
+   "The model decides steps at run time."
+  ],
+  "where_the_other_is_better": [
+   "Workflows are repeatable and predictable."
+  ],
+  "pick_this_if": "the task changes each time",
+  "pick_the_other_if": "the steps never change",
+  "checked_on": "2026-10-29"
+ },
+ {
+  "id": "compare.5",
+  "title": "Coding agents in a terminal",
+  "summary": "Agents that work in a code folder on a computer.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [],
+  "search_terms": [
+   "coding agents in a terminal"
+  ],
+  "other": "Coding agents in a terminal",
+  "one_line": "Agents that work in a code folder on a computer.",
+  "where_this_is_different": [
+   "This one lives in chat and is not built around a code folder."
+  ],
+  "where_the_other_is_better": [
+   "Coding agents are built for editing projects."
+  ],
+  "pick_this_if": "you want an on-call helper in chat",
+  "pick_the_other_if": "you want to edit a large codebase",
+  "checked_on": "2026-10-29"
+ }
+]
