@@ -151,14 +151,7 @@ export function projectMarkdown(p: Project): string {
   if (p.slug === "niplex-harness") {
     out.push("## Documentation", "");
     out.push("Kaizen Manas has " + getKm().pages.length + " documentation pages, each also available as Markdown:", "");
-    for (const c of KM_CHAPTERS) {
-      out.push("### " + c.title, "");
-      for (const path of c.paths) {
-        const page = getKm().byPath.get(path);
-        if (page) out.push("- [" + page.title + "](" + kmMd(page.path) + "): " + page.summary);
-      }
-      out.push("");
-    }
+    out.push(...kmListing("###"));
   }
   if (p.links.length) {
     out.push("## Links", "");
@@ -219,6 +212,30 @@ export function homeMarkdown(): string {
   return out.join("\n").trim() + "\n";
 }
 
+/** Every documentation page, grouped by chapter, with the pages no chapter lists at the end. */
+function kmListing(level: string): string[] {
+  const out: string[] = [];
+  const km = getKm();
+  const listed = new Set<string>();
+  for (const c of KM_CHAPTERS) {
+    const pages = c.paths.map((path) => km.byPath.get(path)).filter((x): x is KmPage => Boolean(x));
+    if (!pages.length) continue;
+    out.push(level + " " + c.title, "");
+    for (const page of pages) {
+      listed.add(page.path);
+      out.push("- [" + page.title + "](" + kmMd(page.path) + "): " + page.summary);
+    }
+    out.push("");
+  }
+  const rest = km.pages.filter((p) => !listed.has(p.path));
+  if (rest.length) {
+    out.push(level + " More pages", "");
+    for (const page of rest) out.push("- [" + page.title + "](" + kmMd(page.path) + "): " + page.summary);
+    out.push("");
+  }
+  return out;
+}
+
 /** The table of contents: every Markdown page, and how to ask for them. */
 export function indexMarkdown(): string {
   const out: string[] = ["# " + SITE.name + ": Markdown index", ""];
@@ -234,14 +251,7 @@ export function indexMarkdown(): string {
   for (const p of projects) out.push("- [" + p.name + "](" + abs(mdUrl("/projects/" + p.slug)) + "): " + p.tagline);
   out.push("");
   out.push("## Kaizen Manas documentation (" + getKm().pages.length + " pages)", "");
-  for (const c of KM_CHAPTERS) {
-    out.push("### " + c.title, "");
-    for (const path of c.paths) {
-      const page = getKm().byPath.get(path);
-      if (page) out.push("- [" + page.title + "](" + kmMd(page.path) + "): " + page.summary);
-    }
-    out.push("");
-  }
+  out.push(...kmListing("###"));
   return out.join("\n").trim() + "\n";
 }
 
