@@ -30,6 +30,8 @@ export function allowedLinks(): string[] {
     "/newsletter",
     "/unsubscribe",
     "/llms.txt",
+    "/llms-full.txt",
+    "/md",
     SITE.github,
     SITE.profileRepo,
     SITE.portfolioRepo,
@@ -135,16 +137,17 @@ export function buildDocs(): Doc[] {
 
   docs.push({
     id: "site-pages",
-    title: "Sign up, newsletter, unsubscribe and submissions",
+    title: "Sign up, newsletter, unsubscribe, submissions and Markdown pages",
     url: "/signup",
     kind: "links",
     text: [
       "Sign up: " + SITE.url + "/signup. The visitor enters an email, ticks the box to agree to product and promotional emails, types the 6-digit code that is emailed, then picks a password. Signed-in visitors can ask this assistant 5 questions a minute instead of 2. If the page says the email service is not connected yet, leaving the email there still adds it to the list.",
       "Newsletter: " + SITE.url + "/newsletter, and a box at the bottom of every page. No account is needed. It is the same product updates and promotions list. A new address is confirmed with a 6-digit code once the email service is on.",
       "Unsubscribe: " + SITE.url + "/unsubscribe. Anyone can type their address there to be taken off the list at once, without an account or a code. It only stops the emails; an account, if there is one, stays.",
+      "Markdown: every page of this site is also available as Markdown. Add .md to a page address (for example " + SITE.url + "/about.md), or send the header Accept: text/markdown to the normal address, or open the index at " + SITE.url + "/md. All the text in one file is at " + SITE.url + "/llms-full.txt.",
       "Submit: " + SITE.url + "/submit. Anyone can send an idea, a request or feedback with a title (up to 80 characters) and a description (up to 500). Links, email addresses and phone numbers are not accepted. The latest submissions are shown publicly on that page with their descriptions."
     ].join("\n"),
-    keywords: ["signup", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion"]
+    keywords: ["signup", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion", "markdown", "md", "plain text", "raw", "llms"]
   });
 
   cache = docs;

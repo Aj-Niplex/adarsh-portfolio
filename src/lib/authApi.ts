@@ -15,16 +15,7 @@ export function sessionInfo(email?: string): SessionInfo {
   };
 }
 
-export function sameOrigin(request: Request) {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (!origin || !host) return true;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
-}
+export { sameOrigin } from "./origin";
 
 export function fail(message: string, status: number, extra: Record<string, unknown> = {}, headers: Record<string, string> = {}) {
   return NextResponse.json({ error: message, ...extra }, { status, headers: { ...noStore, ...headers } });

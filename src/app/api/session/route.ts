@@ -18,7 +18,11 @@ export async function DELETE(request: Request) {
   const forget = new URL(request.url).searchParams.get("forget") === "1";
   let removed = false;
   if (session && forget) {
-    const result = await callStore<{ removed?: boolean }>({ action: "forget", email: session.email });
+    // Removes the account, its codes and the mailing-list entry. Before the store knows the newer
+    // action, only the mailing-list entry is removed.
+    const result =
+      (await callStore<{ removed?: boolean }>({ action: "forget_account", email: session.email })) ??
+      (await callStore<{ removed?: boolean }>({ action: "forget", email: session.email }));
     removed = Boolean(result?.removed);
   }
   const response = NextResponse.json({ ...sessionInfo(undefined), removed }, { headers: noStore });
