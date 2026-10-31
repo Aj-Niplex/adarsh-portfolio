@@ -74,22 +74,13 @@ export function KmModeToggle() {
 
 /* ---- The picture itself ---- */
 
-const bitmaps = new Map<string, Promise<ImageBitmap | null>>();
-
+// Nothing is kept after drawing: the canvas holds the pixels, and the browser's own cache keeps
+// the scrambled file, so switching style or coming back costs a quick local read, not memory.
 function loadBitmap(id: string, mode: KmMode): Promise<ImageBitmap | null> {
-  const key = id + "|" + mode;
-  let hit = bitmaps.get(key);
-  if (!hit) {
-    hit = fetch("/km/" + kmFileName(id, mode) + ".dat")
-      .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error("missing"))))
-      .then((buf) => createImageBitmap(new Blob([kmUnscramble(new Uint8Array(buf), id, mode) as BlobPart], { type: "image/webp" })))
-      .catch(() => {
-        bitmaps.delete(key);
-        return null;
-      });
-    bitmaps.set(key, hit);
-  }
-  return hit;
+  return fetch("/km/" + kmFileName(id, mode) + ".dat")
+    .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error("missing"))))
+    .then((buf) => createImageBitmap(new Blob([kmUnscramble(new Uint8Array(buf), id, mode) as BlobPart], { type: "image/webp" })))
+    .catch(() => null);
 }
 
 export function KmImage({ id, alt, priority = false }: { id: string; alt: string; priority?: boolean }) {
@@ -124,10 +115,15 @@ export function KmImage({ id, alt, priority = false }: { id: string; alt: string
     let stale = false;
     loadBitmap(id, mode).then((bmp) => {
       const c = canvas.current;
-      if (stale || !bmp || !c) return;
+      if (!bmp) return;
+      if (stale || !c) {
+        bmp.close();
+        return;
+      }
       c.width = bmp.width;
       c.height = bmp.height;
       c.getContext("2d")?.drawImage(bmp, 0, 0);
+      bmp.close();
       setReady(true);
     });
     return () => {

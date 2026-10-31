@@ -45,7 +45,8 @@ export async function POST(request: Request) {
   const now = Date.now();
   const key = clientKey(request);
   const entry = hits.get(key);
-  let allowed = !looksLikeBot(request.headers.get("user-agent")) && !hasCounted(request);
+  const already = hasCounted(request);
+  let allowed = !looksLikeBot(request.headers.get("user-agent")) && !already;
   if (allowed) {
     if (!entry || entry.resetAt < now) {
       hits.set(key, { count: 1, resetAt: now + WINDOW_MS });
@@ -62,5 +63,8 @@ export async function POST(request: Request) {
   const count = await callViews(allowed ? "hit" : "get");
   const headers: Record<string, string> = { ...noStore };
   if (allowed) headers["Set-Cookie"] = COUNTED + "; Max-Age=31536000; Path=/; SameSite=Lax; HttpOnly" + (process.env.NODE_ENV === "production" ? "; Secure" : "");
-  return NextResponse.json({ count }, { headers });
+  // `counted` says this request added a visit; `already` says this browser was counted before.
+  // The page only remembers a browser once one of them is true, so a visit refused by the rate
+  // limit is tried again next time.
+  return NextResponse.json({ count, counted: allowed, already }, { headers });
 }
