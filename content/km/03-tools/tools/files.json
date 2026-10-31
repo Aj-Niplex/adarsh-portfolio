@@ -1,0 +1,398 @@
+[
+ {
+  "id": "tool.create_folder",
+  "title": "Create a folder",
+  "summary": "Creates a folder inside the project.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "create_folder",
+   "create a folder"
+  ],
+  "name": "create_folder",
+  "group": "files",
+  "description": "Protected code folders are refused.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo"
+   },
+   "result": "Created vault/notes"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Protected paths are hard blocked.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Creates a directory."
+  ],
+  "failure_modes": [
+   {
+    "when": "Path is in protected code",
+    "what_the_agent_sees": "HARD BLOCK: cannot create folder in core"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.create_file",
+  "title": "Create a file",
+  "summary": "Creates a file inside a folder. Not on the root.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "create_file",
+   "create a file"
+  ],
+  "name": "create_file",
+  "group": "files",
+  "description": "Refuses protected paths and root files.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   },
+   {
+    "name": "content",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "The text to store or write.",
+    "limits": "Memory notes are read back into prompts in slices of 4,000 characters (global) or 1,500 (session)."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo"
+   },
+   "result": "Created vault/notes/a.md"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Hard blocks apply.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes a file."
+  ],
+  "failure_modes": [
+   {
+    "when": "Root file",
+    "what_the_agent_sees": "Refused: root files cannot be edited by the agent."
+   },
+   {
+    "when": "Protected path",
+    "what_the_agent_sees": "HARD BLOCK: harness core cannot be written"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.edit_file",
+  "title": "Overwrite a file",
+  "summary": "Replaces the whole content of an existing file.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "edit_file",
+   "overwrite a file"
+  ],
+  "name": "edit_file",
+  "group": "files",
+  "description": "Replaces the whole content of an existing file.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   },
+   {
+    "name": "content",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The text to store or write.",
+    "limits": "Memory notes are read back into prompts in slices of 4,000 characters (global) or 1,500 (session)."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo",
+    "content": "demo"
+   },
+   "result": "Updated vault/notes/a.md"
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Hard blocks apply.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Overwrites a file."
+  ],
+  "failure_modes": [
+   {
+    "when": "File does not exist",
+    "what_the_agent_sees": "File does not exist: path"
+   },
+   {
+    "when": "Protected path",
+    "what_the_agent_sees": "HARD BLOCK"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.edit_selected_part",
+  "title": "Replace text in a file",
+  "summary": "Replaces one exact piece of text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "edit_selected_part",
+   "replace text in a file"
+  ],
+  "name": "edit_selected_part",
+  "group": "files",
+  "description": "The old text must match exactly.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   },
+   {
+    "name": "old_text",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Exact text to replace. Must match once.",
+    "limits": null
+   },
+   {
+    "name": "new_text",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Replacement text.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo",
+    "old_text": "demo",
+    "new_text": "demo"
+   },
+   "result": "Edited vault/notes/a.md"
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Hard blocks apply.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Changes a file."
+  ],
+  "failure_modes": [
+   {
+    "when": "Text not found",
+    "what_the_agent_sees": "old_text not found (exact match required)"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.delete_file",
+  "title": "Delete a file",
+  "summary": "Deletes a non-core file.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "delete_file",
+   "delete a file"
+  ],
+  "name": "delete_file",
+  "group": "files",
+  "description": "Core code, data files and root files are refused.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo"
+   },
+   "result": "Deleted vault/notes/a.md"
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval. Hard blocks apply.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Removes a file."
+  ],
+  "failure_modes": [
+   {
+    "when": "File not found",
+    "what_the_agent_sees": "File not found: path"
+   },
+   {
+    "when": "Protected path",
+    "what_the_agent_sees": "HARD BLOCK"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_files",
+  "title": "List files",
+  "summary": "Lists a folder. Default is vault.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "list_files",
+   "list files"
+  ],
+  "name": "list_files",
+  "group": "files",
+  "description": "Lists a folder. Default is vault.",
+  "parameters": [
+   {
+    "name": "directory",
+    "type": "string",
+    "required": false,
+    "default": "vault",
+    "meaning": "Folder to list.",
+    "limits": null
+   }
+  ],
+  "returns": "File names.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "a.md\nb.md"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "Folder missing",
+    "what_the_agent_sees": "Directory not found"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.send_file",
+  "title": "Send a file to chat",
+  "summary": "Sends a file into the chat as an attachment.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.files"
+  ],
+  "search_terms": [
+   "send_file",
+   "send a file to chat"
+  ],
+  "name": "send_file",
+  "group": "files",
+  "description": "Sends a file into the chat as an attachment.",
+  "parameters": [
+   {
+    "name": "path",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Path relative to the project, such as vault/note.md.",
+    "limits": null
+   },
+   {
+    "name": "filename",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Name to show for the sent file.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "path": "demo"
+   },
+   "result": "Queued vault/notes/a.md"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Uploads a file to the chat."
+  ],
+  "failure_modes": [
+   {
+    "when": "File missing",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "on"
+ }
+]

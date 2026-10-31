@@ -1,0 +1,282 @@
+[
+ {
+  "id": "cmd.start",
+  "title": "/start",
+  "summary": "Telegram's built-in start message.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/start"
+  ],
+  "name": "/start",
+  "platforms": [
+   "telegram"
+  ],
+  "args": [],
+  "what_it_changes": "Nothing.",
+  "what_it_does_not_change": "Nothing.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/start",
+   "bot": "Shows the start text."
+  },
+  "related_tools": []
+ },
+ {
+  "id": "cmd.setup",
+  "title": "/setup",
+  "summary": "Walks through provider, key and model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/setup"
+  ],
+  "name": "/setup",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [],
+  "what_it_changes": "Saves data/runtime_provider.json for the running bot.",
+  "what_it_does_not_change": "Does not change .env or routing tiers.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/setup",
+   "bot": "Which provider? Send the key. Models listed. Setup complete."
+  },
+  "related_tools": []
+ },
+ {
+  "id": "cmd.help",
+  "title": "/help",
+  "summary": "Shows the help text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/help"
+  ],
+  "name": "/help",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [],
+  "what_it_changes": "Nothing.",
+  "what_it_does_not_change": "Nothing.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/help",
+   "bot": "First time: /setup ..."
+  },
+  "related_tools": []
+ },
+ {
+  "id": "cmd.reset",
+  "title": "/reset",
+  "summary": "Clears the chat history and pending approvals.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/reset"
+  ],
+  "name": "/reset",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [],
+  "what_it_changes": "The session history and pending approvals.",
+  "what_it_does_not_change": "Saved notes, Always Allow entries and settings.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/reset",
+   "bot": "Session cleared."
+  },
+  "related_tools": []
+ },
+ {
+  "id": "cmd.allow",
+  "title": "/allow",
+  "summary": "Opens a time-boxed window with no prompts, including HIGH.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/allow"
+  ],
+  "name": "/allow",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [
+   {
+    "name": "minutes",
+    "values": [
+     5,
+     10,
+     30
+    ]
+   }
+  ],
+  "what_it_changes": "Approval prompts for the window.",
+  "what_it_does_not_change": "Shell hard blocks and file protection.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/allow",
+   "bot": "Choose 5, 10 or 30 minutes."
+  },
+  "related_tools": [
+   "tool.run_code"
+  ]
+ },
+ {
+  "id": "cmd.routing",
+  "title": "/routing",
+  "summary": "Shows or changes model routing.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/routing"
+  ],
+  "name": "/routing",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [
+   {
+    "name": "subcommand",
+    "values": [
+     "help",
+     "on",
+     "off",
+     "set",
+     "clear",
+     "triggers",
+     "announce",
+     "small-auto",
+     "last"
+    ]
+   }
+  ],
+  "what_it_changes": "data/model_routing.json.",
+  "what_it_does_not_change": "API keys, which are never stored there.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/routing",
+   "bot": "Routing is on. small: -, medium: -, power: -"
+  },
+  "related_tools": [
+   "tool.request_escalation"
+  ]
+ },
+ {
+  "id": "cmd.model",
+  "title": "/model",
+  "summary": "Pins a tier for this chat, or returns to auto.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/model"
+  ],
+  "name": "/model",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [
+   {
+    "name": "tier",
+    "values": [
+     "small",
+     "medium",
+     "power",
+     "auto"
+    ]
+   }
+  ],
+  "what_it_changes": "The tier for this chat.",
+  "what_it_does_not_change": "The tier definitions.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/model power",
+   "bot": "This chat is pinned to power."
+  },
+  "related_tools": []
+ },
+ {
+  "id": "cmd.escalate",
+  "title": "/escalate",
+  "summary": "Hands a task to the power model now. Alias /fable.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/escalate"
+  ],
+  "name": "/escalate",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [
+   {
+    "name": "task",
+    "values": [
+     "free text"
+    ]
+   }
+  ],
+  "what_it_changes": "Uses the power tier once.",
+  "what_it_does_not_change": "Routing settings.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/escalate review my plan",
+   "bot": "Handing this to the power model."
+  },
+  "related_tools": [
+   "tool.request_escalation"
+  ]
+ },
+ {
+  "id": "cmd.ui",
+  "title": "/ui",
+  "summary": "Shows every button, menu and card style the bot can show.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "/ui"
+  ],
+  "name": "/ui",
+  "platforms": [
+   "discord",
+   "telegram"
+  ],
+  "args": [],
+  "what_it_changes": "Nothing.",
+  "what_it_does_not_change": "Nothing.",
+  "who_can_run_it": "owner",
+  "example": {
+   "synthetic": true,
+   "user": "/ui",
+   "bot": "Gallery messages."
+  },
+  "related_tools": []
+ }
+]

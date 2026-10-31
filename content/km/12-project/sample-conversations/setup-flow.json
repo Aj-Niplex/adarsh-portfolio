@@ -1,0 +1,51 @@
+{
+ "id": "sample.setup-flow",
+ "title": "The /setup flow",
+ "summary": "The /setup flow (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "the /setup flow"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "/setup"
+  },
+  {
+   "role": "manas",
+   "text": "Which provider? agnes, google, openai, anthropic, openrouter, custom"
+  },
+  {
+   "role": "owner",
+   "text": "google"
+  },
+  {
+   "role": "manas",
+   "text": "Send your Google API key (Gemini)."
+  },
+  {
+   "role": "owner",
+   "text": "<your-key>"
+  },
+  {
+   "role": "manas",
+   "text": "Available models: 1. demo-flash 2. demo-pro. Reply with a number, a model id, or random."
+  },
+  {
+   "role": "owner",
+   "text": "1"
+  },
+  {
+   "role": "manas",
+   "text": "Setup complete. Provider: google. Model: demo-flash. Saved to data/runtime_provider.json (not committed)."
+  }
+ ],
+ "what_to_notice": [
+  "Models come from the provider.",
+  "The key is never repeated."
+ ]
+}

@@ -1,0 +1,184 @@
+[
+ {
+  "id": "provider.agnes",
+  "title": "Agnes",
+  "summary": "Agnes through openai-compatible.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "agnes"
+  ],
+  "auth": "api key",
+  "endpoint_kind": "openai-compatible",
+  "model_list_source": "The provider /models API",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": false
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose agnes",
+   "Send the key",
+   "Pick a model number"
+  ],
+  "known_quirks": [
+   "Default model agnes-2.0-flash"
+  ],
+  "tested": "partly",
+  "tested_on": "2026-10-30"
+ },
+ {
+  "id": "provider.google",
+  "title": "Google Gemini",
+  "summary": "Google Gemini through native.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "google gemini"
+  ],
+  "auth": "api key",
+  "endpoint_kind": "native",
+  "model_list_source": "google-genai client.models.list",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": true
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose google",
+   "Send the key",
+   "Pick a model"
+  ],
+  "known_quirks": [
+   "Some listed models are image or speech models and cannot chat",
+   "Older models can return 404 for new users",
+   "Thought signatures are kept for tool calls"
+  ],
+  "tested": "yes",
+  "tested_on": "2026-10-30"
+ },
+ {
+  "id": "provider.openai",
+  "title": "OpenAI",
+  "summary": "OpenAI through openai-compatible.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "openai"
+  ],
+  "auth": "api key",
+  "endpoint_kind": "openai-compatible",
+  "model_list_source": "The /models API",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": false
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose openai",
+   "Send the key",
+   "Pick a model"
+  ],
+  "known_quirks": [
+   "Default model gpt-4o-mini"
+  ],
+  "tested": "no",
+  "tested_on": null
+ },
+ {
+  "id": "provider.anthropic",
+  "title": "Anthropic",
+  "summary": "Anthropic through openai-compatible.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "anthropic"
+  ],
+  "auth": "proxy",
+  "endpoint_kind": "openai-compatible",
+  "model_list_source": "The proxy's /models API",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": false
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose anthropic",
+   "Give an OpenAI-compatible proxy base URL",
+   "Send the key"
+  ],
+  "known_quirks": [
+   "Direct use is refused. A proxy URL is required."
+  ],
+  "tested": "no",
+  "tested_on": null
+ },
+ {
+  "id": "provider.openrouter",
+  "title": "OpenRouter",
+  "summary": "OpenRouter through openai-compatible.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "openrouter"
+  ],
+  "auth": "api key",
+  "endpoint_kind": "openai-compatible",
+  "model_list_source": "The /models API",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": false
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose openrouter",
+   "Send the key",
+   "Pick a model"
+  ],
+  "known_quirks": [
+   "Base URL https://openrouter.ai/api/v1"
+  ],
+  "tested": "no",
+  "tested_on": null
+ },
+ {
+  "id": "provider.custom",
+  "title": "Custom OpenAI-compatible",
+  "summary": "Custom OpenAI-compatible through openai-compatible.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "custom openai-compatible"
+  ],
+  "auth": "api key",
+  "endpoint_kind": "openai-compatible",
+  "model_list_source": "The service's /models API",
+  "supports": {
+   "tools": true,
+   "streaming": false,
+   "embeddings": false
+  },
+  "setup_steps": [
+   "Run /setup",
+   "Choose custom",
+   "Send the base URL",
+   "Send the key"
+  ],
+  "known_quirks": [
+   "If /models fails, type a model id by hand"
+  ],
+  "tested": "no",
+  "tested_on": null
+ }
+]

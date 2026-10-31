@@ -1,0 +1,152 @@
+[
+ {
+  "id": "tool.add_cron_job",
+  "title": "Add a scheduled job",
+  "summary": "Adds a prompt that runs on a schedule in this chat.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.cron"
+  ],
+  "search_terms": [
+   "add_cron_job",
+   "add a scheduled job"
+  ],
+  "name": "add_cron_job",
+  "group": "cron",
+  "description": "Schedules are every Nh, every Nm or daily HH:MM in UTC. The scheduler checks every 30 seconds. A job with no earlier run starts at once. Runs can only use read-only tools.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short name.",
+    "limits": null
+   },
+   {
+    "name": "schedule",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "every Nh, every Nm, or daily HH:MM in UTC.",
+    "limits": null
+   },
+   {
+    "name": "prompt",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "What the agent should do on each run.",
+    "limits": null
+   }
+  ],
+  "returns": "The job id.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "name": "demo",
+    "schedule": "demo",
+    "prompt": "demo"
+   },
+   "result": "Cron job added: 123456 (daily-summary) - daily 09:00. Runs in this chat."
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval at creation. The job itself is limited to a read-only tool list.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes the job list",
+   "Causes model calls later."
+  ],
+  "failure_modes": [
+   {
+    "when": "Bad schedule text",
+    "what_the_agent_sees": "The job never runs"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_cron_jobs",
+  "title": "List scheduled jobs",
+  "summary": "Lists jobs.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.cron"
+  ],
+  "search_terms": [
+   "list_cron_jobs",
+   "list scheduled jobs"
+  ],
+  "name": "list_cron_jobs",
+  "group": "cron",
+  "description": "Lists jobs.",
+  "parameters": [],
+  "returns": "A list or No cron jobs.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "123456 daily-summary daily 09:00"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.remove_cron_job",
+  "title": "Remove a scheduled job",
+  "summary": "Deletes a job by id.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.cron"
+  ],
+  "search_terms": [
+   "remove_cron_job",
+   "remove a scheduled job"
+  ],
+  "name": "remove_cron_job",
+  "group": "cron",
+  "description": "Deletes a job by id.",
+  "parameters": [
+   {
+    "name": "job_id",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Id shown by list_cron_jobs.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "job_id": "demo"
+   },
+   "result": "Removed 123456"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Edits the job list."
+  ],
+  "failure_modes": [
+   {
+    "when": "Unknown id",
+    "what_the_agent_sees": "Job x not found"
+   }
+  ],
+  "default_state": "on"
+ }
+]

@@ -1,0 +1,207 @@
+[
+ {
+  "id": "tool.who_am_i",
+  "title": "Identity",
+  "summary": "Returns the agent's name and creator.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "who_am_i",
+   "identity"
+  ],
+  "name": "who_am_i",
+  "group": "always-on",
+  "description": "Returns the agent's name and creator.",
+  "parameters": [],
+  "returns": "A short text.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "Manas, part of Kaizen Manas, built by Adarsh."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "always on"
+ },
+ {
+  "id": "tool.report_status",
+  "title": "Post a progress note",
+  "summary": "Stores a short progress note.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "report_status",
+   "post a progress note"
+  ],
+  "name": "report_status",
+  "group": "always-on",
+  "description": "Stores a short progress note.",
+  "parameters": [
+   {
+    "name": "message",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Text to send.",
+    "limits": "Cut to 4,000 bytes."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "message": "demo"
+   },
+   "result": "Noted."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Updates the status line."
+  ],
+  "failure_modes": [],
+  "default_state": "always on"
+ },
+ {
+  "id": "tool.get_progress",
+  "title": "Read progress",
+  "summary": "Returns the current progress notes.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "get_progress",
+   "read progress"
+  ],
+  "name": "get_progress",
+  "group": "always-on",
+  "description": "Returns the current progress notes.",
+  "parameters": [],
+  "returns": "Text.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "Step 2 of 3: reading files"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "always on"
+ },
+ {
+  "id": "tool.list_tool_categories",
+  "title": "List tool groups",
+  "summary": "Shows each group and whether it is ON or OFF.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "list_tool_categories",
+   "list tool groups"
+  ],
+  "name": "list_tool_categories",
+  "group": "always-on",
+  "description": "Shows each group and whether it is ON or OFF.",
+  "parameters": [],
+  "returns": "A list.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "memory ON\nshell OFF"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "always on"
+ },
+ {
+  "id": "tool.set_tool_category",
+  "title": "Switch a tool group",
+  "summary": "Turns a group on or off.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "set_tool_category",
+   "switch a tool group"
+  ],
+  "name": "set_tool_category",
+  "group": "always-on",
+  "description": "The shell group is refused here. Only the operator can turn it on.",
+  "parameters": [
+   {
+    "name": "category",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Which group of skills or tools.",
+    "limits": null
+   },
+   {
+    "name": "enabled",
+    "type": "boolean",
+    "required": true,
+    "default": null,
+    "meaning": "True to turn the group on, false to turn it off.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "category": "demo",
+    "enabled": true
+   },
+   "result": "Group web is now ON."
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval. The shell group is operator-gated.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Saves the choice to data."
+  ],
+  "failure_modes": [
+   {
+    "when": "Shell group",
+    "what_the_agent_sees": "A refusal that it is operator-only"
+   },
+   {
+    "when": "Unknown group",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "always on"
+ }
+]

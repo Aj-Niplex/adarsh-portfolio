@@ -1,0 +1,124 @@
+[
+ {
+  "id": "tool.todo",
+  "title": "Chat to-do list",
+  "summary": "Lists, adds, completes or clears items for this chat.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.session"
+  ],
+  "search_terms": [
+   "todo",
+   "chat to-do list"
+  ],
+  "name": "todo",
+  "group": "session",
+  "description": "Lists, adds, completes or clears items for this chat.",
+  "parameters": [
+   {
+    "name": "action",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "What to do.",
+    "limits": "One of: list, add, done, clear."
+   },
+   {
+    "name": "text",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Text to type or say.",
+    "limits": null
+   },
+   {
+    "name": "id",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Item id.",
+    "limits": null
+   }
+  ],
+  "returns": "The list.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "action": "list"
+   },
+   "result": "1. [ ] write summary"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes a per-chat JSON file."
+  ],
+  "failure_modes": [
+   {
+    "when": "Unknown id",
+    "what_the_agent_sees": "Todo id not found"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.clarify",
+  "title": "Ask the user",
+  "summary": "Asks one clear question, with up to 5 options.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.session"
+  ],
+  "search_terms": [
+   "clarify",
+   "ask the user"
+  ],
+  "name": "clarify",
+  "group": "session",
+  "description": "Asks one clear question, with up to 5 options.",
+  "parameters": [
+   {
+    "name": "question",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The question to ask the user.",
+    "limits": null
+   },
+   {
+    "name": "options",
+    "type": "array",
+    "required": false,
+    "default": null,
+    "meaning": "Up to 5 answer choices.",
+    "limits": "Only the first 5 are shown."
+   }
+  ],
+  "returns": "The question text.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "question": "demo"
+   },
+   "result": "CLARIFY\nWhich folder?\n\nOptions:\n  1. docs\n  2. notes"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "The question is shown in chat."
+  ],
+  "failure_modes": [
+   {
+    "when": "Empty question",
+    "what_the_agent_sees": "clarify needs a non-empty question."
+   }
+  ],
+  "default_state": "on"
+ }
+]

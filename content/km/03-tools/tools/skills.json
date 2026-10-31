@@ -1,0 +1,297 @@
+[
+ {
+  "id": "tool.get_super_skill",
+  "title": "Skill index",
+  "summary": "Returns the Super Skill registry.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "get_super_skill",
+   "skill index"
+  ],
+  "name": "get_super_skill",
+  "group": "skills",
+  "description": "A Markdown list of all skills.",
+  "parameters": [],
+  "returns": "Markdown text.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "# Super Skill ..."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_skills",
+  "title": "List skills",
+  "summary": "Lists skills in personal, market and custom.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "list_skills",
+   "list skills"
+  ],
+  "name": "list_skills",
+  "group": "skills",
+  "description": "Lists skills in personal, market and custom.",
+  "parameters": [],
+  "returns": "A list.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "personal/obsidian-memory"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.load_skill",
+  "title": "Load a skill",
+  "summary": "Returns the text of one skill.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "load_skill",
+   "load a skill"
+  ],
+  "name": "load_skill",
+  "group": "skills",
+  "description": "A bare name searches all categories.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short name.",
+    "limits": null
+   }
+  ],
+  "returns": "The skill text.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "name": "demo"
+   },
+   "result": "# Obsidian memory ..."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Records usage for the learning graph."
+  ],
+  "failure_modes": [
+   {
+    "when": "Not found",
+    "what_the_agent_sees": "A not-found text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.create_skill",
+  "title": "Create a skill",
+  "summary": "Saves a new Markdown skill.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "create_skill",
+   "create a skill"
+  ],
+  "name": "create_skill",
+  "group": "skills",
+  "description": "Content over 15,000 characters or with injection-like text is rejected.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short name.",
+    "limits": null
+   },
+   {
+    "name": "content",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The text to store or write.",
+    "limits": "Memory notes are read back into prompts in slices of 4,000 characters (global) or 1,500 (session)."
+   },
+   {
+    "name": "use_case",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "One line about when to use the skill.",
+    "limits": null
+   },
+   {
+    "name": "category",
+    "type": "string",
+    "required": false,
+    "default": "personal",
+    "meaning": "Which group of skills or tools.",
+    "limits": "One of: personal, market, custom."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "name": "demo",
+    "content": "demo"
+   },
+   "result": "Created personal/deploy-checklist"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Writes a file under skills/library."
+  ],
+  "failure_modes": [
+   {
+    "when": "Too long",
+    "what_the_agent_sees": "Rejected with the limit"
+   },
+   {
+    "when": "Flagged text",
+    "what_the_agent_sees": "Rejected with the reason"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.edit_skill",
+  "title": "Edit a skill",
+  "summary": "Replaces the text of a skill.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "edit_skill",
+   "edit a skill"
+  ],
+  "name": "edit_skill",
+  "group": "skills",
+  "description": "Same checks as create_skill.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short name.",
+    "limits": null
+   },
+   {
+    "name": "content",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The text to store or write.",
+    "limits": "Memory notes are read back into prompts in slices of 4,000 characters (global) or 1,500 (session)."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "name": "demo",
+    "content": "demo"
+   },
+   "result": "Updated personal/deploy-checklist"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Overwrites a skill file."
+  ],
+  "failure_modes": [
+   {
+    "when": "Not found",
+    "what_the_agent_sees": "A not-found text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.search_skill",
+  "title": "Search skills",
+  "summary": "Searches skill names and text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.skills"
+  ],
+  "search_terms": [
+   "search_skill",
+   "search skills"
+  ],
+  "name": "search_skill",
+  "group": "skills",
+  "description": "Searches skill names and text.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   }
+  ],
+  "returns": "Matches.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "personal/deploy-checklist"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ }
+]

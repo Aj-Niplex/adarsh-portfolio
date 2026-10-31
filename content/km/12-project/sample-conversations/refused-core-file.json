@@ -1,0 +1,39 @@
+{
+ "id": "sample.refused-core-file",
+ "title": "A refused action",
+ "summary": "A refused action (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "a refused action"
+ ],
+ "platform": "telegram",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Edit config.py to change the timeout."
+  },
+  {
+   "role": "manas",
+   "text": "I cannot edit core code.",
+   "tool_calls": [
+    {
+     "tool": "edit_file",
+     "args": {
+      "path": "config.py"
+     },
+     "result_summary": "HARD BLOCK: harness core cannot be edited"
+    }
+   ]
+  },
+  {
+   "role": "manas",
+   "text": "Set SANDBOX_TIMEOUT in your .env instead."
+  }
+ ],
+ "what_to_notice": [
+  "No button exists for protected paths."
+ ]
+}

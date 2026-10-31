@@ -1,0 +1,54 @@
+[
+ {
+  "id": "skill.niplex-identity",
+  "title": "Identity skill",
+  "summary": "Tells the agent who it is and who made it.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "identity skill"
+  ],
+  "folder": "personal",
+  "when_the_agent_uses_it": "When a user asks who the agent is.",
+  "steps": [
+   "Read the identity block",
+   "Answer in plain words"
+  ],
+  "tools_used": [
+   "tool.who_am_i"
+  ],
+  "synthetic_example": {
+   "synthetic": true,
+   "user": "Save a note about tomorrow's meeting.",
+   "manas": "Saved in vault/notes/meeting.md with a title and tags."
+  }
+ },
+ {
+  "id": "skill.obsidian-memory",
+  "title": "Obsidian-ready notes",
+  "summary": "How to write notes so they open cleanly in Obsidian.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "obsidian-ready notes"
+  ],
+  "folder": "personal",
+  "when_the_agent_uses_it": "When saving notes into the vault.",
+  "steps": [
+   "Pick a clear title",
+   "Add front matter and tags",
+   "Save into the vault folder"
+  ],
+  "tools_used": [
+   "tool.create_file",
+   "tool.save_memory"
+  ],
+  "synthetic_example": {
+   "synthetic": true,
+   "user": "Save a note about tomorrow's meeting.",
+   "manas": "Saved in vault/notes/meeting.md with a title and tags."
+  }
+ }
+]

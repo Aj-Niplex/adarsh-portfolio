@@ -1,0 +1,160 @@
+[
+ {
+  "id": "tool.web_search",
+  "title": "Search the web",
+  "summary": "DuckDuckGo search without an API key.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.web"
+  ],
+  "search_terms": [
+   "web_search",
+   "search the web"
+  ],
+  "name": "web_search",
+  "group": "web",
+  "description": "Returns titles, links and short snippets.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   },
+   {
+    "name": "max_results",
+    "type": "integer",
+    "required": false,
+    "default": 5,
+    "meaning": "Maximum search hits.",
+    "limits": null
+   }
+  ],
+  "returns": "A list of results.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "1. Example page - https://example.org"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "Sends the query to DuckDuckGo."
+  ],
+  "failure_modes": [
+   {
+    "when": "Network error",
+    "what_the_agent_sees": "A short error text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.web_read",
+  "title": "Read a web page",
+  "summary": "Fetches a public page and returns its text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.web"
+  ],
+  "search_terms": [
+   "web_read",
+   "read a web page"
+  ],
+  "name": "web_read",
+  "group": "web",
+  "description": "Checks every address, including redirects. Private and local addresses are refused. Credentials in the URL are refused. Text is cut to 8,000 characters. Suspicious text gets a banner.",
+  "parameters": [
+   {
+    "name": "url",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A public http or https address.",
+    "limits": "Only public addresses. The page text is cut to 8,000 characters."
+   }
+  ],
+  "returns": "Page text.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "url": "demo"
+   },
+   "result": "Example Domain. This domain is for use in examples."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval. The SSRF guard blocks non-public addresses.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Makes an outbound request."
+  ],
+  "failure_modes": [
+   {
+    "when": "Private address",
+    "what_the_agent_sees": "A refusal naming the reason"
+   },
+   {
+    "when": "Non-http scheme",
+    "what_the_agent_sees": "Refused"
+   },
+   {
+    "when": "Timeout",
+    "what_the_agent_sees": "An error text"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.search_web_or_github_for_skill",
+  "title": "Search for skill ideas",
+  "summary": "Web search aimed at skill ideas.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.web"
+  ],
+  "search_terms": [
+   "search_web_or_github_for_skill",
+   "search for skill ideas"
+  ],
+  "name": "search_web_or_github_for_skill",
+  "group": "web",
+  "description": "Web search aimed at skill ideas.",
+  "parameters": [
+   {
+    "name": "query",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Words to look for.",
+    "limits": null
+   }
+  ],
+  "returns": "A list of results.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "query": "demo"
+   },
+   "result": "1. Example skill guide"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Sends the query to DuckDuckGo."
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ }
+]

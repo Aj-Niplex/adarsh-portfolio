@@ -1,0 +1,26 @@
+{
+ "id": "sample.model-error-404",
+ "title": "Model 404 after setup",
+ "summary": "Model 404 after setup (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "model 404 after setup"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "hey"
+  },
+  {
+   "role": "manas",
+   "text": "Google provider error: 404 NOT_FOUND. The model is not available to new users."
+  }
+ ],
+ "what_to_notice": [
+  "Pick another model. See known issue ki-setup-not-applied if /setup did not take effect."
+ ]
+}

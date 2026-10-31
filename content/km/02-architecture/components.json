@@ -1,0 +1,587 @@
+[
+ {
+  "id": "component.launcher",
+  "title": "Launcher and supervisor",
+  "summary": "Starts the bot, installs packages and watches the repo for updates.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "launcher",
+   "launcher and supervisor"
+  ],
+  "files": [
+   "launch.py",
+   "deploy_watch.py",
+   "deploy_update.py"
+  ],
+  "inputs": [
+   "environment settings",
+   "GitHub repo"
+  ],
+  "outputs": [
+   "a running bot process",
+   "deploy logs"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/deploy_state.json",
+   "data/deploy_logs"
+  ]
+ },
+ {
+  "id": "component.gateway-telegram",
+  "title": "Telegram adapter",
+  "summary": "Receives Telegram messages, enforces the allow-list, shows buttons.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "gateway-telegram",
+   "telegram adapter"
+  ],
+  "files": [
+   "gateway/telegram.py",
+   "gateway/progress.py",
+   "gateway/help_text.py"
+  ],
+  "inputs": [
+   "Telegram updates"
+  ],
+  "outputs": [
+   "Telegram messages"
+  ],
+  "depends_on": [
+   "component.agent-loop",
+   "component.approval-gate"
+  ],
+  "owns_state": []
+ },
+ {
+  "id": "component.gateway-discord",
+  "title": "Discord adapter",
+  "summary": "Receives Discord messages and prefix commands, shows buttons and embeds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "gateway-discord",
+   "discord adapter"
+  ],
+  "files": [
+   "gateway/discord.py",
+   "gateway/discord_ui.py",
+   "gateway/progress.py"
+  ],
+  "inputs": [
+   "Discord messages"
+  ],
+  "outputs": [
+   "Discord messages"
+  ],
+  "depends_on": [
+   "component.agent-loop",
+   "component.approval-gate"
+  ],
+  "owns_state": []
+ },
+ {
+  "id": "component.agent-loop",
+  "title": "Agent loop",
+  "summary": "Builds the prompt, calls the model, runs tool rounds and returns the reply.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "agent-loop",
+   "agent loop"
+  ],
+  "files": [
+   "agent/core.py",
+   "agent/context_compressor.py",
+   "agent/identity.py"
+  ],
+  "inputs": [
+   "user text",
+   "history"
+  ],
+  "outputs": [
+   "reply text",
+   "events"
+  ],
+  "depends_on": [
+   "component.provider-layer",
+   "component.tool-registry",
+   "component.memory-store",
+   "component.router"
+  ],
+  "owns_state": [
+   "session history"
+  ]
+ },
+ {
+  "id": "component.tool-registry",
+  "title": "Tool registry and groups",
+  "summary": "Holds all tool schemas and hides tools from switched-off groups.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "tool-registry",
+   "tool registry and groups"
+  ],
+  "files": [
+   "tools/registry.py",
+   "agent/capabilities.py"
+  ],
+  "inputs": [
+   "tool calls"
+  ],
+  "outputs": [
+   "tool results"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/tool_categories.json"
+  ]
+ },
+ {
+  "id": "component.approval-gate",
+  "title": "Approval gate",
+  "summary": "Scores code and shell commands and waits for button approval.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "approval-gate",
+   "approval gate"
+  ],
+  "files": [
+   "security/scanner.py",
+   "security/approvals.py",
+   "security/shell_guard.py"
+  ],
+  "inputs": [
+   "code or command text"
+  ],
+  "outputs": [
+   "allow, ask or refuse"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/always_allow.json",
+   "data/pending_approvals"
+  ]
+ },
+ {
+  "id": "component.sandbox",
+  "title": "Python sandbox",
+  "summary": "Runs Python in a limited subprocess with its own virtual environment.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "sandbox",
+   "python sandbox"
+  ],
+  "files": [
+   "sandbox/workspace.py"
+  ],
+  "inputs": [
+   "Python source"
+  ],
+  "outputs": [
+   "output"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/sandbox_venv"
+  ]
+ },
+ {
+  "id": "component.shell",
+  "title": "Shell terminal",
+  "summary": "A persistent bash shell, off unless the operator enables it.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "shell",
+   "shell terminal"
+  ],
+  "files": [
+   "terminal/shell.py",
+   "terminal/shell_gate.py",
+   "terminal/manager.py"
+  ],
+  "inputs": [
+   "shell commands"
+  ],
+  "outputs": [
+   "output"
+  ],
+  "depends_on": [
+   "component.approval-gate",
+   "component.secret-vault"
+  ],
+  "owns_state": []
+ },
+ {
+  "id": "component.secret-vault",
+  "title": "Secret vault",
+  "summary": "Stores named secrets and swaps placeholders at run time.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "secret-vault",
+   "secret vault"
+  ],
+  "files": [
+   "security/vault.py"
+  ],
+  "inputs": [
+   "placeholders"
+  ],
+  "outputs": [
+   "real values at run time",
+   "redacted output"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/secrets_vault.json"
+  ]
+ },
+ {
+  "id": "component.content-guard",
+  "title": "Content and privacy screening",
+  "summary": "Flags injection-like text and redacts token-like strings.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "content-guard",
+   "content and privacy screening"
+  ],
+  "files": [
+   "security/content_guard.py",
+   "security/privacy.py"
+  ],
+  "inputs": [
+   "web or skill text"
+  ],
+  "outputs": [
+   "warnings or rejections"
+  ],
+  "depends_on": [],
+  "owns_state": []
+ },
+ {
+  "id": "component.file-protection",
+  "title": "File protection",
+  "summary": "Decides which paths the file tools may touch.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "file-protection",
+   "file protection"
+  ],
+  "files": [
+   "files/manager.py"
+  ],
+  "inputs": [
+   "paths"
+  ],
+  "outputs": [
+   "allow or hard block"
+  ],
+  "depends_on": [],
+  "owns_state": []
+ },
+ {
+  "id": "component.memory-store",
+  "title": "Memory store",
+  "summary": "Notes, graph, vectors and event log.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "memory-store",
+   "memory store"
+  ],
+  "files": [
+   "memory/manager.py",
+   "memory/embeddings.py",
+   "memory/episodic.py"
+  ],
+  "inputs": [
+   "notes",
+   "events"
+  ],
+  "outputs": [
+   "search results"
+  ],
+  "depends_on": [
+   "component.provider-layer"
+  ],
+  "owns_state": [
+   "data/global",
+   "data/sessions",
+   "data/embeddings",
+   "data/episodic"
+  ]
+ },
+ {
+  "id": "component.skill-loader",
+  "title": "Skill loader",
+  "summary": "Reads and writes Markdown skills.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "skill-loader",
+   "skill loader"
+  ],
+  "files": [
+   "skills/manager.py"
+  ],
+  "inputs": [
+   "skill text"
+  ],
+  "outputs": [
+   "skills"
+  ],
+  "depends_on": [
+   "component.content-guard"
+  ],
+  "owns_state": [
+   "skills/library"
+  ]
+ },
+ {
+  "id": "component.scheduler",
+  "title": "Scheduler",
+  "summary": "Runs saved prompts on a schedule with a read-only tool list.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "scheduler",
+   "scheduler"
+  ],
+  "files": [
+   "cron/scheduler.py",
+   "cron/manager.py"
+  ],
+  "inputs": [
+   "job list"
+  ],
+  "outputs": [
+   "scheduled replies"
+  ],
+  "depends_on": [
+   "component.agent-loop"
+  ],
+  "owns_state": [
+   "data/cron_jobs.json"
+  ]
+ },
+ {
+  "id": "component.provider-layer",
+  "title": "Provider layer",
+  "summary": "Talks to the model API. One class for OpenAI-compatible APIs and one for Google.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "provider-layer",
+   "provider layer"
+  ],
+  "files": [
+   "agent/providers.py",
+   "setup/flow.py"
+  ],
+  "inputs": [
+   "messages",
+   "tool schemas"
+  ],
+  "outputs": [
+   "model reply"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/runtime_provider.json"
+  ]
+ },
+ {
+  "id": "component.router",
+  "title": "Model router",
+  "summary": "Chooses small, medium or power model and handles escalation.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "router",
+   "model router"
+  ],
+  "files": [
+   "routing/router.py",
+   "routing/config.py",
+   "routing/triggers.py",
+   "routing/handoff.py",
+   "routing/commands.py"
+  ],
+  "inputs": [
+   "user message"
+  ],
+  "outputs": [
+   "chosen model"
+  ],
+  "depends_on": [
+   "component.provider-layer"
+  ],
+  "owns_state": [
+   "data/model_routing.json",
+   "data/escalations"
+  ]
+ },
+ {
+  "id": "component.chat-ui",
+  "title": "Chat UI gallery",
+  "summary": "Buttons, menus and cards shown with /ui.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "chat-ui",
+   "chat ui gallery"
+  ],
+  "files": [
+   "chat_ui/__init__.py"
+  ],
+  "inputs": [
+   "UI requests"
+  ],
+  "outputs": [
+   "platform widgets"
+  ],
+  "depends_on": [],
+  "owns_state": []
+ },
+ {
+  "id": "component.web-tools",
+  "title": "Web tools",
+  "summary": "DuckDuckGo search and a guarded page reader.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "web-tools",
+   "web tools"
+  ],
+  "files": [
+   "websearch/duckduckgo.py"
+  ],
+  "inputs": [
+   "queries, URLs"
+  ],
+  "outputs": [
+   "text"
+  ],
+  "depends_on": [
+   "component.content-guard"
+  ],
+  "owns_state": []
+ },
+ {
+  "id": "component.notifications-voice",
+  "title": "Notifications and voice",
+  "summary": "ntfy push messages and Piper speech.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "notifications-voice",
+   "notifications and voice"
+  ],
+  "files": [
+   "notifications/ntfy.py",
+   "voice/piper_tts.py"
+  ],
+  "inputs": [
+   "text"
+  ],
+  "outputs": [
+   "push, WAV file"
+  ],
+  "depends_on": [],
+  "owns_state": [
+   "data/voices",
+   "data/voice_settings.json"
+  ]
+ },
+ {
+  "id": "component.git-tools",
+  "title": "GitHub tools",
+  "summary": "Read-only repo tools plus issue creation.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.architecture"
+  ],
+  "search_terms": [
+   "git-tools",
+   "github tools"
+  ],
+  "files": [
+   "git_tools/manager.py"
+  ],
+  "inputs": [
+   "repo names"
+  ],
+  "outputs": [
+   "text"
+  ],
+  "depends_on": [],
+  "owns_state": []
+ }
+]

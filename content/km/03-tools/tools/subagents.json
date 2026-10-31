@@ -1,0 +1,146 @@
+[
+ {
+  "id": "tool.spawn_subagent",
+  "title": "Record a sub-agent goal",
+  "summary": "Creates a record with a name and a goal.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.subagents"
+  ],
+  "search_terms": [
+   "spawn_subagent",
+   "record a sub-agent goal"
+  ],
+  "name": "spawn_subagent",
+  "group": "subagents",
+  "description": "This is bookkeeping. No second model runs.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "A short name.",
+    "limits": null
+   },
+   {
+    "name": "goal",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "What the sub-agent is meant to achieve.",
+    "limits": null
+   }
+  ],
+  "returns": "The sub-agent id.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "name": "demo",
+    "goal": "demo"
+   },
+   "result": "Spawned sub-agent a1b2c3d4 (research) for goal: compare two libraries"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Adds an in-memory record."
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_subagents",
+  "title": "List sub-agents",
+  "summary": "Lists records.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.subagents"
+  ],
+  "search_terms": [
+   "list_subagents",
+   "list sub-agents"
+  ],
+  "name": "list_subagents",
+  "group": "subagents",
+  "description": "Lists records.",
+  "parameters": [],
+  "returns": "A list or No sub-agents.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "[a1b2c3d4] research - goal: ... - done=False"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.subagent_report",
+  "title": "Finish a sub-agent record",
+  "summary": "Stores a result and marks it done.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.subagents"
+  ],
+  "search_terms": [
+   "subagent_report",
+   "finish a sub-agent record"
+  ],
+  "name": "subagent_report",
+  "group": "subagents",
+  "description": "Stores a result and marks it done.",
+  "parameters": [
+   {
+    "name": "sub_id",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Id returned by spawn_subagent.",
+    "limits": null
+   },
+   {
+    "name": "result",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "The outcome text.",
+    "limits": null
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "sub_id": "demo",
+    "result": "demo"
+   },
+   "result": "Sub-agent a1b2c3d4 marked done."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Updates an in-memory record."
+  ],
+  "failure_modes": [
+   {
+    "when": "Unknown id",
+    "what_the_agent_sees": "Sub-agent x not found"
+   }
+  ],
+  "default_state": "on"
+ }
+]

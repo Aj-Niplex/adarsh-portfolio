@@ -1,0 +1,539 @@
+[
+ {
+  "id": "trouble.1",
+  "title": "The bot does not answer in Discord",
+  "summary": "The bot does not answer in Discord",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the bot does not answer in discord"
+  ],
+  "symptom": "The bot does not answer in Discord",
+  "likely_causes": [
+   "Not mentioned in a server channel",
+   "user not on the allow-list",
+   "bot token wrong"
+  ],
+  "checks": [
+   "Mention the bot in server channels.",
+   "Check ALLOWED_DISCORD_IDS.",
+   "Check the token.",
+   "Read the log.."
+  ],
+  "fix": "Add your id to the list and restart.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.2",
+  "title": "The bot does not answer in Telegram",
+  "summary": "The bot does not answer in Telegram",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the bot does not answer in telegram"
+  ],
+  "symptom": "The bot does not answer in Telegram",
+  "likely_causes": [
+   "User not on the allow-list",
+   "token wrong",
+   "another process polls the same bot"
+  ],
+  "checks": [
+   "Check ALLOWED_TELEGRAM_IDS.",
+   "Check that one instance runs.",
+   "Read the log.."
+  ],
+  "fix": "Fix the list or stop the second instance.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.3",
+  "title": "Everyone is refused",
+  "summary": "Everyone is refused",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "everyone is refused"
+  ],
+  "symptom": "Everyone is refused",
+  "likely_causes": [
+   "REQUIRE_ALLOWLIST is true and the list is empty"
+  ],
+  "checks": [
+   "Open .env.",
+   "Look at the allow-list setting.."
+  ],
+  "fix": "Add at least one id.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.4",
+  "title": "Setup says Setup complete but replies use the old model",
+  "summary": "Setup says Setup complete but replies use the old model",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "setup says setup complete but replies use the old model"
+  ],
+  "symptom": "Setup says Setup complete but replies use the old model",
+  "likely_causes": [
+   "The running agent kept the old provider",
+   "or the setting is saved but not reloaded"
+  ],
+  "checks": [
+   "Run /setup again.",
+   "Restart the bot.",
+   "Check data/runtime_provider.json exists.."
+  ],
+  "fix": "Restart. If it still fails, report it as a bug. See known issue ki-setup-not-applied.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.5",
+  "title": "Google provider error 404 NOT_FOUND for a model",
+  "summary": "Google provider error 404 NOT_FOUND for a model",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "google provider error 404 not_found for a model"
+  ],
+  "symptom": "Google provider error 404 NOT_FOUND for a model",
+  "likely_causes": [
+   "The chosen model is not available to new users"
+  ],
+  "checks": [
+   "Pick another model in /setup.",
+   "Try a -latest alias.."
+  ],
+  "fix": "Choose a model the key can use.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.6",
+  "title": "Model list shows models that cannot chat",
+  "summary": "Model list shows models that cannot chat",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "model list shows models that cannot chat"
+  ],
+  "symptom": "Model list shows models that cannot chat",
+  "likely_causes": [
+   "The Google list includes image and speech models"
+  ],
+  "checks": [
+   "Look at the model id.."
+  ],
+  "fix": "Pick a text model.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.7",
+  "title": "The model list is empty or /setup asks for a model id",
+  "summary": "The model list is empty or /setup asks for a model id",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the model list is empty or /setup asks for a model id"
+  ],
+  "symptom": "The model list is empty or /setup asks for a model id",
+  "likely_causes": [
+   "The provider /models call failed"
+  ],
+  "checks": [
+   "Check the key.",
+   "Check the base URL.."
+  ],
+  "fix": "Type a model id by hand.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.8",
+  "title": "Anthropic provider refuses",
+  "summary": "Anthropic provider refuses",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "anthropic provider refuses"
+  ],
+  "symptom": "Anthropic provider refuses",
+  "likely_causes": [
+   "Direct Anthropic use needs an OpenAI-compatible proxy base URL"
+  ],
+  "checks": [
+   "Check the base URL.."
+  ],
+  "fix": "Use a proxy URL.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.9",
+  "title": "Approval buttons do nothing after a long wait",
+  "summary": "Approval buttons do nothing after a long wait",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "approval buttons do nothing after a long wait"
+  ],
+  "symptom": "Approval buttons do nothing after a long wait",
+  "likely_causes": [
+   "Discord buttons time out after 300 seconds"
+  ],
+  "checks": [
+   "Send the request again.."
+  ],
+  "fix": "Ask the agent to retry.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.10",
+  "title": "Command Approval Required keeps appearing",
+  "summary": "Command Approval Required keeps appearing",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "command approval required keeps appearing"
+  ],
+  "symptom": "Command Approval Required keeps appearing",
+  "likely_causes": [
+   "The command is MEDIUM or HIGH"
+  ],
+  "checks": [
+   "Read the level and reason.."
+  ],
+  "fix": "Allow Once, or Always Allow for an exact command.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.11",
+  "title": "A command is refused with HARD BLOCK",
+  "summary": "A command is refused with HARD BLOCK",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "a command is refused with hard block"
+  ],
+  "symptom": "A command is refused with HARD BLOCK",
+  "likely_causes": [
+   "It touches protected files or secrets"
+  ],
+  "checks": [
+   "Read the reason.."
+  ],
+  "fix": "Do not run it. It is never allowed.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.12",
+  "title": "Shell tools say the shell is off",
+  "summary": "Shell tools say the shell is off",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "shell tools say the shell is off"
+  ],
+  "symptom": "Shell tools say the shell is off",
+  "likely_causes": [
+   "SHELL_ENABLED is false"
+  ],
+  "checks": [
+   "Check .env.."
+  ],
+  "fix": "Set SHELL_ENABLED=true only on a server you trust.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.13",
+  "title": "Code times out",
+  "summary": "Code times out",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "code times out"
+  ],
+  "symptom": "Code times out",
+  "likely_causes": [
+   "SANDBOX_TIMEOUT is 60 seconds"
+  ],
+  "checks": [
+   "Check how long the job takes.."
+  ],
+  "fix": "Raise SANDBOX_TIMEOUT or split the job.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.14",
+  "title": "Code fails with a memory error",
+  "summary": "Code fails with a memory error",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "code fails with a memory error"
+  ],
+  "symptom": "Code fails with a memory error",
+  "likely_causes": [
+   "SANDBOX_MAX_MEMORY_MB is 512"
+  ],
+  "checks": [
+   "Check the data size.."
+  ],
+  "fix": "Raise the limit or use less data.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.15",
+  "title": "pip install does nothing useful",
+  "summary": "pip install does nothing useful",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "pip install does nothing useful"
+  ],
+  "symptom": "pip install does nothing useful",
+  "likely_causes": [
+   "The sandbox uses its own venv"
+  ],
+  "checks": [
+   "Run reset_sandbox_venv, then install again.."
+  ],
+  "fix": "Reset the venv.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.16",
+  "title": "Vector search returns keyword results",
+  "summary": "Vector search returns keyword results",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "vector search returns keyword results"
+  ],
+  "symptom": "Vector search returns keyword results",
+  "likely_causes": [
+   "No Google key is set"
+  ],
+  "checks": [
+   "Check GOOGLE_API_KEY or the /setup provider.."
+  ],
+  "fix": "Add a Google key.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.17",
+  "title": "Notifications say they are not configured",
+  "summary": "Notifications say they are not configured",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "notifications say they are not configured"
+  ],
+  "symptom": "Notifications say they are not configured",
+  "likely_causes": [
+   "NTFY_TOPIC is empty"
+  ],
+  "checks": [
+   "Check .env.."
+  ],
+  "fix": "Set a private topic name.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.18",
+  "title": "Git tools say they need a token",
+  "summary": "Git tools say they need a token",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "git tools say they need a token"
+  ],
+  "symptom": "Git tools say they need a token",
+  "likely_causes": [
+   "GITHUB_PAT is empty or the group is off"
+  ],
+  "checks": [
+   "Check .env and list_tool_categories.."
+  ],
+  "fix": "Set the token and turn the git group on.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.19",
+  "title": "Voice says no voice picked",
+  "summary": "Voice says no voice picked",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "voice says no voice picked"
+  ],
+  "symptom": "Voice says no voice picked",
+  "likely_causes": [
+   "No Piper voice is set"
+  ],
+  "checks": [
+   "Ask for set_voice.."
+  ],
+  "fix": "Pick a voice such as en_US-lessac-medium.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.20",
+  "title": "A scheduled job did not use a tool",
+  "summary": "A scheduled job did not use a tool",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "a scheduled job did not use a tool"
+  ],
+  "symptom": "A scheduled job did not use a tool",
+  "likely_causes": [
+   "Scheduled runs only get read-only tools"
+  ],
+  "checks": [
+   "Look at the job text.."
+  ],
+  "fix": "Run write actions in chat instead.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.21",
+  "title": "A new update did not go live",
+  "summary": "A new update did not go live",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "a new update did not go live"
+  ],
+  "symptom": "A new update did not go live",
+  "likely_causes": [
+   "Docs-only commits do not restart",
+   "a bad commit is rejected",
+   "auto-deploy is off"
+  ],
+  "checks": [
+   "Look at deploy logs under data.."
+  ],
+  "fix": "Fix the commit or set AUTO_DEPLOY=1.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.22",
+  "title": "The bot rolled back by itself",
+  "summary": "The bot rolled back by itself",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the bot rolled back by itself"
+  ],
+  "symptom": "The bot rolled back by itself",
+  "likely_causes": [
+   "The new commit exited within 120 seconds"
+  ],
+  "checks": [
+   "Read the deploy log.."
+  ],
+  "fix": "Fix the failing commit.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.23",
+  "title": "Long replies are cut",
+  "summary": "Long replies are cut",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "long replies are cut"
+  ],
+  "symptom": "Long replies are cut",
+  "likely_causes": [
+   "A path slices text blindly (scheduled sends, Discord setup replies)"
+  ],
+  "checks": [
+   "See which message was cut.."
+  ],
+  "fix": "Ask for a shorter reply. This is a known limit.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.24",
+  "title": "The agent cannot edit its own code",
+  "summary": "The agent cannot edit its own code",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the agent cannot edit its own code"
+  ],
+  "symptom": "The agent cannot edit its own code",
+  "likely_causes": [
+   "File protection blocks core folders"
+  ],
+  "checks": [
+   "Read the HARD BLOCK text.."
+  ],
+  "fix": "Change code through the repo, not the chat.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.25",
+  "title": "web_read refuses an address",
+  "summary": "web_read refuses an address",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "web_read refuses an address"
+  ],
+  "symptom": "web_read refuses an address",
+  "likely_causes": [
+   "The address is private, local or has credentials"
+  ],
+  "checks": [
+   "Check the URL.."
+  ],
+  "fix": "Use a public address.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ },
+ {
+  "id": "trouble.26",
+  "title": "The bot says a tool group is disabled",
+  "summary": "The bot says a tool group is disabled",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "the bot says a tool group is disabled"
+  ],
+  "symptom": "The bot says a tool group is disabled",
+  "likely_causes": [
+   "The group is switched off"
+  ],
+  "checks": [
+   "Call list_tool_categories.."
+  ],
+  "fix": "Ask the agent to turn it on, or enable it in settings.",
+  "when_to_ask_for_help": "If the fix does not work after one restart."
+ }
+]

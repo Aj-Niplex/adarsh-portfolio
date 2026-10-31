@@ -1,0 +1,30 @@
+{
+ "id": "sample.routing-escalate",
+ "title": "Escalate a task",
+ "summary": "Escalate a task (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "escalate a task"
+ ],
+ "platform": "telegram",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "/escalate design a backup plan"
+  },
+  {
+   "role": "manas",
+   "text": "Handing this to the power model."
+  },
+  {
+   "role": "manas",
+   "text": "Result: ... Summary: ... Context: ..."
+  }
+ ],
+ "what_to_notice": [
+  "Three-part answer."
+ ]
+}

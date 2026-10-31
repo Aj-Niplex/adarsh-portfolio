@@ -1,0 +1,407 @@
+[
+ {
+  "id": "group.memory",
+  "title": "Memory",
+  "summary": "Notes, a small graph, vector search and an event log the agent can save to and search.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.save_memory",
+   "tool.search_memory",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "memory",
+   "memory"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.save_memory",
+   "tool.search_memory",
+   "tool.list_memory",
+   "tool.graph_add_node",
+   "tool.graph_add_edge",
+   "tool.graph_query",
+   "tool.vector_search",
+   "tool.get_learning_graph",
+   "tool.session_search",
+   "tool.record_event",
+   "tool.recall_events"
+  ],
+  "typical_uses": [
+   "Remember a preference for later chats",
+   "Find what was said in an older session",
+   "Keep a dated log of events"
+  ],
+  "risks": "Notes persist on disk. Text saved here is later put into prompts, so do not store secrets in it."
+ },
+ {
+  "id": "group.terminal",
+  "title": "Terminal and Python sandbox",
+  "summary": "Run Python in a limited sandbox, with button approval for risky code.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.start_new_terminal",
+   "tool.run_code",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "terminal",
+   "terminal and python sandbox"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.start_new_terminal",
+   "tool.run_code",
+   "tool.get_results",
+   "tool.set_terminal_lifecycle",
+   "tool.list_terminals",
+   "tool.reset_sandbox_venv"
+  ],
+  "typical_uses": [
+   "Run a short calculation",
+   "Parse a CSV the user saved",
+   "Install a package in the sandbox venv (needs approval)"
+  ],
+  "risks": "The builtin sandbox is a limited subprocess, not a container or VM."
+ },
+ {
+  "id": "group.shell",
+  "title": "Shell",
+  "summary": "A persistent bash shell on the host. Off unless the operator turns it on.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.shell_exec",
+   "tool.shell_view",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "shell",
+   "shell"
+  ],
+  "default_state": "off",
+  "who_can_switch": "owner",
+  "why_it_is_a_group": "The shell is high risk, so only the operator can turn it on.",
+  "tool_ids": [
+   "tool.shell_exec",
+   "tool.shell_view",
+   "tool.shell_send",
+   "tool.shell_kill",
+   "tool.shell_info"
+  ],
+  "typical_uses": [
+   "Run git or build commands in a workspace folder",
+   "Watch a long command",
+   "Answer a prompt from an interactive program"
+  ],
+  "risks": "Runs as the same operating-system user as the bot. Guard rules are not a security boundary."
+ },
+ {
+  "id": "group.files",
+  "title": "Files",
+  "summary": "Create, edit, list, delete and send files inside allowed folders. Core code is protected.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.create_folder",
+   "tool.create_file",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "files",
+   "files"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.create_folder",
+   "tool.create_file",
+   "tool.edit_file",
+   "tool.edit_selected_part",
+   "tool.delete_file",
+   "tool.list_files",
+   "tool.send_file"
+  ],
+  "typical_uses": [
+   "Write a note into the vault folder",
+   "Edit a file the agent made earlier",
+   "Send a file back into chat"
+  ],
+  "risks": "File protection covers these tools only. It does not cover run_code or the shell."
+ },
+ {
+  "id": "group.skills",
+  "title": "Skills",
+  "summary": "Reusable Markdown instructions the agent can list, load, create and edit.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.get_super_skill",
+   "tool.list_skills",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "skills",
+   "skills"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.get_super_skill",
+   "tool.list_skills",
+   "tool.load_skill",
+   "tool.create_skill",
+   "tool.edit_skill",
+   "tool.search_skill"
+  ],
+  "typical_uses": [
+   "Save a workflow as a skill",
+   "Load a skill before a task",
+   "Search skills by keyword"
+  ],
+  "risks": "Skill text goes into prompts. Content that looks like prompt injection is rejected on save."
+ },
+ {
+  "id": "group.web",
+  "title": "Web",
+  "summary": "Search the web with DuckDuckGo and read public pages as text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.web_search",
+   "tool.web_read",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "web",
+   "web"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.web_search",
+   "tool.web_read",
+   "tool.search_web_or_github_for_skill"
+  ],
+  "typical_uses": [
+   "Look up a current fact",
+   "Read a documentation page",
+   "Find skill ideas"
+  ],
+  "risks": "Page text is untrusted. Suspicious text gets a warning banner, but it is not blocked."
+ },
+ {
+  "id": "group.cron",
+  "title": "Scheduled jobs",
+  "summary": "Add, list and remove prompts that run on a schedule in the same chat.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.add_cron_job",
+   "tool.list_cron_jobs",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "cron",
+   "scheduled jobs"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.add_cron_job",
+   "tool.list_cron_jobs",
+   "tool.remove_cron_job"
+  ],
+  "typical_uses": [
+   "Daily summary at a set UTC time",
+   "Check something every 30 minutes",
+   "Remove an old job"
+  ],
+  "risks": "Scheduled runs may only use a read-only list of tools."
+ },
+ {
+  "id": "group.subagents",
+  "title": "Sub-agent notes",
+  "summary": "Bookkeeping for delegated goals. It records a goal and a result. It does not run a second model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.spawn_subagent",
+   "tool.list_subagents",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "subagents",
+   "sub-agent notes"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.spawn_subagent",
+   "tool.list_subagents",
+   "tool.subagent_report"
+  ],
+  "typical_uses": [
+   "Track a multi-part goal",
+   "List open goals",
+   "Mark a goal done with a result"
+  ],
+  "risks": "Records live in memory and are lost on restart. No separate worker runs."
+ },
+ {
+  "id": "group.git",
+  "title": "GitHub",
+  "summary": "Read repos, list issues and commits, and open issues through the GitHub API.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.git_list_repos",
+   "tool.git_list_files",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "git",
+   "github"
+  ],
+  "default_state": "off",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.git_list_repos",
+   "tool.git_list_files",
+   "tool.git_read_file",
+   "tool.git_list_issues",
+   "tool.git_create_issue",
+   "tool.git_list_commits"
+  ],
+  "typical_uses": [
+   "List open issues",
+   "Read a file from a repo",
+   "Open an issue"
+  ],
+  "risks": "Needs a GitHub token in the settings. Issue creation changes things on GitHub."
+ },
+ {
+  "id": "group.notifications",
+  "title": "Notifications",
+  "summary": "Send a push message to the owner outside the chat, using ntfy.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.send_notification",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "notifications",
+   "notifications"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.send_notification"
+  ],
+  "typical_uses": [
+   "Tell the owner a long job finished",
+   "Alert on a failed check",
+   "Send a daily reminder"
+  ],
+  "risks": "Needs a topic name in the settings. On the public ntfy server anyone who knows the topic can read it."
+ },
+ {
+  "id": "group.voice",
+  "title": "Voice",
+  "summary": "Speak text as a voice message with Piper text-to-speech.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.speak",
+   "tool.set_voice",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "voice",
+   "voice"
+  ],
+  "default_state": "off",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.speak",
+   "tool.set_voice"
+  ],
+  "typical_uses": [
+   "Read a summary aloud",
+   "Pick a voice",
+   "Send a short voice note"
+  ],
+  "risks": "Needs a voice model downloaded first. Output is a WAV file."
+ },
+ {
+  "id": "group.session",
+  "title": "Session helpers",
+  "summary": "A simple per-chat to-do list and a way to ask the user one clear question.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.todo",
+   "tool.clarify",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "session",
+   "session helpers"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.todo",
+   "tool.clarify"
+  ],
+  "typical_uses": [
+   "Track steps in a long task",
+   "Ask which of two options to use",
+   "Clear the list when done"
+  ],
+  "risks": "Low risk. The to-do list is stored per chat."
+ },
+ {
+  "id": "group.routing",
+  "title": "Routing",
+  "summary": "Lets the agent hand a hard task to the stronger power model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "tool.request_escalation",
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "routing",
+   "routing"
+  ],
+  "default_state": "on",
+  "who_can_switch": "agent on request",
+  "why_it_is_a_group": "Tools with the same purpose and risk are switched together, so the model sees fewer tools.",
+  "tool_ids": [
+   "tool.request_escalation"
+  ],
+  "typical_uses": [
+   "Hand off a hard design task",
+   "Ask for a stronger model when unsure",
+   "Escalate after repeated failures"
+  ],
+  "risks": "The tool is only shown when a power model is set, auto routing is on, the low-confidence trigger is on and no tier is pinned."
+ }
+]

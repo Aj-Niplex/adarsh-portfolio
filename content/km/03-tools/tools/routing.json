@@ -1,0 +1,59 @@
+[
+ {
+  "id": "tool.request_escalation",
+  "title": "Ask for the power model",
+  "summary": "Hands a hard task to the power tier.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.routing"
+  ],
+  "search_terms": [
+   "request_escalation",
+   "ask for the power model"
+  ],
+  "name": "request_escalation",
+  "group": "routing",
+  "description": "Only offered when a power model is set, auto routing is on, the trigger is on and no tier is pinned. The power model gets the whole chat and answers in three parts. If it fails, the everyday model does the task.",
+  "parameters": [
+   {
+    "name": "reason",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Why a stronger model is needed.",
+    "limits": null
+   },
+   {
+    "name": "task",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "The task to hand over.",
+    "limits": null
+   }
+  ],
+  "returns": "The power model's answer.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "reason": "demo"
+   },
+   "result": "Result: ... Summary: ... Context: ..."
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Makes one or more calls to the power model and saves a handoff file."
+  ],
+  "failure_modes": [
+   {
+    "when": "Not available",
+    "what_the_agent_sees": "Escalation is not available."
+   }
+  ],
+  "default_state": "on"
+ }
+]

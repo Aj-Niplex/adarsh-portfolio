@@ -1,0 +1,353 @@
+[
+ {
+  "id": "usecase.01",
+  "title": "Daily summary",
+  "summary": "Wants a morning summary of a topic.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "daily summary"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Wants a morning summary of a topic.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks for a daily 09:00 job."
+   },
+   {
+    "actor": "manas",
+    "text": "Calls add_cron_job."
+   },
+   {
+    "actor": "tool",
+    "text": "Job runs with read-only tools."
+   }
+  ],
+  "tools_used": [
+   "tool.add_cron_job",
+   "tool.web_search"
+  ],
+  "what_the_owner_sees": "A summary in chat each day.",
+  "limits": "Cannot write files in scheduled runs."
+ },
+ {
+  "id": "usecase.02",
+  "title": "Quick data check",
+  "summary": "Has a CSV in the vault.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "quick data check"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Has a CSV in the vault.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks for totals."
+   },
+   {
+    "actor": "manas",
+    "text": "Runs Python."
+   },
+   {
+    "actor": "tool",
+    "text": "Result returns."
+   }
+  ],
+  "tools_used": [
+   "tool.run_code"
+  ],
+  "what_the_owner_sees": "Totals in chat.",
+  "limits": "Risky code needs a button."
+ },
+ {
+  "id": "usecase.03",
+  "title": "Notes while walking",
+  "summary": "Dictates ideas.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "notes while walking"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Dictates ideas.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Sends an idea."
+   },
+   {
+    "actor": "manas",
+    "text": "Saves a note."
+   },
+   {
+    "actor": "tool",
+    "text": "Note is written."
+   }
+  ],
+  "tools_used": [
+   "tool.save_memory"
+  ],
+  "what_the_owner_sees": "Saved note title.",
+  "limits": "Notes are not encrypted."
+ },
+ {
+  "id": "usecase.04",
+  "title": "Find an old decision",
+  "summary": "Cannot remember what was decided.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "find an old decision"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Cannot remember what was decided.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks."
+   },
+   {
+    "actor": "manas",
+    "text": "Searches notes."
+   },
+   {
+    "actor": "tool",
+    "text": "Excerpts return."
+   }
+  ],
+  "tools_used": [
+   "tool.search_memory",
+   "tool.session_search"
+  ],
+  "what_the_owner_sees": "The excerpt.",
+  "limits": "Keyword search needs matching words."
+ },
+ {
+  "id": "usecase.05",
+  "title": "Read a doc page",
+  "summary": "Needs the gist of a page.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "read a doc page"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Needs the gist of a page.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Sends a link."
+   },
+   {
+    "actor": "manas",
+    "text": "Reads the page."
+   },
+   {
+    "actor": "tool",
+    "text": "Text returns."
+   }
+  ],
+  "tools_used": [
+   "tool.web_read"
+  ],
+  "what_the_owner_sees": "A short summary.",
+  "limits": "Private addresses are refused."
+ },
+ {
+  "id": "usecase.06",
+  "title": "Install a package",
+  "summary": "Needs a library.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "install a package"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Needs a library.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks."
+   },
+   {
+    "actor": "manas",
+    "text": "Runs pip install."
+   },
+   {
+    "actor": "tool",
+    "text": "Approval request shown."
+   },
+   {
+    "actor": "owner",
+    "text": "Presses Allow Once."
+   }
+  ],
+  "tools_used": [
+   "tool.run_code"
+  ],
+  "what_the_owner_sees": "Install result.",
+  "limits": "Packages live in the sandbox venv."
+ },
+ {
+  "id": "usecase.07",
+  "title": "Check GitHub issues",
+  "summary": "Wants open issues.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "check github issues"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Wants open issues.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks."
+   },
+   {
+    "actor": "manas",
+    "text": "Lists issues."
+   }
+  ],
+  "tools_used": [
+   "tool.git_list_issues"
+  ],
+  "what_the_owner_sees": "Issue list.",
+  "limits": "Needs a token and the git group on."
+ },
+ {
+  "id": "usecase.08",
+  "title": "Hard task handoff",
+  "summary": "Has a design question.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "hard task handoff"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Has a design question.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Sends /escalate."
+   },
+   {
+    "actor": "manas",
+    "text": "Hands over to the power model."
+   }
+  ],
+  "tools_used": [
+   "tool.request_escalation"
+  ],
+  "what_the_owner_sees": "A three-part answer.",
+  "limits": "Needs a power model set."
+ },
+ {
+  "id": "usecase.09",
+  "title": "Push when done",
+  "summary": "Starts a long task.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "push when done"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Starts a long task.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks for a push when finished."
+   },
+   {
+    "actor": "manas",
+    "text": "Calls send_notification."
+   }
+  ],
+  "tools_used": [
+   "tool.send_notification"
+  ],
+  "what_the_owner_sees": "A push message.",
+  "limits": "Needs an ntfy topic."
+ },
+ {
+  "id": "usecase.10",
+  "title": "Switch a model",
+  "summary": "The model returns errors.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "switch a model"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "The model returns errors.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Runs /setup."
+   },
+   {
+    "actor": "manas",
+    "text": "Lists models."
+   },
+   {
+    "actor": "owner",
+    "text": "Picks one."
+   }
+  ],
+  "tools_used": [],
+  "what_the_owner_sees": "Setup complete.",
+  "limits": "See known issue ki-setup-not-applied."
+ },
+ {
+  "id": "usecase.11",
+  "title": "Track steps",
+  "summary": "Has a multi-step job.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "track steps"
+  ],
+  "synthetic": true,
+  "who": "Owner",
+  "situation": "Has a multi-step job.",
+  "steps": [
+   {
+    "actor": "owner",
+    "text": "Asks for a plan."
+   },
+   {
+    "actor": "manas",
+    "text": "Adds todo items."
+   }
+  ],
+  "tools_used": [
+   "tool.todo"
+  ],
+  "what_the_owner_sees": "A checklist.",
+  "limits": "List is per chat."
+ }
+]

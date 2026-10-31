@@ -36,10 +36,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The documentation text is read from files at run time by the assistant, so the files ship with it.
+  outputFileTracingIncludes: { "/api/chat": ["./content/km/**/*"], "/llms-full.txt": ["./content/km/**/*"] },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
       // The player engine has its version in the file name, so it can be cached for good.
+      // The scrambled pictures never change under the same name.
+      { source: "/km/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }, { key: "X-Robots-Tag", value: "noindex" }] },
       { source: "/lottie/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] }
     ];
   }

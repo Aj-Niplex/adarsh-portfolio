@@ -30,7 +30,7 @@ export const NAV = [
 export const HEADLINE = "I build AI agents and MCP servers.";
 
 export const LEDE =
-  "I'm Adarsh Jaiswal, also known as AJ NiPlex. NiPlex-Harness runs a personal AI agent from Discord or Telegram, with 55 tools and approval buttons for anything risky. NiPlex-MCP puts 73 tools behind one Model Context Protocol connection.";
+  "I'm Adarsh Jaiswal, also known as AJ NiPlex. NiPlex-Harness runs a personal AI agent from Discord or Telegram, with 61 tools and approval buttons for anything risky. NiPlex-MCP puts 73 tools behind one Model Context Protocol connection.";
 
 export const META_DESCRIPTION =
   "Adarsh Jaiswal (AJ NiPlex) builds AI agent systems and Model Context Protocol (MCP) servers: NiPlex-Harness, NiPlex-MCP, ThreadForge-MCP and Rei-kun-Bot.";

@@ -72,8 +72,14 @@ Any address that is not a real page shows the cat animation with a 404 status (`
 ## Credits
 Animations from [LottieFiles](https://lottiefiles.com), used under the Lottie Simple License: the robot by Oshie Labs, the archive search by Rita Veríssimo, the error animation by Boltbite, the account setup walk by Irfan M and the 404 cat by Alice Costa.
 
+## Kaizen Manas documentation
+
+`/projects/niplex-harness/...` holds about 285 pages (tools, commands, settings, safety, fixes, FAQ and more). They are built at deploy time from the files in `content/km`, which were read from the product's source at one commit (`content/km/meta.json`). To update them, replace the files and redeploy. Each page has its own address, so any page can be opened directly.
+
+Pictures come in two styles, "funny" (the default) and "simple". The address picks one: add `#funny` or `#simple`, or use the switch on the page. The pictures are stored scrambled in `public/km` and painted onto a canvas by the browser (`src/lib/kmImages.ts`), so there is no image address to save. This only stops casual copying; a screenshot or someone reading the code gets around it.
+
 ## Visit counter
-The footer shows a total visit count that is stored outside the site, so it keeps counting from where it left off after every redeploy. The browser asks `/api/views`, which calls a small database function using two server-side variables, `VIEWS_ENDPOINT` and `VIEWS_SECRET`. One visit is counted per browser session; crawlers and rapid repeats are read-only. If the variables are missing or the store is unreachable, the counter simply does not appear.
+The footer shows a total visit count that is stored outside the site, so it keeps counting from where it left off after every redeploy. The browser asks `/api/views`, which calls a small database function using two server-side variables, `VIEWS_ENDPOINT` and `VIEWS_SECRET`. Each browser is counted once (a flag in local storage plus a one-year cookie), so revisits and redeploys do not add visits; opening any page once with `?owner=1` marks a browser as the owner's and it is never counted. Crawlers and rapid repeats are read-only. If the variables are missing or the store is unreachable, the counter simply does not appear.
 
 ## Security headers
 `next.config.ts` sets a Content-Security-Policy (production only), `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options` and `frame-ancestors`. Anything new that loads from another site has to be added to the policy there.

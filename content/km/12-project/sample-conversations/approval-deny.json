@@ -1,0 +1,49 @@
+{
+ "id": "sample.approval-deny",
+ "title": "Deny a risky delete",
+ "summary": "Deny a risky delete (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "deny a risky delete"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "Clean up the temp folder."
+  },
+  {
+   "role": "manas",
+   "text": "This deletes a folder.",
+   "tool_calls": [
+    {
+     "tool": "run_code",
+     "args": {
+      "code": "shutil.rmtree('tmp')"
+     },
+     "result_summary": "Approval requested, level HIGH"
+    }
+   ],
+   "approval": {
+    "shown": true,
+    "buttons": [
+     "Allow Once",
+     "Allow Session",
+     "Always Allow",
+     "Deny"
+    ],
+    "chosen": "Deny"
+   }
+  },
+  {
+   "role": "manas",
+   "text": "Understood. I did not delete it."
+  }
+ ],
+ "what_to_notice": [
+  "Deny ends the request."
+ ]
+}

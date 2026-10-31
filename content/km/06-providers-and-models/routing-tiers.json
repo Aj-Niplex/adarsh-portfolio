@@ -1,0 +1,62 @@
+[
+ {
+  "id": "tier.small",
+  "title": "small",
+  "summary": "Quick, cheap replies for short or trivial messages.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [
+   "page.model-routing"
+  ],
+  "search_terms": [
+   "small",
+   "routing"
+  ],
+  "tier": "small",
+  "purpose": "Quick, cheap replies for short or trivial messages.",
+  "fallbacks": "Up to 3 fallbacks",
+  "how_escalation_is_decided": "Short messages under 50 characters or 8 words with no tool history. Optional: small-auto setting.",
+  "commands_that_change_it": "/routing set small, /model small",
+  "default_when_unset": "Falls back to medium"
+ },
+ {
+  "id": "tier.medium",
+  "title": "medium",
+  "summary": "The everyday model. Default for most messages.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [
+   "page.model-routing"
+  ],
+  "search_terms": [
+   "medium",
+   "routing"
+  ],
+  "tier": "medium",
+  "purpose": "The everyday model. Default for most messages.",
+  "fallbacks": "Up to 3 fallbacks",
+  "how_escalation_is_decided": "The default choice.",
+  "commands_that_change_it": "/routing set medium, /model medium",
+  "default_when_unset": "Falls back to the /setup model"
+ },
+ {
+  "id": "tier.power",
+  "title": "power",
+  "summary": "A stronger, slower model for hard tasks.",
+  "status": "merged",
+  "since": "2026-10-24",
+  "see_also": [
+   "page.model-routing"
+  ],
+  "search_terms": [
+   "power",
+   "routing"
+  ],
+  "tier": "power",
+  "purpose": "A stronger, slower model for hard tasks.",
+  "fallbacks": "Up to 3 fallbacks",
+  "how_escalation_is_decided": "Triggers: long_horizon, max_intelligence_request, low_confidence, complex_architecture. Or /escalate.",
+  "commands_that_change_it": "/routing set power, /escalate, /model power",
+  "default_when_unset": "Empty means nothing to escalate to"
+ }
+]

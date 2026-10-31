@@ -1,0 +1,103 @@
+[
+ {
+  "id": "tests.summary",
+  "title": "Test summary",
+  "summary": "484 tests collected on Python 3.12 and 3.13. CI cannot run right now because of a billing block.",
+  "status": "merged",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "tests",
+   "pytest"
+  ],
+  "areas": [
+   {
+    "area": "chat_ui_common",
+    "count": 28,
+    "what_it_covers": "Shared UI helpers"
+   },
+   {
+    "area": "chat_ui_discord",
+    "count": 64,
+    "what_it_covers": "Discord UI widgets"
+   },
+   {
+    "area": "chat_ui_telegram",
+    "count": 42,
+    "what_it_covers": "Telegram UI widgets"
+   },
+   {
+    "area": "deploy_lists",
+    "count": 2,
+    "what_it_covers": "Deploy and protected lists stay in step"
+   },
+   {
+    "area": "episodic",
+    "count": 22,
+    "what_it_covers": "Event log"
+   },
+   {
+    "area": "file_protection",
+    "count": 15,
+    "what_it_covers": "Protected paths"
+   },
+   {
+    "area": "gateway_ui",
+    "count": 9,
+    "what_it_covers": "Gateway UI wiring"
+   },
+   {
+    "area": "model_routing",
+    "count": 59,
+    "what_it_covers": "Tiers, triggers, handoff"
+   },
+   {
+    "area": "privacy",
+    "count": 36,
+    "what_it_covers": "Redaction rules"
+   },
+   {
+    "area": "shell_terminal",
+    "count": 101,
+    "what_it_covers": "Shell guard and sessions"
+   },
+   {
+    "area": "tool_gating",
+    "count": 6,
+    "what_it_covers": "Tool group gating"
+   },
+   {
+    "area": "tool_registry",
+    "count": 5,
+    "what_it_covers": "Registry shape"
+   },
+   {
+    "area": "vault",
+    "count": 10,
+    "what_it_covers": "Secret placeholders and redaction"
+   },
+   {
+    "area": "websearch_private_ranges",
+    "count": 40,
+    "what_it_covers": "Private address ranges"
+   },
+   {
+    "area": "websearch_ssrf",
+    "count": 45,
+    "what_it_covers": "Page reader safety"
+   }
+  ],
+  "python_versions": [
+   "3.12",
+   "3.13"
+  ],
+  "how_to_run": "pip install -r requirements.txt pytest, then run: pytest -q",
+  "ci_runs_now": false,
+  "ci_note": "A GitHub Actions workflow exists for 3.12 and 3.13, but GitHub cannot start jobs on this account right now. Tests are run by the author by hand.",
+  "extra_checks": [
+   "verify_progress.py: 132 checks",
+   "verify_shell.py: 255 passed, 1 skipped",
+   "verify_routing_http.py: 21 checks"
+  ]
+ }
+]

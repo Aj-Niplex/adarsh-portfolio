@@ -1,0 +1,218 @@
+[
+ {
+  "id": "sandbox-limit.1",
+  "title": "Memory",
+  "summary": "Memory: 512 MB.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "memory"
+  ],
+  "limit": "Memory",
+  "value": "512",
+  "unit": "MB",
+  "enforced_by": "RLIMIT_AS",
+  "applies_to": "builtin",
+  "can_owner_change": true,
+  "setting_name": "SANDBOX_MAX_MEMORY_MB"
+ },
+ {
+  "id": "sandbox-limit.2",
+  "title": "Wall-clock timeout",
+  "summary": "Wall-clock timeout: 60 seconds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "wall-clock timeout"
+  ],
+  "limit": "Wall-clock timeout",
+  "value": "60",
+  "unit": "seconds",
+  "enforced_by": "timer, process group killed",
+  "applies_to": "both",
+  "can_owner_change": true,
+  "setting_name": "SANDBOX_TIMEOUT"
+ },
+ {
+  "id": "sandbox-limit.3",
+  "title": "CPU time",
+  "summary": "CPU time: timeout + 5 seconds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "cpu time"
+  ],
+  "limit": "CPU time",
+  "value": "timeout + 5",
+  "unit": "seconds",
+  "enforced_by": "RLIMIT_CPU",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.4",
+  "title": "Open files",
+  "summary": "Open files: 256 files.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "open files"
+  ],
+  "limit": "Open files",
+  "value": "256",
+  "unit": "files",
+  "enforced_by": "RLIMIT_NOFILE",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.5",
+  "title": "Largest file",
+  "summary": "Largest file: 200 MB.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "largest file"
+  ],
+  "limit": "Largest file",
+  "value": "200",
+  "unit": "MB",
+  "enforced_by": "RLIMIT_FSIZE",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.6",
+  "title": "Core dumps",
+  "summary": "Core dumps: 0 bytes.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "core dumps"
+  ],
+  "limit": "Core dumps",
+  "value": "0",
+  "unit": "bytes",
+  "enforced_by": "RLIMIT_CORE",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.7",
+  "title": "New processes",
+  "summary": "New processes: 24 above current count processes.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "new processes"
+  ],
+  "limit": "New processes",
+  "value": "24 above current count",
+  "unit": "processes",
+  "enforced_by": "RLIMIT_NPROC",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.8",
+  "title": "No new privileges",
+  "summary": "No new privileges: on flag.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "no new privileges"
+  ],
+  "limit": "No new privileges",
+  "value": "on",
+  "unit": "flag",
+  "enforced_by": "PR_SET_NO_NEW_PRIVS",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.9",
+  "title": "Working directory",
+  "summary": "Working directory: fresh temporary folder path rule.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "working directory"
+  ],
+  "limit": "Working directory",
+  "value": "fresh temporary folder",
+  "unit": "path rule",
+  "enforced_by": "subprocess setup",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.10",
+  "title": "Environment",
+  "summary": "Environment: secret-like names removed kinds: provider keys, bot tokens, names with TOKEN, SECRET, PASSWORD, API_KEY.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "environment"
+  ],
+  "limit": "Environment",
+  "value": "secret-like names removed",
+  "unit": "kinds: provider keys, bot tokens, names with TOKEN, SECRET, PASSWORD, API_KEY",
+  "enforced_by": "environment scrub",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.11",
+  "title": "Language",
+  "summary": "Language: Python only -.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "language"
+  ],
+  "limit": "Language",
+  "value": "Python only",
+  "unit": "-",
+  "enforced_by": "sandbox design",
+  "applies_to": "builtin",
+  "can_owner_change": false,
+  "setting_name": null
+ },
+ {
+  "id": "sandbox-limit.12",
+  "title": "External request timeout",
+  "summary": "External request timeout: timeout + 10 seconds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "external request timeout"
+  ],
+  "limit": "External request timeout",
+  "value": "timeout + 10",
+  "unit": "seconds",
+  "enforced_by": "HTTP client",
+  "applies_to": "external",
+  "can_owner_change": true,
+  "setting_name": "SANDBOX_TIMEOUT"
+ }
+]

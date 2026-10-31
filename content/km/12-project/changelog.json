@@ -1,0 +1,380 @@
+[
+ {
+  "id": "change.01",
+  "title": "Chat UI, routing, shell, progress lines",
+  "summary": "Merged October features: #27 live turn feedback, #28 shell terminal, #29 model routing, #30 /ui gallery, #31 privacy redaction.",
+  "status": "merged",
+  "since": "2026-10-28",
+  "see_also": [],
+  "search_terms": [
+   "chat ui, routing, shell, progress lines"
+  ],
+  "date_or_version": "2026-10-28",
+  "items": [
+   {
+    "type": "added",
+    "text": "Live tool-progress lines and message splitting (#27)"
+   },
+   {
+    "type": "added",
+    "text": "Shell group, off by default (#28)"
+   },
+   {
+    "type": "added",
+    "text": "Small, medium and power tiers with /routing, /model, /escalate (#29)"
+   },
+   {
+    "type": "added",
+    "text": "/ui gallery (#30)"
+   },
+   {
+    "type": "changed",
+    "text": "Stronger secret redaction and more protected data files (#31)"
+   }
+  ]
+ },
+ {
+  "id": "change.02",
+  "title": "Page reader hardening",
+  "summary": "Fixed DNS rebinding and extended blocked address ranges (#22, #32).",
+  "status": "merged",
+  "since": "2026-10-28",
+  "see_also": [],
+  "search_terms": [
+   "page reader hardening"
+  ],
+  "date_or_version": "2026-10-28",
+  "items": [
+   {
+    "type": "fixed",
+    "text": "Resolve once and connect to the checked address (#22)"
+   },
+   {
+    "type": "fixed",
+    "text": "Block all non-public ranges including mapped forms (#32)"
+   }
+  ]
+ },
+ {
+  "id": "change.03",
+  "title": "Config-only MCP deploy prep",
+  "summary": "mcp/ and mcp_client/ folders can deploy (#25). Not used by the agent loop.",
+  "status": "merged",
+  "since": "2026-10-28",
+  "see_also": [],
+  "search_terms": [
+   "config-only mcp deploy prep"
+  ],
+  "date_or_version": "2026-10-28",
+  "items": [
+   {
+    "type": "added",
+    "text": "Config-only MCP folders (#25)"
+   }
+  ]
+ },
+ {
+  "id": "change.04",
+  "title": "Auto-deploy heartbeat",
+  "summary": "The supervisor can follow a branch and update the running bot by itself (#26).",
+  "status": "merged",
+  "since": "2026-10-12",
+  "see_also": [],
+  "search_terms": [
+   "auto-deploy heartbeat"
+  ],
+  "date_or_version": "2026-10-12",
+  "items": [
+   {
+    "type": "added",
+    "text": "deploy_watch.py supervisor with rollback"
+   }
+  ]
+ },
+ {
+  "id": "change.05",
+  "title": "Tests, CI file, episodic log",
+  "summary": "Pytest foundation (#19), DEPLOY_BRANCH (#20), episodic log (#21), CI workflow (#23), episodic tools (#24).",
+  "status": "merged",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "tests, ci file, episodic log"
+  ],
+  "date_or_version": "2026-10-10",
+  "items": [
+   {
+    "type": "added",
+    "text": "pytest tests"
+   },
+   {
+    "type": "added",
+    "text": "Append-only event log"
+   },
+   {
+    "type": "added",
+    "text": "DEPLOY_BRANCH setting"
+   }
+  ]
+ },
+ {
+  "id": "change.06",
+  "title": "Google client migration",
+  "summary": "Moved to the google-genai client (#17).",
+  "status": "merged",
+  "since": "2026-09-30",
+  "see_also": [],
+  "search_terms": [
+   "google client migration"
+  ],
+  "date_or_version": "2026-09-30",
+  "items": [
+   {
+    "type": "changed",
+    "text": "google-genai replaces the older client"
+   }
+  ]
+ },
+ {
+  "id": "change.07",
+  "title": "Thread replies and message queue",
+  "summary": "Thread mention exemption and per-channel queue (#16). Google key unified for embeddings (#15).",
+  "status": "merged",
+  "since": "2026-09-24",
+  "see_also": [],
+  "search_terms": [
+   "thread replies and message queue"
+  ],
+  "date_or_version": "2026-09-24",
+  "items": [
+   {
+    "type": "changed",
+    "text": "One Google key for chat and embeddings"
+   },
+   {
+    "type": "added",
+    "text": "Per-chat message queue"
+   }
+  ]
+ },
+ {
+  "id": "change.08",
+  "title": "Scoped search and compressor fix",
+  "summary": "Path-scoped keyword search (#14). Context-compressor boundary fix (#13).",
+  "status": "merged",
+  "since": "2026-09-21",
+  "see_also": [],
+  "search_terms": [
+   "scoped search and compressor fix"
+  ],
+  "date_or_version": "2026-09-21",
+  "items": [
+   {
+    "type": "added",
+    "text": "path argument for search_memory"
+   },
+   {
+    "type": "fixed",
+    "text": "History cut only at a user message"
+   }
+  ]
+ },
+ {
+  "id": "change.09",
+  "title": "Real vector search",
+  "summary": "Embedding search with fallback (#12).",
+  "status": "merged",
+  "since": "2026-09-20",
+  "see_also": [],
+  "search_terms": [
+   "real vector search"
+  ],
+  "date_or_version": "2026-09-20",
+  "items": [
+   {
+    "type": "added",
+    "text": "vector_search with Google embeddings"
+   }
+  ]
+ },
+ {
+  "id": "change.10",
+  "title": "Learning graph and deploy mirror",
+  "summary": "Learning graph (#11). Deploy mirror and skills folders (#10).",
+  "status": "merged",
+  "since": "2026-09-19",
+  "see_also": [],
+  "search_terms": [
+   "learning graph and deploy mirror"
+  ],
+  "date_or_version": "2026-09-19",
+  "items": [
+   {
+    "type": "added",
+    "text": "get_learning_graph"
+   },
+   {
+    "type": "fixed",
+    "text": "Deploy no longer deletes installed packages"
+   }
+  ]
+ },
+ {
+  "id": "change.11",
+  "title": "Rename and /allow",
+  "summary": "Renamed to Kaizen Manas (#9). Added the /allow window (#8).",
+  "status": "merged",
+  "since": "2026-09-18",
+  "see_also": [],
+  "search_terms": [
+   "rename and /allow"
+  ],
+  "date_or_version": "2026-09-18",
+  "items": [
+   {
+    "type": "changed",
+    "text": "Display name is Kaizen Manas, agent is Manas"
+   },
+   {
+    "type": "added",
+    "text": "/allow 5, 10 or 30 minutes"
+   }
+  ]
+ },
+ {
+  "id": "change.12",
+  "title": "Post-audit fixes",
+  "summary": "Fixes H1 to H4 from the audit (#7).",
+  "status": "merged",
+  "since": "2026-09-17",
+  "see_also": [],
+  "search_terms": [
+   "post-audit fixes"
+  ],
+  "date_or_version": "2026-09-17",
+  "items": [
+   {
+    "type": "fixed",
+    "text": "Audit findings H1 to H4"
+   }
+  ]
+ },
+ {
+  "id": "change.13",
+  "title": "Hotfix and tool registry",
+  "summary": "Import crash hotfix (#6). Tool registry phase 0 (#5).",
+  "status": "merged",
+  "since": "2026-09-16",
+  "see_also": [],
+  "search_terms": [
+   "hotfix and tool registry"
+  ],
+  "date_or_version": "2026-09-16",
+  "items": [
+   {
+    "type": "fixed",
+    "text": "Import crash"
+   },
+   {
+    "type": "added",
+    "text": "Central tool registry"
+   }
+  ]
+ },
+ {
+  "id": "change.14",
+  "title": "Groups, cron, git, notifications",
+  "summary": "Tool categories, scheduled jobs, GitHub tools, ntfy (#4).",
+  "status": "merged",
+  "since": "2026-09-08",
+  "see_also": [],
+  "search_terms": [
+   "groups, cron, git, notifications"
+  ],
+  "date_or_version": "2026-09-08",
+  "items": [
+   {
+    "type": "added",
+    "text": "Tool groups"
+   },
+   {
+    "type": "added",
+    "text": "Scheduled jobs"
+   },
+   {
+    "type": "added",
+    "text": "GitHub tools"
+   },
+   {
+    "type": "added",
+    "text": "ntfy notifications"
+   }
+  ]
+ },
+ {
+  "id": "change.15",
+  "title": "Sandbox venv and injection guard",
+  "summary": "Sandbox venv and hardening (#3). Injection guard and saved approvals (#2).",
+  "status": "merged",
+  "since": "2026-09-04",
+  "see_also": [],
+  "search_terms": [
+   "sandbox venv and injection guard"
+  ],
+  "date_or_version": "2026-09-04",
+  "items": [
+   {
+    "type": "added",
+    "text": "Dedicated sandbox venv"
+   },
+   {
+    "type": "added",
+    "text": "Prompt-injection guard"
+   },
+   {
+    "type": "added",
+    "text": "Approvals saved to disk"
+   }
+  ]
+ },
+ {
+  "id": "change.16",
+  "title": "Scanner and path fixes",
+  "summary": "Scanner bypass and path traversal fixes (#1).",
+  "status": "merged",
+  "since": "2026-09-03",
+  "see_also": [],
+  "search_terms": [
+   "scanner and path fixes"
+  ],
+  "date_or_version": "2026-09-03",
+  "items": [
+   {
+    "type": "fixed",
+    "text": "Scanner bypass"
+   },
+   {
+    "type": "fixed",
+    "text": "Path traversal"
+   }
+  ]
+ },
+ {
+  "id": "change.17",
+  "title": "First commit",
+  "summary": "Repository created.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "first commit"
+  ],
+  "date_or_version": "2026-09-02",
+  "items": [
+   {
+    "type": "added",
+    "text": "Initial code and README"
+   }
+  ]
+ }
+]

@@ -1,0 +1,174 @@
+[
+ {
+  "id": "principle.owner-in-control",
+  "title": "The owner stays in control",
+  "summary": "Risky actions wait for a button press from the owner.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "the owner stays in control"
+  ],
+  "why": "Approval buttons put a person between the model and anything risky.",
+  "shown_in": [
+   "page.approval-gate"
+  ]
+ },
+ {
+  "id": "principle.small-defaults",
+  "title": "Safe by default",
+  "summary": "Dangerous features start off. The shell is off until the operator turns it on.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.shell"
+  ],
+  "search_terms": [
+   "safe by default"
+  ],
+  "why": "A new install should not be able to run host commands.",
+  "shown_in": [
+   "group.shell"
+  ]
+ },
+ {
+  "id": "principle.fail-closed",
+  "title": "Fail closed",
+  "summary": "When a check cannot decide, it refuses.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.allow-list",
+   "page.file-protection"
+  ],
+  "search_terms": [
+   "fail closed"
+  ],
+  "why": "An empty allow-list refuses everyone. A path that escapes the root counts as protected.",
+  "shown_in": [
+   "page.allow-list",
+   "page.file-protection"
+  ]
+ },
+ {
+  "id": "principle.phone-first",
+  "title": "Phone first",
+  "summary": "The bot is built to be used from a phone in Telegram or Discord.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.progress-updates"
+  ],
+  "search_terms": [
+   "phone first"
+  ],
+  "why": "The author has no laptop. Replies are short and split to fit message limits.",
+  "shown_in": [
+   "page.progress-updates"
+  ]
+ },
+ {
+  "id": "principle.honest-limits",
+  "title": "Honest limits",
+  "summary": "The docs say what the checks cannot do.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.threat-model"
+  ],
+  "search_terms": [
+   "honest limits"
+  ],
+  "why": "Pattern checks are not a security boundary. The sandbox is not a container.",
+  "shown_in": [
+   "page.threat-model"
+  ]
+ },
+ {
+  "id": "principle.secrets-out-of-prompts",
+  "title": "Keep secrets out of prompts",
+  "summary": "Secrets are placeholders until the moment code runs.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.secret-vault"
+  ],
+  "search_terms": [
+   "keep secrets out of prompts"
+  ],
+  "why": "The model sees {=NAME=}. The real value is filled in after the scan and removed from output.",
+  "shown_in": [
+   "page.secret-vault"
+  ]
+ },
+ {
+  "id": "principle.exact-allow",
+  "title": "Exact matches only",
+  "summary": "Always Allow remembers one exact command, not a pattern.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.approval-gate"
+  ],
+  "search_terms": [
+   "exact matches only"
+  ],
+  "why": "A broad rule would approve commands nobody looked at.",
+  "shown_in": [
+   "page.approval-gate"
+  ]
+ },
+ {
+  "id": "principle.small-tool-set",
+  "title": "Few tools at a time",
+  "summary": "Tools are grouped and groups can be switched off.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.tool-groups"
+  ],
+  "search_terms": [
+   "few tools at a time"
+  ],
+  "why": "Fewer tools in the prompt means fewer wrong calls and fewer tokens.",
+  "shown_in": [
+   "page.tool-groups"
+  ]
+ },
+ {
+  "id": "principle.restart-safe",
+  "title": "Survive restarts",
+  "summary": "Pending approvals and settings are saved to disk.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.state-and-storage"
+  ],
+  "search_terms": [
+   "survive restarts"
+  ],
+  "why": "A restart should not lose a waiting approval.",
+  "shown_in": [
+   "page.state-and-storage"
+  ]
+ },
+ {
+  "id": "principle.owner-pays-own-keys",
+  "title": "Bring your own model key",
+  "summary": "The owner supplies the model key and picks the model.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "page.model-routing"
+  ],
+  "search_terms": [
+   "bring your own model key"
+  ],
+  "why": "No hosted model service is bundled.",
+  "shown_in": [
+   "page.model-routing"
+  ]
+ }
+]

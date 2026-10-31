@@ -1,7 +1,7 @@
 export type Tier = "core" | "tools" | "side";
 
-// A picture that belongs to one group. With `item`, it sits under that bullet; without, beside the group's heading.
-export type Figure = { src: string; alt: string; caption: string; item?: number };
+// A picture that belongs to one group (see public/km). With `item`, it sits under that bullet; without, beside the group's heading.
+export type Figure = { id: string; alt: string; caption: string; item?: number };
 
 export type Project = {
   slug: string;
@@ -44,7 +44,7 @@ export const projects: Project[] = [
       "Also known as Kaizen Manas, with the agent itself named Manas. The name joins kaizen (continuous improvement) and manas (Sanskrit for mind), and replaced NiPlex Harness on 17 September 2026. One Python process built for a single owner and for free hosts with no PC, so your phone is the control panel. It keeps notes, searches the web and runs Python in a resource-limited sandbox, and it stops at approval buttons before anything risky. The current source is private; this page describes what it does. An older public snapshot is on GitHub.",
     tags: ["Python", "Discord", "Telegram", "Sandbox", "Agents"],
     stats: [
-      { label: "Tools", value: "61 in 13 switchable groups" },
+      { label: "Tools", value: "61: 56 in 13 groups, 5 always on" },
       { label: "Chat apps", value: "Discord, Telegram" },
       { label: "Code execution", value: "Limited sandbox + approval buttons" },
       { label: "Tests", value: "484, run on Python 3.12 and 3.13" }
@@ -52,7 +52,6 @@ export const projects: Project[] = [
     groups: [
       {
         title: "Set up from chat",
-        figure: { src: "/logos/manas-wave.webp", alt: "Manas, the purple axolotl plush, waving hello", caption: "Saying hello: the first thing you do is chat with it" },
         items: [
           "/setup walks through provider, API key and model. The model list comes from the provider's own API, and you can answer with a number, an ID or random.",
           "Providers: Agnes, Google Gemini, OpenAI, OpenRouter, any OpenAI-compatible endpoint, and Anthropic through an OpenAI-compatible proxy.",
@@ -61,7 +60,6 @@ export const projects: Project[] = [
       },
       {
         title: "What the agent can do",
-        figure: { src: "/logos/manas-reading.webp", alt: "Manas reading a book in a cosy room at night", caption: "Skills are short guides the agent reads and reuses", item: 3 },
         items: [
           "Memory: notes kept globally or per chat, keyword search, semantic search through Gemini embeddings, a small knowledge graph, search across past sessions and a timestamped event log.",
           "Terminal: run Python in the sandbox, keep several terminal sessions open and reset the sandbox's installed packages.",
@@ -74,6 +72,7 @@ export const projects: Project[] = [
       },
       {
         title: "Safe by default",
+        figure: { id: "safety-approval-gate", alt: "Manas pausing at a small gate with a button, waiting for a person to approve", caption: "Risky things wait for a button" },
         items: [
           "Only numeric user IDs on the allow-list can talk to it. An empty list lets nobody in.",
           "Risky code stops at Allow Once, Allow Session, Always Allow (that exact command only) or Deny buttons. Waiting approvals survive a restart.",
@@ -87,6 +86,7 @@ export const projects: Project[] = [
       },
       {
         title: "Keeps itself running",
+        figure: { id: "runtime-self-repair", alt: "Manas with a wrench helping a sleepy lamp wake up", caption: "Restarts and rolls back by itself" },
         items: [
           "Auto-deploy (needs a GitHub token): a supervisor checks the deploy branch about every two minutes, rejects code that does not compile, restarts on the new commit and rolls back if the bot crashes within two minutes of a deploy.",
           "A crash restarts the bot with growing delays, from 5 seconds up to 5 minutes.",
@@ -96,7 +96,6 @@ export const projects: Project[] = [
       },
       {
         title: "Merged in October, rolling out",
-        figure: { src: "/logos/manas-garden.webp", alt: "Manas watering a small seedling in a garden", caption: "Kaizen: small, steady improvement" },
         items: [
           "Live progress in the chat: one line per tool call, the agent's text before a tool call sent as it happens, long replies split instead of cut off, and 25 tool rounds per message by default.",
           "A persistent shell terminal, a group of 5 tools. It keeps its state between commands and runs any installed language. Off by default; only the owner can switch it on in .env, never from chat. Risky commands use the same approval buttons.",
@@ -117,6 +116,7 @@ export const projects: Project[] = [
     reference: {
       title: "Commands",
       rows: [
+        { name: "/start", purpose: "Telegram only: show the start text." },
         { name: "/setup", purpose: "Choose provider, API key and model." },
         { name: "/help", purpose: "Show usage help." },
         { name: "/reset", purpose: "Clear the current chat session." },
@@ -139,7 +139,7 @@ export const projects: Project[] = [
     ],
     links: [{ label: "Older public snapshot on GitHub", href: "https://github.com/Aj-Niplex/NiPlex-Harness" }],
     logo: { src: "/logos/kaizen-manas.webp", alt: "Manas, the Kaizen Manas mascot: a purple axolotl plush wearing a teal harness", plain: true },
-    share: { src: "/logos/kaizen-manas-share.jpg", width: 1200, height: 1200, alt: "Manas, the Kaizen Manas mascot, waving" },
+    share: { src: "/logos/kaizen-manas-share-wide.jpg", width: 1200, height: 630, alt: "Manas, the Kaizen Manas mascot, waving" },
     appCategory: "DeveloperApplication"
   },
   {

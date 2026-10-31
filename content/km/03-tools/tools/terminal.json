@@ -1,0 +1,300 @@
+[
+ {
+  "id": "tool.start_new_terminal",
+  "title": "Start a terminal",
+  "summary": "Creates a named terminal session for run_code.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "start_new_terminal",
+   "start a terminal"
+  ],
+  "name": "start_new_terminal",
+  "group": "terminal",
+  "description": "A terminal keeps the last 20 results. It is bookkeeping, not a separate process.",
+  "parameters": [
+   {
+    "name": "name",
+    "type": "string",
+    "required": false,
+    "default": "main",
+    "meaning": "A short name.",
+    "limits": null
+   }
+  ],
+  "returns": "The terminal id.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "Started terminal t1 (main)."
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Adds an in-memory session."
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.run_code",
+  "title": "Run Python",
+  "summary": "Runs Python in the sandbox. Risky code waits for button approval.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "run_code",
+   "run python"
+  ],
+  "name": "run_code",
+  "group": "terminal",
+  "description": "The code is scanned first. Safe code runs. Medium and high risk code returns an approval request and waits for a button. Secret placeholders are filled in only after the scan. Output is redacted.",
+  "parameters": [
+   {
+    "name": "code",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Python source to run.",
+    "limits": "Wall-clock limit 60 seconds by default; memory limit 512 MB by default."
+   },
+   {
+    "name": "terminal_id",
+    "type": "string",
+    "required": false,
+    "default": null,
+    "meaning": "Id of a terminal session. Omit to use the first one.",
+    "limits": null
+   }
+  ],
+  "returns": "JSON with terminal id, output and exit status.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "code": "demo"
+   },
+   "result": "{\"terminal_id\": \"t1\", \"stdout\": \"42\\n\", \"returncode\": 0}"
+  },
+  "risk": "high",
+  "needs_approval": "sometimes",
+  "approval_rule": "FREE or LOW code runs. MEDIUM and HIGH wait for a button unless the chat has Allow Session (MEDIUM only) or an /allow window.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Runs code as the bot's OS user inside a limited subprocess",
+   "Can write files in a temp folder and use the network."
+  ],
+  "failure_modes": [
+   {
+    "when": "The code is risky",
+    "what_the_agent_sees": "Command Approval Required with an id, level and reason"
+   },
+   {
+    "when": "The code times out",
+    "what_the_agent_sees": "A timeout result"
+   },
+   {
+    "when": "The terminal is dead",
+    "what_the_agent_sees": "Terminal not found or dead."
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.get_results",
+  "title": "Recent results",
+  "summary": "Returns the last results of a terminal.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "get_results",
+   "recent results"
+  ],
+  "name": "get_results",
+  "group": "terminal",
+  "description": "History keeps up to 20 entries per terminal. Code is stored cut to 500 characters.",
+  "parameters": [
+   {
+    "name": "terminal_id",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Id of a terminal session. Omit to use the first one.",
+    "limits": null
+   },
+   {
+    "name": "last_n",
+    "type": "integer",
+    "required": false,
+    "default": 5,
+    "meaning": "How many recent results to return.",
+    "limits": null
+   }
+  ],
+  "returns": "JSON list.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "terminal_id": "demo"
+   },
+   "result": "[{\"code\": \"print(6*7)\", \"result\": {...}}]"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [
+   {
+    "when": "Unknown terminal",
+    "what_the_agent_sees": "Terminal t9 not found"
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.set_terminal_lifecycle",
+  "title": "Manage a terminal",
+  "summary": "Kill, keep alive or clear history of a terminal.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "set_terminal_lifecycle",
+   "manage a terminal"
+  ],
+  "name": "set_terminal_lifecycle",
+  "group": "terminal",
+  "description": "Only changes the in-memory session record.",
+  "parameters": [
+   {
+    "name": "terminal_id",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "Id of a terminal session. Omit to use the first one.",
+    "limits": null
+   },
+   {
+    "name": "action",
+    "type": "string",
+    "required": true,
+    "default": null,
+    "meaning": "What to do.",
+    "limits": "One of: kill, keep_alive, reset_history."
+   }
+  ],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {
+    "terminal_id": "demo",
+    "action": "kill"
+   },
+   "result": "Terminal t1 killed"
+  },
+  "risk": "low",
+  "needs_approval": "never",
+  "approval_rule": "No approval.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Marks a terminal dead or clears its history."
+  ],
+  "failure_modes": [
+   {
+    "when": "Unknown terminal",
+    "what_the_agent_sees": "Terminal t9 not found"
+   },
+   {
+    "when": "Unknown action",
+    "what_the_agent_sees": "Unknown action ..."
+   }
+  ],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.list_terminals",
+  "title": "List terminals",
+  "summary": "Lists open terminals.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "list_terminals",
+   "list terminals"
+  ],
+  "name": "list_terminals",
+  "group": "terminal",
+  "description": "Lists open terminals.",
+  "parameters": [],
+  "returns": "A list or No active terminals.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "t1 main"
+  },
+  "risk": "none",
+  "needs_approval": "never",
+  "approval_rule": "Read only.",
+  "allowed_in_scheduled_jobs": true,
+  "side_effects": [
+   "none"
+  ],
+  "failure_modes": [],
+  "default_state": "on"
+ },
+ {
+  "id": "tool.reset_sandbox_venv",
+  "title": "Reset the sandbox venv",
+  "summary": "Deletes the sandbox virtual environment.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [
+   "group.terminal"
+  ],
+  "search_terms": [
+   "reset_sandbox_venv",
+   "reset the sandbox venv"
+  ],
+  "name": "reset_sandbox_venv",
+  "group": "terminal",
+  "description": "Removes every package installed by run_code. A new venv is made on the next run. Only for the builtin sandbox.",
+  "parameters": [],
+  "returns": "A confirmation.",
+  "example": {
+   "synthetic": true,
+   "call": {},
+   "result": "Sandbox venv reset."
+  },
+  "risk": "medium",
+  "needs_approval": "never",
+  "approval_rule": "No approval prompt.",
+  "allowed_in_scheduled_jobs": false,
+  "side_effects": [
+   "Deletes the sandbox venv folder."
+  ],
+  "failure_modes": [
+   {
+    "when": "External sandbox in use",
+    "what_the_agent_sees": "A text saying reset only applies to builtin mode"
+   }
+  ],
+  "default_state": "on"
+ }
+]

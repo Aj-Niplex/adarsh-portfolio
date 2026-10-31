@@ -1,0 +1,34 @@
+{
+ "id": "sample.allow-window",
+ "title": "The /allow window",
+ "summary": "The /allow window (synthetic).",
+ "status": "merged",
+ "since": "2026-09-02",
+ "see_also": [],
+ "search_terms": [
+  "the /allow window"
+ ],
+ "platform": "discord",
+ "synthetic": true,
+ "turns": [
+  {
+   "role": "owner",
+   "text": "/allow"
+  },
+  {
+   "role": "manas",
+   "text": "Choose a window: 5, 10 or 30 minutes."
+  },
+  {
+   "role": "owner",
+   "text": "10"
+  },
+  {
+   "role": "manas",
+   "text": "Window open for 10 minutes. Hard blocks still apply."
+  }
+ ],
+ "what_to_notice": [
+  "The window is lost on restart."
+ ]
+}

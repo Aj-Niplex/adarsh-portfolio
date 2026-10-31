@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
+import { KmHub } from "@/components/km/KmHub";
+import { KmImage } from "@/components/km/KmImage";
 import { pageMeta } from "@/lib/meta";
 import { getProject, projects } from "@/lib/projects";
 import { SITE } from "@/lib/site";
@@ -78,6 +80,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         ))}
       </div>
 
+      {p.slug === "niplex-harness" && <KmHub />}
+
       <div className="layout-2">
         <div>
           <section className="block" style={{ borderTop: 0, paddingTop: 0 }}>
@@ -87,7 +91,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               const beside = fig && fig.item === undefined ? fig : null;
               const figure = (f: NonNullable<typeof fig>) => (
                 <figure className="group-fig">
-                  <Image src={f.src} alt={f.alt} width={560} height={560} sizes="(min-width: 700px) 220px, 90vw" />
+                  <KmImage id={f.id} alt={f.alt} />
                   <figcaption>{f.caption}</figcaption>
                 </figure>
               );

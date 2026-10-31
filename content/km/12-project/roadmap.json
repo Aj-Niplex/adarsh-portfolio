@@ -1,0 +1,86 @@
+[
+ {
+  "id": "road.vault-chat",
+  "title": "Store a secret from chat",
+  "summary": "A chat way to add vault secrets.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "store a secret from chat"
+  ],
+  "why_it_matters": "Secrets stay out of chat history.",
+  "depends_on": null,
+  "honest_risk": "Telegram has no modal. UX not decided."
+ },
+ {
+  "id": "road.release-branch",
+  "title": "Deploy from a release branch",
+  "summary": "Set DEPLOY_BRANCH to a release branch.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "deploy from a release branch"
+  ],
+  "why_it_matters": "Stops untested main merges from shipping.",
+  "depends_on": null,
+  "honest_risk": "Needs a branch workflow."
+ },
+ {
+  "id": "road.seccomp",
+  "title": "seccomp filter for the sandbox",
+  "summary": "Deliberately deferred.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "seccomp filter for the sandbox"
+  ],
+  "why_it_matters": "Stronger limits.",
+  "depends_on": null,
+  "honest_risk": "Platform support unknown."
+ },
+ {
+  "id": "road.public-sync",
+  "title": "Public repo sync plan",
+  "summary": "A clean snapshot for the public repo.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "public repo sync plan"
+  ],
+  "why_it_matters": "Users can read the docs.",
+  "depends_on": null,
+  "honest_risk": "Source stays private. No plan to open it was found."
+ },
+ {
+  "id": "road.deploy-guide",
+  "title": "Tested HidenCloud deploy guide",
+  "summary": "An end-to-end tested guide.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "tested hidencloud deploy guide"
+  ],
+  "why_it_matters": "Faster setup.",
+  "depends_on": null,
+  "honest_risk": "Not tested yet."
+ },
+ {
+  "id": "road.timezone",
+  "title": "Time zone setting",
+  "summary": "User-set time zone for saved records.",
+  "status": "planned",
+  "since": "2026-10-10",
+  "see_also": [],
+  "search_terms": [
+   "time zone setting"
+  ],
+  "why_it_matters": "Clearer dates.",
+  "depends_on": null,
+  "honest_risk": "Scheduled jobs are UTC today."
+ }
+]

@@ -1,0 +1,994 @@
+[
+ {
+  "id": "faq.01",
+  "title": "What is Kaizen Manas?",
+  "summary": "A personal AI agent harness you control from Telegram or Discord. The agent is called Manas.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what is kaizen manas?"
+  ],
+  "question": "What is Kaizen Manas?",
+  "answer": "A personal AI agent harness you control from Telegram or Discord. The agent is called Manas.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.02",
+  "title": "Who made it?",
+  "summary": "Adarsh Jaiswal. The licence is MIT.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "who made it?"
+  ],
+  "question": "Who made it?",
+  "answer": "Adarsh Jaiswal. The licence is MIT.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.03",
+  "title": "What does the name mean?",
+  "summary": "Kaizen is steady improvement. Manas is Sanskrit for mind.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what does the name mean?"
+  ],
+  "question": "What does the name mean?",
+  "answer": "Kaizen is steady improvement. Manas is Sanskrit for mind.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.04",
+  "title": "What was it called before?",
+  "summary": "Niplex Harness, with the agent NiPlex Agent. It was renamed on 2026-09-17.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what was it called before?"
+  ],
+  "question": "What was it called before?",
+  "answer": "Niplex Harness, with the agent NiPlex Agent. It was renamed on 2026-09-17.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.05",
+  "title": "Is the source public?",
+  "summary": "No. The source repo is private. A public repo holds docs and a curated snapshot.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "is the source public?"
+  ],
+  "question": "Is the source public?",
+  "answer": "No. The source repo is private. A public repo holds docs and a curated snapshot.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.06",
+  "title": "Which language is it written in?",
+  "summary": "Python. CI runs 3.12 and 3.13. Production uses 3.13.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "which language is it written in?"
+  ],
+  "question": "Which language is it written in?",
+  "answer": "Python. CI runs 3.12 and 3.13. Production uses 3.13.",
+  "tags": [
+   "setup"
+  ]
+ },
+ {
+  "id": "faq.07",
+  "title": "Which chat apps work?",
+  "summary": "Telegram and Discord.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "which chat apps work?"
+  ],
+  "question": "Which chat apps work?",
+  "answer": "Telegram and Discord.",
+  "tags": [
+   "setup"
+  ]
+ },
+ {
+  "id": "faq.08",
+  "title": "How do I start?",
+  "summary": "Set a bot token and your user id, start the bot, then run /setup in chat.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how do i start?"
+  ],
+  "question": "How do I start?",
+  "answer": "Set a bot token and your user id, start the bot, then run /setup in chat.",
+  "tags": [
+   "setup"
+  ]
+ },
+ {
+  "id": "faq.09",
+  "title": "What does /setup do?",
+  "summary": "It asks for a provider, a key and a model, then saves them for the running bot.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what does /setup do?"
+  ],
+  "question": "What does /setup do?",
+  "answer": "It asks for a provider, a key and a model, then saves them for the running bot.",
+  "tags": [
+   "setup"
+  ]
+ },
+ {
+  "id": "faq.10",
+  "title": "Which model providers are supported?",
+  "summary": "Agnes, Google Gemini, OpenAI, Anthropic through a proxy, OpenRouter and any OpenAI-compatible service.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "which model providers are supported?"
+  ],
+  "question": "Which model providers are supported?",
+  "answer": "Agnes, Google Gemini, OpenAI, Anthropic through a proxy, OpenRouter and any OpenAI-compatible service.",
+  "tags": [
+   "providers"
+  ]
+ },
+ {
+  "id": "faq.11",
+  "title": "Can I use Claude directly?",
+  "summary": "Not directly. Use an OpenAI-compatible proxy base URL.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can i use claude directly?"
+  ],
+  "question": "Can I use Claude directly?",
+  "answer": "Not directly. Use an OpenAI-compatible proxy base URL.",
+  "tags": [
+   "providers"
+  ]
+ },
+ {
+  "id": "faq.12",
+  "title": "Where is my API key stored?",
+  "summary": "In data/runtime_provider.json or in .env. Neither is committed.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "where is my api key stored?"
+  ],
+  "question": "Where is my API key stored?",
+  "answer": "In data/runtime_provider.json or in .env. Neither is committed.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.13",
+  "title": "How many tools are there?",
+  "summary": "61 tools in 13 groups, counted from the code. Five tools are always on.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how many tools are there?"
+  ],
+  "question": "How many tools are there?",
+  "answer": "61 tools in 13 groups, counted from the code. Five tools are always on.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.14",
+  "title": "Which tools are off by default?",
+  "summary": "The shell, git and voice groups.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "which tools are off by default?"
+  ],
+  "question": "Which tools are off by default?",
+  "answer": "The shell, git and voice groups.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.15",
+  "title": "Who can turn on the shell?",
+  "summary": "Only the operator, with SHELL_ENABLED in settings.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "who can turn on the shell?"
+  ],
+  "question": "Who can turn on the shell?",
+  "answer": "Only the operator, with SHELL_ENABLED in settings.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.16",
+  "title": "Can the agent run code?",
+  "summary": "Yes. Python runs in a limited sandbox. Risky code waits for a button.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can the agent run code?"
+  ],
+  "question": "Can the agent run code?",
+  "answer": "Yes. Python runs in a limited sandbox. Risky code waits for a button.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.17",
+  "title": "Is the sandbox secure?",
+  "summary": "It limits memory, time and processes. It is not a container or a VM.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "is the sandbox secure?"
+  ],
+  "question": "Is the sandbox secure?",
+  "answer": "It limits memory, time and processes. It is not a container or a VM.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.18",
+  "title": "What are the approval buttons?",
+  "summary": "Allow Once, Allow Session, Always Allow and Deny.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what are the approval buttons?"
+  ],
+  "question": "What are the approval buttons?",
+  "answer": "Allow Once, Allow Session, Always Allow and Deny.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.19",
+  "title": "Does Always Allow match similar commands?",
+  "summary": "No. Only the exact command text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "does always allow match similar commands?"
+  ],
+  "question": "Does Always Allow match similar commands?",
+  "answer": "No. Only the exact command text.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.20",
+  "title": "What does /allow do?",
+  "summary": "It removes prompts for 5, 10 or 30 minutes. Hard blocks still apply.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what does /allow do?"
+  ],
+  "question": "What does /allow do?",
+  "answer": "It removes prompts for 5, 10 or 30 minutes. Hard blocks still apply.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.21",
+  "title": "Can the agent edit its own code?",
+  "summary": "Not through the file tools. Core folders are protected.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can the agent edit its own code?"
+  ],
+  "question": "Can the agent edit its own code?",
+  "answer": "Not through the file tools. Core folders are protected.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.22",
+  "title": "Does file protection cover run_code?",
+  "summary": "No. It covers the file tools only.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "does file protection cover run_code?"
+  ],
+  "question": "Does file protection cover run_code?",
+  "answer": "No. It covers the file tools only.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.23",
+  "title": "Who can talk to the bot?",
+  "summary": "Only ids on the allow-list. An empty list refuses everyone.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "who can talk to the bot?"
+  ],
+  "question": "Who can talk to the bot?",
+  "answer": "Only ids on the allow-list. An empty list refuses everyone.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.24",
+  "title": "How are secrets handled?",
+  "summary": "As placeholders. Real values are filled in at run time and hidden in output.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how are secrets handled?"
+  ],
+  "question": "How are secrets handled?",
+  "answer": "As placeholders. Real values are filled in at run time and hidden in output.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.25",
+  "title": "Is the vault encrypted?",
+  "summary": "No. It is a plain JSON file that stays out of git.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "is the vault encrypted?"
+  ],
+  "question": "Is the vault encrypted?",
+  "answer": "No. It is a plain JSON file that stays out of git.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.26",
+  "title": "What stops prompt injection?",
+  "summary": "A text check flags known phrasing in web content. It is not a guarantee.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what stops prompt injection?"
+  ],
+  "question": "What stops prompt injection?",
+  "answer": "A text check flags known phrasing in web content. It is not a guarantee.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.27",
+  "title": "Can the bot read private network addresses?",
+  "summary": "No. The page reader refuses non-public addresses.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can the bot read private network addresses?"
+  ],
+  "question": "Can the bot read private network addresses?",
+  "answer": "No. The page reader refuses non-public addresses.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.28",
+  "title": "Where are notes stored?",
+  "summary": "As Markdown under data/global and data/sessions.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "where are notes stored?"
+  ],
+  "question": "Where are notes stored?",
+  "answer": "As Markdown under data/global and data/sessions.",
+  "tags": [
+   "memory"
+  ]
+ },
+ {
+  "id": "faq.29",
+  "title": "Does memory need an API key?",
+  "summary": "Notes do not. Vector search needs a Google key.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "does memory need an api key?"
+  ],
+  "question": "Does memory need an API key?",
+  "answer": "Notes do not. Vector search needs a Google key.",
+  "tags": [
+   "memory"
+  ]
+ },
+ {
+  "id": "faq.30",
+  "title": "What if I have no Google key?",
+  "summary": "Vector search falls back to keyword search and says so.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what if i have no google key?"
+  ],
+  "question": "What if I have no Google key?",
+  "answer": "Vector search falls back to keyword search and says so.",
+  "tags": [
+   "memory"
+  ]
+ },
+ {
+  "id": "faq.31",
+  "title": "What is the event log?",
+  "summary": "An append-only list of dated events, one file per UTC day.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what is the event log?"
+  ],
+  "question": "What is the event log?",
+  "answer": "An append-only list of dated events, one file per UTC day.",
+  "tags": [
+   "memory"
+  ]
+ },
+ {
+  "id": "faq.32",
+  "title": "What are skills?",
+  "summary": "Markdown instruction files the agent can load or write.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what are skills?"
+  ],
+  "question": "What are skills?",
+  "answer": "Markdown instruction files the agent can load or write.",
+  "tags": [
+   "skills"
+  ]
+ },
+ {
+  "id": "faq.33",
+  "title": "Is there a skill market?",
+  "summary": "No. The folder is a placeholder.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "is there a skill market?"
+  ],
+  "question": "Is there a skill market?",
+  "answer": "No. The folder is a placeholder.",
+  "tags": [
+   "skills"
+  ]
+ },
+ {
+  "id": "faq.34",
+  "title": "What are the model tiers?",
+  "summary": "Small, medium and power, each with up to three fallbacks.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what are the model tiers?"
+  ],
+  "question": "What are the model tiers?",
+  "answer": "Small, medium and power, each with up to three fallbacks.",
+  "tags": [
+   "routing"
+  ]
+ },
+ {
+  "id": "faq.35",
+  "title": "How does escalation work?",
+  "summary": "A trigger or /escalate hands the chat to the power model. If it fails, the everyday model answers.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how does escalation work?"
+  ],
+  "question": "How does escalation work?",
+  "answer": "A trigger or /escalate hands the chat to the power model. If it fails, the everyday model answers.",
+  "tags": [
+   "routing"
+  ]
+ },
+ {
+  "id": "faq.36",
+  "title": "Can the agent change the routing?",
+  "summary": "No. Only commands write the routing file.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can the agent change the routing?"
+  ],
+  "question": "Can the agent change the routing?",
+  "answer": "No. Only commands write the routing file.",
+  "tags": [
+   "routing"
+  ]
+ },
+ {
+  "id": "faq.37",
+  "title": "What does /model do?",
+  "summary": "It pins a tier for this chat. /model auto turns that off.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what does /model do?"
+  ],
+  "question": "What does /model do?",
+  "answer": "It pins a tier for this chat. /model auto turns that off.",
+  "tags": [
+   "routing"
+  ]
+ },
+ {
+  "id": "faq.38",
+  "title": "How long can the agent work on one message?",
+  "summary": "Up to 25 tool rounds by default. The setting is MAX_TOOL_ROUNDS, 1 to 90.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how long can the agent work on one message?"
+  ],
+  "question": "How long can the agent work on one message?",
+  "answer": "Up to 25 tool rounds by default. The setting is MAX_TOOL_ROUNDS, 1 to 90.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.39",
+  "title": "What happens at the limit?",
+  "summary": "The model is asked once for a wrap-up without tools.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what happens at the limit?"
+  ],
+  "question": "What happens at the limit?",
+  "answer": "The model is asked once for a wrap-up without tools.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.40",
+  "title": "Are two messages handled at once?",
+  "summary": "No. Each chat handles one at a time. Later ones wait in order.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "are two messages handled at once?"
+  ],
+  "question": "Are two messages handled at once?",
+  "answer": "No. Each chat handles one at a time. Later ones wait in order.",
+  "tags": [
+   "architecture"
+  ]
+ },
+ {
+  "id": "faq.41",
+  "title": "Are scheduled jobs allowed to use all tools?",
+  "summary": "No. Only a read-only list.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "are scheduled jobs allowed to use all tools?"
+  ],
+  "question": "Are scheduled jobs allowed to use all tools?",
+  "answer": "No. Only a read-only list.",
+  "tags": [
+   "automation"
+  ]
+ },
+ {
+  "id": "faq.42",
+  "title": "What time zone do jobs use?",
+  "summary": "UTC.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what time zone do jobs use?"
+  ],
+  "question": "What time zone do jobs use?",
+  "answer": "UTC.",
+  "tags": [
+   "automation"
+  ]
+ },
+ {
+  "id": "faq.43",
+  "title": "How often does the scheduler check?",
+  "summary": "Every 30 seconds.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how often does the scheduler check?"
+  ],
+  "question": "How often does the scheduler check?",
+  "answer": "Every 30 seconds.",
+  "tags": [
+   "automation"
+  ]
+ },
+ {
+  "id": "faq.44",
+  "title": "Are sub-agents separate models?",
+  "summary": "No. They are notes with a goal and a result.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "are sub-agents separate models?"
+  ],
+  "question": "Are sub-agents separate models?",
+  "answer": "No. They are notes with a goal and a result.",
+  "tags": [
+   "tools"
+  ]
+ },
+ {
+  "id": "faq.45",
+  "title": "Can it send push messages?",
+  "summary": "Yes, through ntfy, once a topic is set.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can it send push messages?"
+  ],
+  "question": "Can it send push messages?",
+  "answer": "Yes, through ntfy, once a topic is set.",
+  "tags": [
+   "automation"
+  ]
+ },
+ {
+  "id": "faq.46",
+  "title": "Can it speak?",
+  "summary": "Yes, with Piper voices, once a voice is picked.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can it speak?"
+  ],
+  "question": "Can it speak?",
+  "answer": "Yes, with Piper voices, once a voice is picked.",
+  "tags": [
+   "automation"
+  ]
+ },
+ {
+  "id": "faq.47",
+  "title": "How does auto-deploy work?",
+  "summary": "The supervisor checks the repo, updates and restarts, and rolls back on an early crash.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how does auto-deploy work?"
+  ],
+  "question": "How does auto-deploy work?",
+  "answer": "The supervisor checks the repo, updates and restarts, and rolls back on an early crash.",
+  "tags": [
+   "deploy"
+  ]
+ },
+ {
+  "id": "faq.48",
+  "title": "Does a docs commit restart the bot?",
+  "summary": "No.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "does a docs commit restart the bot?"
+  ],
+  "question": "Does a docs commit restart the bot?",
+  "answer": "No.",
+  "tags": [
+   "deploy"
+  ]
+ },
+ {
+  "id": "faq.49",
+  "title": "Where does it run?",
+  "summary": "The author runs it on HidenCloud. Any Linux host with Python 3.12 or 3.13 should work. Only HidenCloud is used in the repo.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "where does it run?"
+  ],
+  "question": "Where does it run?",
+  "answer": "The author runs it on HidenCloud. Any Linux host with Python 3.12 or 3.13 should work. Only HidenCloud is used in the repo.",
+  "tags": [
+   "deploy"
+  ]
+ },
+ {
+  "id": "faq.50",
+  "title": "Do the tests run in CI?",
+  "summary": "The workflow exists. GitHub cannot start jobs right now, so tests are run by hand.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "do the tests run in ci?"
+  ],
+  "question": "Do the tests run in CI?",
+  "answer": "The workflow exists. GitHub cannot start jobs right now, so tests are run by hand.",
+  "tags": [
+   "quality"
+  ]
+ },
+ {
+  "id": "faq.51",
+  "title": "How many tests are there?",
+  "summary": "484 collected with pytest.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how many tests are there?"
+  ],
+  "question": "How many tests are there?",
+  "answer": "484 collected with pytest.",
+  "tags": [
+   "quality"
+  ]
+ },
+ {
+  "id": "faq.52",
+  "title": "Are there performance numbers?",
+  "summary": "No. None have been measured.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "are there performance numbers?"
+  ],
+  "question": "Are there performance numbers?",
+  "answer": "No. None have been measured.",
+  "tags": [
+   "quality"
+  ]
+ },
+ {
+  "id": "faq.53",
+  "title": "What does /ui show?",
+  "summary": "Every button, menu and card style the bot can show.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what does /ui show?"
+  ],
+  "question": "What does /ui show?",
+  "answer": "Every button, menu and card style the bot can show.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "faq.54",
+  "title": "Why are Discord commands not slash commands?",
+  "summary": "They are prefix commands. The slash tree is synced but empty.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "why are discord commands not slash commands?"
+  ],
+  "question": "Why are Discord commands not slash commands?",
+  "answer": "They are prefix commands. The slash tree is synced but empty.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "faq.55",
+  "title": "Can it read photos I send?",
+  "summary": "No. Inbound media is not handled.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can it read photos i send?"
+  ],
+  "question": "Can it read photos I send?",
+  "answer": "No. Inbound media is not handled.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "faq.56",
+  "title": "Are Telegram replies formatted?",
+  "summary": "No. They are plain text.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "are telegram replies formatted?"
+  ],
+  "question": "Are Telegram replies formatted?",
+  "answer": "No. They are plain text.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "faq.57",
+  "title": "How long can a reply be?",
+  "summary": "Replies are split at 4,000 characters on Telegram and 1,900 on Discord.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "how long can a reply be?"
+  ],
+  "question": "How long can a reply be?",
+  "answer": "Replies are split at 4,000 characters on Telegram and 1,900 on Discord.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "faq.58",
+  "title": "Does it use MCP?",
+  "summary": "Config-only scaffolding exists. The agent loop does not use it.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "does it use mcp?"
+  ],
+  "question": "Does it use MCP?",
+  "answer": "Config-only scaffolding exists. The agent loop does not use it.",
+  "tags": [
+   "architecture"
+  ]
+ },
+ {
+  "id": "faq.59",
+  "title": "Can it report crashes to GitHub?",
+  "summary": "Only if you enable it. Reports are redacted.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "can it report crashes to github?"
+  ],
+  "question": "Can it report crashes to GitHub?",
+  "answer": "Only if you enable it. Reports are redacted.",
+  "tags": [
+   "safety"
+  ]
+ },
+ {
+  "id": "faq.60",
+  "title": "What licence applies?",
+  "summary": "MIT for the private code. The licence of the older public snapshot is not confirmed.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "what licence applies?"
+  ],
+  "question": "What licence applies?",
+  "answer": "MIT for the private code. The licence of the older public snapshot is not confirmed.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.61",
+  "title": "Is there a version number?",
+  "summary": "No. There are no tags or releases.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "is there a version number?"
+  ],
+  "question": "Is there a version number?",
+  "answer": "No. There are no tags or releases.",
+  "tags": [
+   "overview"
+  ]
+ },
+ {
+  "id": "faq.62",
+  "title": "Why is every status merged?",
+  "summary": "Features are on the main branch. No releases are tagged, so none are called released.",
+  "status": "merged",
+  "since": "2026-09-02",
+  "see_also": [],
+  "search_terms": [
+   "why is every status merged?"
+  ],
+  "question": "Why is every status merged?",
+  "answer": "Features are on the main branch. No releases are tagged, so none are called released.",
+  "tags": [
+   "overview"
+  ]
+ }
+]
