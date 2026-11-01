@@ -616,6 +616,7 @@ export function AIWidget() {
               </button>
             )}
           </form>
+          <p className="chat-note">Your questions are logged with the country they come from, to see what people ask. Your IP address is not kept.</p>
         </section>
       )}
       <button
