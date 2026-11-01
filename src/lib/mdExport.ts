@@ -250,7 +250,7 @@ export function indexMarkdown(): string {
     "- [Home](" + abs("/md/home") + ")",
     "- [About](" + abs("/md/about") + ")",
     "- [Projects](" + abs("/md/projects") + ")",
-    "- [Sign up, newsletter, submissions and Markdown](" + abs("/md/site") + ")",
+    "- [Sign up, newsletter, submissions and Markdown](" + abs("/md/signup") + ")",
     "- [Every page in one file](" + abs("/md/full") + "): the pages below, one after another, each marked with a comment line.",
     ""
   );
@@ -349,7 +349,7 @@ export function mdPages(): MdPage[] {
       full: true
     },
     {
-      path: "site",
+      path: "signup",
       canonical: "/signup",
       body: siteMarkdown,
       title: "Sign up, newsletter, unsubscribe, submissions and Markdown",
@@ -357,6 +357,19 @@ export function mdPages(): MdPage[] {
       keywords: ["signup", "sign up", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion", "markdown", "md", "plain text", "raw", "llms"],
       full: true
     },
+    // The newsletter, unsubscribe and submit pages are described on the same Markdown page, so each
+    // address that follows the ".md" convention resolves to it.
+    ...["newsletter", "unsubscribe", "submit"].map(
+      (slug): MdPage => ({
+        path: slug,
+        canonical: "/" + slug,
+        body: siteMarkdown,
+        title: "Sign up, newsletter, unsubscribe, submissions and Markdown",
+        kind: "links",
+        keywords: [],
+        full: false
+      })
+    ),
     { path: "full", canonical: "/md/full", body: fullMarkdown, title: "Every page in one file", kind: "links", keywords: [], full: false }
   ];
   for (const p of projects) {
