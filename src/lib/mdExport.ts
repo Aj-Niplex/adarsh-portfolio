@@ -7,6 +7,7 @@ import { forks, projects, TIERS, type Project, type Tier } from "./projects";
 import { FACTS, META_DESCRIPTION, PORTFOLIOS, SITE } from "./site";
 import { getKm, KM_CHAPTERS, kmUrl } from "./km/pages";
 import { mdUrl } from "./mdPath";
+import { PRIVACY, PRIVACY_LEAD, PRIVACY_UPDATED } from "./privacy";
 import type { Block, KmPage } from "./km/types";
 
 const TIER_ORDER: Tier[] = ["core", "tools", "side"];
@@ -251,6 +252,7 @@ export function indexMarkdown(): string {
     "- [About](" + abs("/md/about") + ")",
     "- [Projects](" + abs("/md/projects") + ")",
     "- [Sign up, newsletter, submissions and Markdown](" + abs("/md/signup") + ")",
+    "- [Privacy Policy](" + abs("/md/privacy") + ")",
     "- [Every page in one file](" + abs("/md/full") + "): the pages below, one after another, each marked with a comment line.",
     ""
   );
@@ -260,6 +262,18 @@ export function indexMarkdown(): string {
   out.push("## Kaizen Manas documentation (" + getKm().pages.length + " pages)", "");
   out.push(...kmListing("###"));
   return out.join("\n").trim() + "\n";
+}
+
+/** The Privacy Policy, from the same text as the page. */
+export function privacyMarkdown(): string {
+  const out: string[] = ["# Privacy Policy", "", "> Page: " + abs("/privacy"), "", "Last updated " + PRIVACY_UPDATED + ".", "", PRIVACY_LEAD, ""];
+  for (const section of PRIVACY) {
+    out.push("## " + section.title, "");
+    for (const block of section.blocks) {
+      out.push(block.t === "p" ? absolute(block.text) : block.items.map((i) => "- " + absolute(i)).join("\n"), "");
+    }
+  }
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
 }
 
 // ---------------------------------------------------------------- lookup for the route
@@ -370,6 +384,15 @@ export function mdPages(): MdPage[] {
         full: false
       })
     ),
+    {
+      path: "privacy",
+      canonical: "/privacy",
+      body: privacyMarkdown,
+      title: "Privacy Policy",
+      kind: "links",
+      keywords: ["privacy", "policy", "data", "cookie", "cookies", "log", "logged", "logging", "store", "stored", "kept", "delete", "remove", "gdpr", "personal", "ip", "location", "country", "consent", "agree", "questions", "retention", "tracking", "analytics"],
+      full: true
+    },
     { path: "full", canonical: "/md/full", body: fullMarkdown, title: "Every page in one file", kind: "links", keywords: [], full: false }
   ];
   for (const p of projects) {

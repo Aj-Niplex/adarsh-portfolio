@@ -43,6 +43,7 @@ export function buildLlmsTxt() {
   out.push("- [Obsidian Community profile](" + SITE.obsidian + ")");
   out.push("- [Full details for AI assistants](" + SITE.url + "/llms-full.txt)");
   out.push("- [Markdown index of every page](" + SITE.url + "/md)");
+  out.push("- [Privacy Policy](" + SITE.url + "/privacy)");
   out.push("");
   return out.join("\n");
 }

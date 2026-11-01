@@ -12,6 +12,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { AssistantGate } from "@/components/AssistantGate";
+import { ConsentBanner } from "@/components/ConsentBanner";
 import { JsonLd } from "@/components/JsonLd";
 import { Footer, Header } from "@/components/SiteChrome";
 import { META_DESCRIPTION, SITE } from "@/lib/site";
@@ -124,6 +125,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <div id="main">{children}</div>
         <Footer />
         <AssistantGate />
+        <ConsentBanner />
       </body>
     </html>
   );

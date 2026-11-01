@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
     { url: SITE.url + "/projects", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: SITE.url + "/about", lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: SITE.url + "/privacy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     ...getKm().pages.map((p) => ({
       url: SITE.url + kmUrl(p.path),
       lastModified: now,
