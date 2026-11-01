@@ -7,7 +7,11 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const KEY = process.env.EDGE_KEY || "";
 
+const FORWARDING = Boolean(process.env.API_ORIGIN);
+
 export function proxy(request: NextRequest) {
+  // Without an API service to forward to, calls are answered here and nothing needs to be added.
+  if (!FORWARDING) return NextResponse.next();
   const headers = new Headers(request.headers);
   for (const name of Array.from(headers.keys())) {
     if (name.startsWith("x-pf-")) headers.delete(name);

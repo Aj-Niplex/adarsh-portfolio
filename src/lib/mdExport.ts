@@ -250,7 +250,7 @@ export function indexMarkdown(): string {
     "- [Home](" + abs("/md/home") + ")",
     "- [About](" + abs("/md/about") + ")",
     "- [Projects](" + abs("/md/projects") + ")",
-    "- [Sign up, newsletter, submissions and privacy](" + abs("/md/site") + ")",
+    "- [Sign up, newsletter, submissions and Markdown](" + abs("/md/site") + ")",
     "- [Every page in one file](" + abs("/md/full") + "): the pages below, one after another, each marked with a comment line.",
     ""
   );
@@ -266,9 +266,9 @@ export function indexMarkdown(): string {
 
 // ---------------------------------------------------------------- the pages about the site itself
 
-/** Sign-up, newsletter, unsubscribe, submissions, Markdown, and what the assistant keeps. */
+/** Sign-up, newsletter, unsubscribe, submissions and the Markdown versions. */
 export function siteMarkdown(): string {
-  const out: string[] = ["# Sign up, newsletter, unsubscribe, submissions and privacy", "", "> Page: " + abs("/signup"), ""];
+  const out: string[] = ["# Sign up, newsletter, unsubscribe, submissions and Markdown", "", "> Page: " + abs("/signup"), ""];
   out.push("## Sign up", "");
   out.push(
     "Sign up is at " + abs("/signup") + ". The visitor enters an email, ticks the box to agree to product and promotional emails, types the 6-digit code that is emailed, then picks a password. Signed-in visitors can ask the assistant 5 questions a minute instead of 2. If the page says the email service is not connected yet, leaving the email there still adds it to the list.",
@@ -292,11 +292,6 @@ export function siteMarkdown(): string {
   out.push("## Markdown versions", "");
   out.push(
     "Every page of this site is also available as Markdown. Add `.md` to a page address (for example " + abs("/about.md") + "), or send the header `Accept: text/markdown` to the normal address, or open the index at " + abs("/md") + ". All the text in one file is at " + abs("/llms-full.txt") + ".",
-    ""
-  );
-  out.push("## What the assistant keeps", "");
-  out.push(
-    "The assistant runs on a separate service behind this site. Each call to it is logged: the route, the time, whether it worked, the visitor's country, region and city as seen by the network, and the kind of device. A question to the assistant is kept with its text, its topic and the AI model that answered. The visitor's network address is never stored, only a one-way hash of it, and an email address is never part of the log. The log is deleted after 90 days. Chat is shown with a notice saying that questions are logged.",
     ""
   );
   return out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
@@ -334,7 +329,7 @@ export function fullMarkdown(): string {
 export function mdPages(): MdPage[] {
   const list: MdPage[] = [
     { path: "", canonical: "/md", body: indexMarkdown, title: "Markdown index", kind: "links", keywords: [], full: false },
-    { path: "home", canonical: "/", body: homeMarkdown, title: "Home", kind: "about", keywords: [], full: false },
+    { path: "home", canonical: "/", body: homeMarkdown, title: "Home", kind: "about", keywords: ["home", "start", "welcome", "overview"], full: true },
     {
       path: "about",
       canonical: "/about",
@@ -357,9 +352,9 @@ export function mdPages(): MdPage[] {
       path: "site",
       canonical: "/signup",
       body: siteMarkdown,
-      title: "Sign up, newsletter, unsubscribe, submissions and privacy",
+      title: "Sign up, newsletter, unsubscribe, submissions and Markdown",
       kind: "links",
-      keywords: ["signup", "sign up", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion", "markdown", "md", "plain text", "raw", "llms", "privacy", "log", "logged", "data", "stored", "questions"],
+      keywords: ["signup", "sign up", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion", "markdown", "md", "plain text", "raw", "llms"],
       full: true
     },
     { path: "full", canonical: "/md/full", body: fullMarkdown, title: "Every page in one file", kind: "links", keywords: [], full: false }

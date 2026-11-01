@@ -190,7 +190,7 @@ function Answer({ msg }: { msg: Msg }) {
   );
 }
 
-export function AIWidget() {
+export function AIWidget({ logged = false }: { logged?: boolean }) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -616,7 +616,7 @@ export function AIWidget() {
               </button>
             )}
           </form>
-          <p className="chat-note">Your questions are logged with the country they come from, to see what people ask. Your IP address is not kept.</p>
+          {logged && <p className="chat-logged">Your questions are logged with the country they come from, to see what people ask. Your IP address is not kept.</p>}
         </section>
       )}
       <button

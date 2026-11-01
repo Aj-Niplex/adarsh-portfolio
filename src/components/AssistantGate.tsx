@@ -13,13 +13,16 @@ const FRESH_MS = 60_000;
 
 export function AssistantGate() {
   const [on, setOn] = useState(false);
+  // True when the service says it logs the questions it gets, so the chat can say so.
+  const [logged, setLogged] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     try {
-      const saved = JSON.parse(sessionStorage.getItem(KEY) || "null") as { up: boolean; at: number } | null;
+      const saved = JSON.parse(sessionStorage.getItem(KEY) || "null") as { up: boolean; logs?: boolean; at: number } | null;
       if (saved && Date.now() - saved.at < FRESH_MS) {
         setOn(saved.up);
+        setLogged(Boolean(saved.logs));
         return;
       }
     } catch {
@@ -27,14 +30,18 @@ export function AssistantGate() {
     }
     fetch("/api/assistant", { cache: "no-store", signal: AbortSignal.timeout(4000) })
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: { up?: boolean; assistant?: boolean } | null) => {
+      .then((data: { up?: boolean; assistant?: boolean; logs?: boolean } | null) => {
         const up = Boolean(data && data.up === true && data.assistant === true);
+        const logs = Boolean(up && data && data.logs === true);
         try {
-          sessionStorage.setItem(KEY, JSON.stringify({ up, at: Date.now() }));
+          sessionStorage.setItem(KEY, JSON.stringify({ up, logs, at: Date.now() }));
         } catch {
           // Ignore.
         }
-        if (!cancelled) setOn(up);
+        if (!cancelled) {
+          setOn(up);
+          setLogged(logs);
+        }
       })
       .catch(() => {
         if (!cancelled) setOn(false);
@@ -44,5 +51,5 @@ export function AssistantGate() {
     };
   }, []);
 
-  return on ? <AIWidget /> : null;
+  return on ? <AIWidget logged={logged} /> : null;
 }
