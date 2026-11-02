@@ -246,7 +246,14 @@ export function indexMarkdown(): string {
   out.push("- Or ask for the normal address with the header `Accept: text/markdown`.");
   out.push("- All of it as one plain-text file: " + abs("/llms-full.txt") + ". A short summary: " + abs("/llms.txt") + ".", "");
   out.push("## Pages", "");
-  out.push("- [Home](" + abs("/md/home") + ")", "- [About](" + abs("/md/about") + ")", "- [Projects](" + abs("/md/projects") + ")", "");
+  out.push(
+    "- [Home](" + abs("/md/home") + ")",
+    "- [About](" + abs("/md/about") + ")",
+    "- [Projects](" + abs("/md/projects") + ")",
+    "- [Sign up, newsletter, submissions and Markdown](" + abs("/md/signup") + ")",
+    "- [Every page in one file](" + abs("/md/full") + "): the pages below, one after another, each marked with a comment line.",
+    ""
+  );
   out.push("## Projects", "");
   for (const p of projects) out.push("- [" + p.name + "](" + abs(mdUrl("/projects/" + p.slug)) + "): " + p.tagline);
   out.push("");
@@ -257,19 +264,135 @@ export function indexMarkdown(): string {
 
 // ---------------------------------------------------------------- lookup for the route
 
-/** Every Markdown page: its path under /md (no leading slash) and a function that writes it. */
-export function mdPages(): { path: string; canonical: string; body: () => string }[] {
-  const list: { path: string; canonical: string; body: () => string }[] = [
-    { path: "", canonical: "/md", body: indexMarkdown },
-    { path: "home", canonical: "/", body: homeMarkdown },
-    { path: "about", canonical: "/about", body: aboutMarkdown },
-    { path: "projects", canonical: "/projects", body: projectsMarkdown }
+// ---------------------------------------------------------------- the pages about the site itself
+
+/** Sign-up, newsletter, unsubscribe, submissions and the Markdown versions. */
+export function siteMarkdown(): string {
+  const out: string[] = ["# Sign up, newsletter, unsubscribe, submissions and Markdown", "", "> Page: " + abs("/signup"), ""];
+  out.push("## Sign up", "");
+  out.push(
+    "Sign up is at " + abs("/signup") + ". The visitor enters an email, ticks the box to agree to product and promotional emails, types the 6-digit code that is emailed, then picks a password. Signed-in visitors can ask the assistant 5 questions a minute instead of 2. If the page says the email service is not connected yet, leaving the email there still adds it to the list.",
+    ""
+  );
+  out.push("## Newsletter", "");
+  out.push(
+    "The newsletter is at " + abs("/newsletter") + ", and there is a box at the bottom of every page. No account is needed. It is the same product updates and promotions list. A new address is confirmed with a 6-digit code once the email service is on.",
+    ""
+  );
+  out.push("## Unsubscribe", "");
+  out.push(
+    "Anyone can type their address at " + abs("/unsubscribe") + " to be taken off the list at once, without an account or a code. It only stops the emails; an account, if there is one, stays.",
+    ""
+  );
+  out.push("## Submit an idea or feedback", "");
+  out.push(
+    "Submissions are at " + abs("/submit") + ". Anyone can send an idea, a request or feedback with a title (up to 80 characters) and a description (up to 500). Links, email addresses and phone numbers are not accepted. The latest submissions are shown publicly on that page with their descriptions.",
+    ""
+  );
+  out.push("## Markdown versions", "");
+  out.push(
+    "Every page of this site is also available as Markdown. Add `.md` to a page address (for example " + abs("/about.md") + "), or send the header `Accept: text/markdown` to the normal address, or open the index at " + abs("/md") + ". All the text in one file is at " + abs("/llms-full.txt") + ".",
+    ""
+  );
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+}
+
+// ---------------------------------------------------------------- lookup for the route
+
+export type MdPage = {
+  /** Path under /md, without a leading slash ("" is the index). */
+  path: string;
+  /** The HTML page this one is a copy of. */
+  canonical: string;
+  body: () => string;
+  title: string;
+  kind: "project" | "about" | "links" | "docs";
+  keywords: string[];
+  /** Whether the page is part of /md/full. */
+  full: boolean;
+};
+
+/** One page after another, each opened by a comment line the assistant service uses to split them. */
+export function fullMarkdown(): string {
+  const out: string[] = [
+    "<!-- All pages of " + SITE.url + " in one Markdown file. Each page starts with a `page` comment line and ends with a `/page` comment line. -->",
+    ""
+  ];
+  for (const page of mdPages().filter((p) => p.full)) {
+    const meta = JSON.stringify({ id: page.path, title: page.title, url: page.canonical, kind: page.kind, keywords: page.keywords }).replace(/>/g, "\\u003e");
+    out.push("<!--page " + meta + "-->", page.body().trim(), "<!--/page-->", "");
+  }
+  return out.join("\n");
+}
+
+/** Every Markdown page: its path under /md and a function that writes it. */
+export function mdPages(): MdPage[] {
+  const list: MdPage[] = [
+    { path: "", canonical: "/md", body: indexMarkdown, title: "Markdown index", kind: "links", keywords: [], full: false },
+    { path: "home", canonical: "/", body: homeMarkdown, title: "Home", kind: "about", keywords: ["home", "start", "welcome", "overview"], full: true },
+    {
+      path: "about",
+      canonical: "/about",
+      body: aboutMarkdown,
+      title: "About " + SITE.name,
+      kind: "about",
+      keywords: ["about", "adarsh", "jaiswal", "aj", "niplex", "who", "developer", "india", "brand", "obsidian", "facts", "links", "github", "portfolio", "profile", "repo", "repository", "source", "contact", "find", "website"],
+      full: true
+    },
+    {
+      path: "projects",
+      canonical: "/projects",
+      body: projectsMarkdown,
+      title: "Projects",
+      kind: "about",
+      keywords: ["projects", "work", "list", "overview", "everything", "all", "forks", "side projects"],
+      full: true
+    },
+    {
+      path: "signup",
+      canonical: "/signup",
+      body: siteMarkdown,
+      title: "Sign up, newsletter, unsubscribe, submissions and Markdown",
+      kind: "links",
+      keywords: ["signup", "sign up", "newsletter", "subscribe", "unsubscribe", "opt out", "stop emails", "submit", "submission", "register", "promotion", "markdown", "md", "plain text", "raw", "llms"],
+      full: true
+    },
+    // The newsletter, unsubscribe and submit pages are described on the same Markdown page, so each
+    // address that follows the ".md" convention resolves to it.
+    ...["newsletter", "unsubscribe", "submit"].map(
+      (slug): MdPage => ({
+        path: slug,
+        canonical: "/" + slug,
+        body: siteMarkdown,
+        title: "Sign up, newsletter, unsubscribe, submissions and Markdown",
+        kind: "links",
+        keywords: [],
+        full: false
+      })
+    ),
+    { path: "full", canonical: "/md/full", body: fullMarkdown, title: "Every page in one file", kind: "links", keywords: [], full: false }
   ];
   for (const p of projects) {
-    list.push({ path: "projects/" + p.slug, canonical: "/projects/" + p.slug, body: () => projectMarkdown(p) });
+    list.push({
+      path: "projects/" + p.slug,
+      canonical: "/projects/" + p.slug,
+      body: () => projectMarkdown(p),
+      title: p.name,
+      kind: "project",
+      keywords: [p.name, p.slug.replace(/-/g, " "), ...p.tags, p.appCategory, p.tier],
+      full: true
+    });
   }
   for (const page of getKm().pages) {
-    list.push({ path: kmUrl(page.path).slice(1), canonical: kmUrl(page.path), body: () => kmPageMarkdown(page) });
+    list.push({
+      path: kmUrl(page.path).slice(1),
+      canonical: kmUrl(page.path),
+      body: () => kmPageMarkdown(page),
+      title: page.title + " (Kaizen Manas)",
+      kind: "docs",
+      keywords: [page.title, ...page.keywords, "kaizen manas", "manas", "niplex harness"],
+      full: true
+    });
   }
   return list;
 }
