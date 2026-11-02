@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useAgreed } from "@/lib/consentClient";
 
 // A browser is counted once. The flag lives in local storage (it survives closing the tab and
 // redeploys) and the server also sets a cookie. Opening any page once with ?owner=1 marks this
@@ -11,8 +12,11 @@ const DAYS_30 = 30 * 24 * 60 * 60 * 1000;
 
 export function ViewCounter() {
   const [count, setCount] = useState<number | null>(null);
+  // Nothing is counted or fetched until the visitor has agreed to the Privacy Policy.
+  const agreed = useAgreed();
 
   useEffect(() => {
+    if (!agreed) return;
     let cancelled = false;
     let alreadyCounted = false;
     try {
@@ -46,7 +50,7 @@ export function ViewCounter() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [agreed]);
 
   if (count === null) return null;
 

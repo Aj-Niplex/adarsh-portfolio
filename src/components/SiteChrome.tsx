@@ -63,6 +63,9 @@ export function Footer() {
               <Link href="/unsubscribe">Unsubscribe</Link>
             </li>
             <li>
+              <Link href="/privacy">Privacy Policy</Link>
+            </li>
+            <li>
               <a href={SITE.github} target="_blank" rel="noreferrer">
                 GitHub
               </a>

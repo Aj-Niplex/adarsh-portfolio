@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { useAgreed } from "@/lib/consentClient";
 
 // The assistant lives on the second service. The page asks that service whether it is running and
 // has its key, and only then loads the chat window. If the service is off, nothing is shown and
@@ -13,8 +14,11 @@ const FRESH_MS = 60_000;
 
 export function AssistantGate() {
   const [on, setOn] = useState(false);
+  // The service is not contacted until the visitor has agreed to the Privacy Policy.
+  const agreed = useAgreed();
 
   useEffect(() => {
+    if (!agreed) return;
     let cancelled = false;
     try {
       const saved = JSON.parse(sessionStorage.getItem(KEY) || "null") as { up: boolean; at: number } | null;
@@ -42,7 +46,7 @@ export function AssistantGate() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [agreed]);
 
   return on ? <AIWidget /> : null;
 }

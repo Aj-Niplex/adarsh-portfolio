@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
       { source: "/index.md", destination: "/md/home" },
       { source: "/:path(.+)\\.md", destination: "/md/:path" },
       { source: "/", has: wantsMarkdown, destination: "/md/home" },
-      { source: "/:path(about|signup|newsletter|unsubscribe|submit|projects|projects/.+)", has: wantsMarkdown, destination: "/md/:path" }
+      { source: "/:path(about|privacy|signup|newsletter|unsubscribe|submit|projects|projects/.+)", has: wantsMarkdown, destination: "/md/:path" }
     ];
     const forward = !isApiService && apiOrigin ? [{ source: "/api/:path*", destination: apiOrigin + "/api/:path*" }] : [];
     // On the API service, anything that is not meant to be public is answered with "not found".
@@ -80,6 +80,7 @@ const nextConfig: NextConfig = {
       { source: "/", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/about", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/(signup|newsletter|unsubscribe|submit)", headers: [{ key: "Vary", value: "Accept" }] },
+      { source: "/privacy", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/projects/:path*", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/:path*", headers: securityHeaders },
       // The player engine has its version in the file name, so it can be cached for good.
