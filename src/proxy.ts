@@ -7,8 +7,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const KEY = process.env.EDGE_KEY || "";
 
-// Only a site that forwards to an API service adds the headers; the API service itself must keep the ones it received.
-const FORWARDING = Boolean(process.env.API_ORIGIN) && process.env.SERVICE_ROLE !== "api";
+const FORWARDING = Boolean(process.env.API_ORIGIN);
 
 export function proxy(request: NextRequest) {
   // Without an API service to forward to, calls are answered here and nothing needs to be added.

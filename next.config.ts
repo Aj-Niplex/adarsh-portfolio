@@ -2,13 +2,9 @@ import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === "production";
 
-// Two services are built from this one codebase.
-//  - The public site (the default) holds no secrets. When API_ORIGIN is set, every /api/* request
-//    is forwarded to the second service behind the same address, so visitors never see it.
-//  - The API service (SERVICE_ROLE=api) holds the keys. It answers /api/*, the Markdown pages and
-//    robots.txt, and shows a plain "not found" for everything else.
-// With neither set (local development) everything runs in one process.
-const isApiService = process.env.SERVICE_ROLE === "api";
+// The assistant, sign-in, newsletter, submissions and visit counter run in a second service
+// (the aj-niplex-api repository). When API_ORIGIN is set, every /api/* request is forwarded to it
+// behind this site's own address, so visitors never see the second address and cookies stay here.
 const apiOrigin = (process.env.API_ORIGIN || "").replace(/\/+$/, "");
 
 // Every source the pages need is listed here; anything else is blocked by the browser.
@@ -45,9 +41,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  // The documentation text is read from files at run time by the assistant, so the files ship with it.
+  // The documentation text is read from files at run time, so the files ship with the pages that read them.
   outputFileTracingIncludes: {
-    "/api/chat": ["./content/km/**/*"],
     "/llms-full.txt": ["./content/km/**/*"],
     // A mistyped documentation address is rendered on demand, and that reads the same files.
     "/projects/niplex-harness/**": ["./content/km/**/*"],
@@ -62,20 +57,11 @@ const nextConfig: NextConfig = {
       { source: "/", has: wantsMarkdown, destination: "/md/home" },
       { source: "/:path(about|privacy|signup|newsletter|unsubscribe|submit|projects|projects/.+)", has: wantsMarkdown, destination: "/md/:path" }
     ];
-    const forward = !isApiService && apiOrigin ? [{ source: "/api/:path*", destination: apiOrigin + "/api/:path*" }] : [];
-    // On the API service, anything that is not meant to be public is answered with "not found".
-    const closed = isApiService
-      ? [
-          { source: "/", destination: "/api/gone" },
-          { source: "/:path((?!api(?:/|$)|md(?:/|$)|robots\\.txt$).*)", destination: "/api/gone" }
-        ]
-      : [];
-    return { beforeFiles: [...forward, ...markdown, ...closed], afterFiles: [], fallback: [] };
+    const forward = apiOrigin ? [{ source: "/api/:path*", destination: apiOrigin + "/api/:path*" }] : [];
+    return { beforeFiles: [...forward, ...markdown], afterFiles: [], fallback: [] };
   },
   async headers() {
     return [
-      // The API service is not a website: keep it out of search results.
-      ...(isApiService ? [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }] : []),
       // The same address answers in HTML or Markdown depending on the Accept header.
       { source: "/", headers: [{ key: "Vary", value: "Accept" }] },
       { source: "/about", headers: [{ key: "Vary", value: "Accept" }] },
