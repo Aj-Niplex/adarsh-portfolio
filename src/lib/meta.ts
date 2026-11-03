@@ -4,7 +4,7 @@ import { SITE } from "./site";
 
 /** The share picture used by link previews (LinkedIn, Slack, X, Discord): 1200 x 630. */
 export const SHARE_IMAGE = {
-  url: "/og/share.png",
+  url: "/og/niplex-share-v2.png",
   width: 1200,
   height: 630,
   alt: "Adarsh Jaiswal (AJ NiPlex): AI agents and MCP servers"
