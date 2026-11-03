@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { KmShell } from "@/components/km/KmShell";
 import { getKm, KM_BASE, pageText } from "@/lib/km/pages";
-import { pageMeta } from "@/lib/meta";
+import { fitTitle, pageMeta } from "@/lib/meta";
 import { SITE } from "@/lib/site";
 
 export const dynamicParams = true;
@@ -18,8 +18,21 @@ export async function generateMetadata({ params }: { params: Promise<{ path: str
   const { path } = await params;
   const page = getKm().byPath.get(path.join("/"));
   if (!page) return { title: "Not found" };
-  const description = (page.lead || page.summary).slice(0, 280);
-  return pageMeta({ title: page.title + " (Kaizen Manas)", description, path: KM_BASE + "/" + page.path, image: SHARE });
+  const description = page.lead || page.summary;
+  const title = fitTitle(page.title, "(Kaizen Manas)");
+  return pageMeta({
+    title,
+    titleAlone: title.length + SITE.name.length + 3 > 60,
+    description,
+    // A one-line summary is too short for a search result; these say what the page belongs to, longest first.
+    descriptionSuffixes: [
+      "Part of the Kaizen Manas (NiPlex-Harness) documentation, a personal AI agent run from Discord or Telegram.",
+      "Kaizen Manas (NiPlex-Harness) documentation.",
+      "Kaizen Manas documentation."
+    ],
+    path: KM_BASE + "/" + page.path,
+    image: SHARE
+  });
 }
 
 export default async function KmPageRoute({ params }: { params: Promise<{ path: string[] }> }) {

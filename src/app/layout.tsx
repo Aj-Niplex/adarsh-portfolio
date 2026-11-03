@@ -15,6 +15,7 @@ import { AssistantGate } from "@/components/AssistantGate";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { JsonLd } from "@/components/JsonLd";
 import { Footer, Header } from "@/components/SiteChrome";
+import { SHARE_IMAGE } from "@/lib/meta";
 import { META_DESCRIPTION, SITE } from "@/lib/site";
 
 const specDisplay = Chakra_Petch({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--f-spec-display", display: "swap" });
@@ -54,11 +55,16 @@ export const metadata: Metadata = {
     url: SITE.url,
     title: SITE.name + " (" + SITE.alias + ")",
     description: META_DESCRIPTION,
-    images: [{ url: "/logos/niplex-logo.png", width: 550, height: 454, alt: "NiPlex logo" }]
+    images: [SHARE_IMAGE]
   },
-  twitter: { card: "summary", title: SITE.name + " (" + SITE.alias + ")", description: META_DESCRIPTION, images: ["/logos/niplex-logo.png"] },
+  twitter: { card: "summary_large_image", title: SITE.name + " (" + SITE.alias + ")", description: META_DESCRIPTION, images: [SHARE_IMAGE.url] },
   icons: { icon: "/logos/niplex-logo.png", apple: "/logos/niplex-logo.png" },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  // Search Console and Bing Webmaster Tools check ownership with a tag; the codes are set as environment variables.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined
+  }
 };
 
 export const viewport: Viewport = {

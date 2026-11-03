@@ -181,18 +181,22 @@ export function KmBody({ blocks }: { blocks: Block[] }) {
                 ))}
               </div>
             );
-          case "entries":
+          case "entries": {
+            // Entry titles are H3 under a section heading; on a page with no section heading above them they are H2, so the levels never skip.
+            const underHeading = blocks.slice(0, i).some((x) => x.t === "h" || (x.t === "md" && /^##\s/m.test(x.text)));
+            const Title = underHeading ? "h3" : "h2";
             return (
               <div className="km-entries" key={i}>
                 {b.items.map((e) => (
                   <article id={e.anchor} key={e.anchor} className="km-entry">
-                    <h3><a href={"#" + e.anchor} aria-label="Link to this entry">{e.title}</a></h3>
+                    <Title><a href={"#" + e.anchor} aria-label="Link to this entry">{e.title}</a></Title>
                     <p>{inline(e.body)}</p>
                     {e.meta && <ul className="km-meta">{e.meta.split("\n").map((m, n) => <li key={n}>{inline(m)}</li>)}</ul>}
                   </article>
                 ))}
               </div>
             );
+          }
           case "links":
             return (
               <p key={i} className="km-reflinks">

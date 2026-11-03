@@ -659,8 +659,8 @@ textarea.field-input { resize: vertical; min-height: 120px; line-height: 1.45; }
 .km-entries { display: grid; gap: 10px; margin: 10px 0 18px; }
 .km-entry { padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); scroll-margin-top: 80px; }
 .km-entry:target { border-color: var(--accent-text); }
-.km-entry h3 { font-size: 1rem; margin-bottom: 6px; }
-.km-entry h3 a:hover { color: var(--accent-text); }
+.km-entry h2, .km-entry h3 { font-size: 1rem; margin-bottom: 6px; }
+.km-entry h2 a:hover, .km-entry h3 a:hover { color: var(--accent-text); }
 .km-entry p { margin: 0; color: var(--text); font-size: 0.94rem; max-width: 70ch; }
 .km-meta { list-style: none; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid var(--border); display: grid; gap: 4px; color: var(--muted); font-size: 0.86rem; }
 .km-convo { display: grid; gap: 8px; margin: 10px 0 18px; max-width: 70ch; }
