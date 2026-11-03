@@ -404,7 +404,9 @@ button { font: inherit; color: inherit; }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 520px) {
-  .chat-panel { right: 8px; left: 8px; width: auto; bottom: 64px; height: calc(100dvh - 84px); }
+  /* On a phone the open chat is a full screen sheet: nothing of the page shows through, and the header's X is the one way to close it. */
+  .chat-panel { inset: 0; width: auto; height: 100dvh; border: 0; border-radius: 0; z-index: 90; padding-bottom: env(safe-area-inset-bottom); }
+  .chat-toggle.is-open { display: none; }
 }
 
 /* ---------- Theme-specific details ---------- */
