@@ -13,12 +13,24 @@ export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
+const SEARCH_TITLE: Record<string, string> = {
+  "niplex-harness": "NiPlex-Harness: AI agent for Discord and Telegram",
+  "niplex-mcp": "NiPlex-MCP: one MCP server with 73 tools",
+  "threadforge-mcp": "ThreadForge-MCP: chat threads that remember",
+  "rei-kun-bot": "Rei-kun-Bot: a Discord AI bot with a persona",
+  "niplex-research-ai": "Niplex Research AI: a research assistant in Obsidian",
+  "niplex-harness-site": "NiPlex Harness site: docs for the first release"
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) return { title: "Not found" };
+  // The tagline is written for the page, not for a search result: a title longer than about 60 characters is cut.
+  const title = SEARCH_TITLE[p.slug] || p.name + ": " + p.tagline.replace(/\.$/, "");
   return pageMeta({
-    title: p.name + ": " + p.tagline.replace(/\.$/, ""),
+    title,
+    titleAlone: title.length + SITE.name.length + 3 > 60,
     description: p.summary,
     path: "/projects/" + p.slug,
     image: p.share
