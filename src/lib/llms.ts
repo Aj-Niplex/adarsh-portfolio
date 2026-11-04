@@ -2,7 +2,7 @@ import { forks, projects, TIERS, type Tier } from "./projects";
 import { FACTS, META_DESCRIPTION, PORTFOLIOS, SITE } from "./site";
 import { getKm, KM_BASE, KM_CHAPTERS, kmUrl, pageText } from "./km/pages";
 
-const TIER_ORDER: Tier[] = ["core", "tools", "side"];
+const TIER_ORDER: Tier[] = ["core", "tools", "stack", "side"];
 
 export function buildLlmsTxt() {
   const out: string[] = [];
