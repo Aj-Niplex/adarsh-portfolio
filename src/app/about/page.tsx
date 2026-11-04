@@ -44,7 +44,7 @@ export default function AboutPage() {
             <strong>A correction, since it comes up.</strong> Niplex Research AI, an Obsidian plugin, is a side project I built for my own notes and published. It is the most visible thing in some search results, but it is not the main body of my work. The main work is NiPlex-Harness and NiPlex-MCP.
           </p>
           <p>
-            <strong>Public and private.</strong> This site describes public repositories and, for NiPlex-MCP, what the private system does. Credentials, private repositories and personal data are not published. OpenDots is a fork of CopilotKit&apos;s project and is labelled as such.
+            <strong>Public and private.</strong> This site describes public repositories and, for the private systems such as NiPlex-MCP, what each one does. Credentials, private repositories and personal data are not published. OpenDots is a fork of CopilotKit&apos;s project and is labelled as such.
           </p>
           <p>
             <strong>Find me.</strong> <a href={SITE.github} target="_blank" rel="noreferrer" style={{ color: "var(--accent-text)" }}>github.com/Aj-Niplex</a>. The same facts in plain text for AI assistants are at <a href="/llms.txt" style={{ color: "var(--accent-text)" }}>/llms.txt</a>.

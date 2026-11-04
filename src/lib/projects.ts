@@ -1,4 +1,4 @@
-export type Tier = "core" | "tools" | "side";
+export type Tier = "core" | "tools" | "stack" | "side";
 
 // A picture that belongs to one group (see public/km). With `item`, it sits under that bullet; without, beside the group's heading.
 export type Figure = { id: string; alt: string; caption: string; item?: number };
@@ -29,6 +29,7 @@ export type Project = {
 export const TIERS: Record<Tier, { title: string; blurb: string }> = {
   core: { title: "Core", blurb: "The two systems everything else connects to." },
   tools: { title: "Public tools", blurb: "Working open-source projects built on the same ideas." },
+  stack: { title: "The wider stack", blurb: "Private systems around the core: a browser and workspace for agents, memory, sync and a knowledge app. Their pages say what each does; the source stays private." },
   side: { title: "Side projects", blurb: "Smaller, personal or documentation projects." }
 };
 
@@ -352,6 +353,218 @@ export const projects: Project[] = [
     repo: "https://github.com/Aj-Niplex/Rei-kun-Bot"
   },
   {
+    slug: "computer-use-mcp",
+    name: "Computer-Use-MCP",
+    tier: "stack",
+    visibility: "private",
+    status: "Private · Deployed",
+    tagline: "A browser and a workspace for an AI agent, over MCP.",
+    summary:
+      "An MCP server with 16 computer-control tools: open a page, read it as text, take a screenshot, click, type, scroll, and read and write files in a confined workspace. It holds no browser itself. Each call is passed over HTTPS to a separate runtime service that owns the browser and the workspace. The source is private; this page describes what it does.",
+    tags: ["Python", "MCP", "Browser", "Workspace"],
+    stats: [
+      { label: "Tools", value: "16" },
+      { label: "Parts", value: "MCP server + runtime service" },
+      { label: "Access", value: "Two separate layers of login" },
+      { label: "Source", value: "Private" }
+    ],
+    groups: [
+      {
+        title: "16 tools in three groups",
+        items: [
+          "Browser, 10 tools: open a page, read a text snapshot, take a screenshot (also as base64), click, type, press keys, scroll, wait, and reset the browser.",
+          "Workspace, 5 tools: check status, list and read files, write files and make folders inside one confined folder.",
+          "Health, 1 tool: reports whether the runtime, the browser and the workspace are up."
+        ]
+      },
+      {
+        title: "Limits built in",
+        items: [
+          "The runtime accepts only an explicit allow-list of computer tools. It has no terminal shell, no arbitrary code execution and no host-level control.",
+          "By default a screenshot is capped at 1280 by 720 pixels and 1 MB, a page snapshot at 50,000 characters, a file read or write at 1 MB, and a browser action at 15 seconds.",
+          "Every request to the runtime needs a bearer token, and calls are written to an audit log.",
+          "Screenshots come back to the agent as native MCP images."
+        ]
+      }
+    ],
+    stepsTitle: "How a call flows",
+    steps: [
+      { title: "Ask", body: "An MCP-capable agent calls one of the 16 tools." },
+      { title: "Forward", body: "The MCP server passes the call to the runtime service over HTTPS with its own token." },
+      { title: "Check", body: "The runtime rejects a missing token or a tool that is not on its allow-list." },
+      { title: "Act", body: "The browser or the confined workspace does the work." },
+      { title: "Return", body: "The result goes back as JSON, or as an image for a screenshot." }
+    ],
+    setup: [],
+    boundaries: [
+      "The source is private and is not available to install.",
+      "It is a browser and a confined workspace, not a full desktop.",
+      "The runtime's web service can be up while its browser cannot start on the host. The health tool says which.",
+      "Security details are reported by the owner. They are not an independent audit."
+    ],
+    links: [],
+    appCategory: "DeveloperApplication"
+  },
+  {
+    slug: "neural-mcp",
+    name: "Neural-MCP",
+    tier: "stack",
+    visibility: "private",
+    status: "Private · Built",
+    tagline: "A memory sub-agent an AI agent can ask and write to.",
+    summary:
+      "An MCP server with two tools. One searches a private memory repository and answers only from what it finds; the other saves a durable log entry back. It is built to sit between an agent's gateway, such as NiPlex-MCP, and the memory, so the main agent does not read the whole memory itself. The source is private; this page describes what it does.",
+    tags: ["Python", "FastMCP", "MCP", "Memory"],
+    stats: [
+      { label: "Tools", value: "2" },
+      { label: "Memory", value: "A private GitHub repository" },
+      { label: "Search", value: "Keyword reads, no vector database" },
+      { label: "Source", value: "Private" }
+    ],
+    groups: [
+      {
+        title: "Two tools",
+        items: [
+          "ask_neural: takes a question, searches the memory and writes an answer from what it found.",
+          "log_to_neural: takes a summary and records it as a durable entry in the memory."
+        ]
+      },
+      {
+        title: "Design choices",
+        items: [
+          "No vector database or embeddings. The memory is small enough that reading the priority paths and a keyword pass over the file tree is enough, and the choice is to be revisited if it grows large.",
+          "The sub-agent is told to say it does not know, rather than invent an answer, when nothing relevant is found.",
+          "It reaches the memory with its own GitHub token, limited to that one repository, so a leak here cannot touch any other repository."
+        ]
+      }
+    ],
+    stepsTitle: "How a question is answered",
+    steps: [
+      { title: "Ask", body: "An ask_neural call from an AI client reaches Neural-MCP, directly or through a gateway such as NiPlex-MCP." },
+      { title: "Search", body: "Neural-MCP reads the likely places in the memory and runs a keyword pass." },
+      { title: "Answer", body: "The sub-agent replies from that material, or says it does not know." },
+      { title: "Log", body: "A log_to_neural call later writes a durable entry back." }
+    ],
+    setup: [],
+    boundaries: [
+      "The source and the memory are private.",
+      "It answers only from the memory. An empty or thin memory gives an honest \"I do not know\".",
+      "It is the memory layer of the stack, not a general chat server. ThreadForge-MCP is the chat server."
+    ],
+    links: [],
+    appCategory: "DeveloperApplication"
+  },
+  {
+    slug: "neural-os",
+    name: "Neural OS",
+    tier: "stack",
+    visibility: "private",
+    status: "Private · App",
+    tagline: "A personal second brain that runs in the browser.",
+    summary:
+      "A knowledge workspace that joins a daily journal, a knowledge graph, a wiki of people and ideas, a free-form canvas, an AI research agent and a to-do list in one place. The source is private and all rights are reserved; this page follows the project's own description of its features.",
+    tags: ["TypeScript", "React", "Convex"],
+    stats: [
+      { label: "Front end", value: "React 19, TypeScript, Vite" },
+      { label: "Back end", value: "Convex" },
+      { label: "Sign-in", value: "Email code" },
+      { label: "Source", value: "Private" }
+    ],
+    groups: [
+      {
+        title: "What is in it",
+        items: [
+          "Journal: entries organised by date, with tags.",
+          "Knowledge graph: AI-assisted linking finds related entries and shows them as an interactive graph.",
+          "Wiki vault: the people, organisations, concepts and places mentioned across entries.",
+          "Visual canvas: a free-form space to arrange notes and images.",
+          "AI auto-research: an agent that explores a topic over several rounds and links its findings to existing entries.",
+          "To-dos with priorities, due dates and tags, linked to entries, plus daily writing streaks."
+        ]
+      },
+      {
+        title: "How it is built",
+        items: [
+          "React 19 with TypeScript and Vite, Tailwind CSS v4 and Shadcn UI components, and Framer Motion for animation.",
+          "Convex as the reactive back end and database, with sign-in by email code.",
+          "A bold, high-contrast neobrutalist look, with light and dark modes and a layout that works on a phone."
+        ]
+      }
+    ],
+    stepsTitle: "How a day with it goes",
+    steps: [
+      { title: "Write", body: "Add a journal entry for the day." },
+      { title: "Link", body: "The AI finds related entries and links them in the graph." },
+      { title: "Organise", body: "People, places and ideas collect in the wiki, and the canvas holds what needs a picture." },
+      { title: "Research", body: "Ask the research agent to explore a topic and tie its findings back to the entries." },
+      { title: "Plan", body: "Turn what came up into to-dos." }
+    ],
+    setup: [],
+    boundaries: [
+      "The source is private. It is not available to install.",
+      "This page follows the project's own feature list. It does not claim that every feature is finished.",
+      "AI features send entry text to a model provider, so they are not for notes that must stay on the device."
+    ],
+    links: [],
+    appCategory: "ProductivityApplication"
+  },
+  {
+    slug: "vaultbridge",
+    name: "VaultBridge",
+    tier: "stack",
+    visibility: "private",
+    status: "Private · Partial MVP",
+    tagline: "Sync a Notion database into Obsidian notes.",
+    summary:
+      "A service that reads pages from a Notion database, turns them into Markdown notes with frontmatter, and records what was added, changed or removed since the last run. The Obsidian plugin that writes the notes into a vault is planned and not built yet, so this is a partial MVP. The source is private; this page describes what works and what does not.",
+    tags: ["Node.js", "Notion", "Obsidian", "Sync"],
+    stats: [
+      { label: "Direction", value: "Notion to Obsidian" },
+      { label: "Runs", value: "Incremental, by last edit" },
+      { label: "Stage", value: "Partial MVP" },
+      { label: "Source", value: "Private" }
+    ],
+    groups: [
+      {
+        title: "What works",
+        items: [
+          "Three routes: start a sync, read the history of past runs with their changes, and a health check.",
+          "Incremental runs: only pages edited since the last sync are fetched.",
+          "Property mapping: the database's columns are mapped to note frontmatter automatically the first time it syncs.",
+          "Stable file paths: each page keeps one path, so links between pages resolve in the same batch.",
+          "Block conversion: paragraphs, headings, lists, to-dos, quotes, callouts, code, dividers, images, bookmarks, embeds and toggles become Markdown.",
+          "Diffs: each run is compared with the last stored snapshot, and the added, modified and deleted notes are recorded."
+        ]
+      },
+      {
+        title: "Not built yet",
+        items: [
+          "Sign-in with Notion (OAuth). A Notion token is added by hand for testing.",
+          "More than the first data source of a database.",
+          "Detecting pages deleted or archived in Notion.",
+          "Tables, columns, synced blocks and file attachments. They appear as a marker comment, not as content.",
+          "The Obsidian plugin that fetches the notes and writes them to disk."
+        ]
+      }
+    ],
+    stepsTitle: "How a sync runs",
+    steps: [
+      { title: "Trigger", body: "A request names the vault configuration to sync." },
+      { title: "Fetch", body: "Pages edited since the last run are read from Notion." },
+      { title: "Convert", body: "Blocks become Markdown and properties become frontmatter." },
+      { title: "Compare", body: "Each note is compared with its last stored snapshot." },
+      { title: "Record", body: "The added, modified and deleted notes are saved as the run's history." }
+    ],
+    setup: [],
+    boundaries: [
+      "It is a partial MVP, not a finished product.",
+      "The service never writes to a disk itself. Writing notes into a vault is the plugin's job, and the plugin is not built.",
+      "The source is private and is not available to install."
+    ],
+    links: [],
+    appCategory: "DeveloperApplication"
+  },
+  {
     slug: "niplex-research-ai",
     name: "Niplex Research AI",
     tier: "side",
@@ -490,7 +703,7 @@ export function buildAssistantContext() {
     lines.push(p.name + " (" + p.status + "): " + p.tagline + " " + p.summary);
   }
   lines.push(
-    "Never claim unfinished features are production-ready. NiPlex-MCP and the current NiPlex-Harness are private: describe what they do, but not their source code, hosting or infrastructure. Do not reveal private repositories, credentials, personal data or internal notes. If asked about private work, say the portfolio only documents public-facing information. Do not share or guess personal details such as age, school or contact information."
+    "Never claim unfinished features are production-ready. NiPlex-MCP, the current NiPlex-Harness and every project in the wider stack (Computer-Use-MCP, Neural-MCP, Neural OS, VaultBridge) are private: describe what they do, but not their source code, hosting or infrastructure. Do not reveal private repositories, credentials, personal data or internal notes. If asked about private work, say the portfolio only documents public-facing information. Do not share or guess personal details such as age, school or contact information."
   );
   return lines.join(" ");
 }

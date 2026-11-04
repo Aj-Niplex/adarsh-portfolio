@@ -19,7 +19,11 @@ const SEARCH_TITLE: Record<string, string> = {
   "threadforge-mcp": "ThreadForge-MCP: chat threads that remember",
   "rei-kun-bot": "Rei-kun-Bot: a Discord AI bot with a persona",
   "niplex-research-ai": "Niplex Research AI: a research assistant in Obsidian",
-  "niplex-harness-site": "NiPlex Harness site: docs for the first release"
+  "niplex-harness-site": "NiPlex Harness site: docs for the first release",
+  "computer-use-mcp": "Computer-Use-MCP: a browser and workspace for agents",
+  "neural-mcp": "Neural-MCP: a memory sub-agent for AI agents",
+  "neural-os": "Neural OS: a personal second brain in the browser",
+  "vaultbridge": "VaultBridge: sync a Notion database into Obsidian"
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

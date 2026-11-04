@@ -10,7 +10,7 @@ import { mdUrl } from "./mdPath";
 import { PRIVACY, PRIVACY_LEAD, PRIVACY_UPDATED } from "./privacy";
 import type { Block, KmPage } from "./km/types";
 
-const TIER_ORDER: Tier[] = ["core", "tools", "side"];
+const TIER_ORDER: Tier[] = ["core", "tools", "stack", "side"];
 const abs = (path: string) => SITE.url + path;
 
 export { mdUrl };

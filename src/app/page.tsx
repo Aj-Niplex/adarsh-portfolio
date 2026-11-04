@@ -9,6 +9,7 @@ import { FACTS, HEADLINE, LEDE, META_DESCRIPTION, SERVICES, SITE } from "@/lib/s
 export default function Home() {
   const core = projectsByTier("core");
   const tools = projectsByTier("tools");
+  const stack = projectsByTier("stack");
   const side = projectsByTier("side");
   const cards = heroItems();
   const toolGroups = cards.filter((c) => c.count).length;
@@ -111,6 +112,29 @@ export default function Home() {
                 <div className="row-meta">
                   {p.logo && <Image className={"row-logo" + (p.logo.plain ? " is-plain" : "")} src={p.logo.src} alt={p.logo.alt} width={64} height={64} />}
                   <span className="pill pill-accent">{p.status}</span>
+                  {p.tags.slice(0, 3).map((t) => <span className="pill" key={t}>{t}</span>)}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="stack">
+        <div className="container">
+          <div className="section-head">
+            <h2>{TIERS.stack.title}</h2>
+            <p>{TIERS.stack.blurb}</p>
+          </div>
+          <div className="rows">
+            {stack.map((p) => (
+              <Link href={"/projects/" + p.slug} className="row" key={p.slug}>
+                <div className="row-main">
+                  <h3>{p.name}</h3>
+                  <p>{p.tagline}</p>
+                </div>
+                <div className="row-meta">
+                  <span className="pill">{p.status}</span>
                   {p.tags.slice(0, 3).map((t) => <span className="pill" key={t}>{t}</span>)}
                 </div>
               </Link>

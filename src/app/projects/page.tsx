@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMeta({
   path: "/projects"
 });
 
-const ORDER: Tier[] = ["core", "tools", "side"];
+const ORDER: Tier[] = ["core", "tools", "stack", "side"];
 
 export default function ProjectsPage() {
   const list = {
@@ -34,7 +34,7 @@ export default function ProjectsPage() {
       <p className="crumbs"><Link href="/">Home</Link> / Projects</p>
       <h1>Projects</h1>
       <p className="lead">
-        Two core systems and the public tools built around them. Each page says what the project does, how it works, how to run it, and where its limits are.
+        Two core systems, the public tools built around them and the private systems around those. Each page says what the project does, how it works, how to run it, and where its limits are.
       </p>
 
       {ORDER.map((tier) => (

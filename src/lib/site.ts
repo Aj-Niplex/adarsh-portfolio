@@ -30,7 +30,7 @@ export const NAV = [
 export const HEADLINE = "I build AI agents and MCP servers.";
 
 export const LEDE =
-  "I'm Adarsh Jaiswal, also known as AJ NiPlex. NiPlex-Harness runs a personal AI agent from Discord or Telegram, with 61 tools and approval buttons for anything risky. NiPlex-MCP puts 73 tools behind one Model Context Protocol connection.";
+  "I'm Adarsh Jaiswal, also known as AJ NiPlex. NiPlex-Harness runs a personal AI agent from Discord or Telegram, with 61 tools and approval buttons for anything risky. NiPlex-MCP puts 73 tools behind one Model Context Protocol connection. Around them sit a browser and workspace for agents, a memory sub-agent, a Notion to Obsidian sync and a personal knowledge app.";
 
 export const META_DESCRIPTION =
   "Adarsh Jaiswal (AJ NiPlex) builds AI agent systems and Model Context Protocol (MCP) servers: NiPlex-Harness, NiPlex-MCP, ThreadForge-MCP and Rei-kun-Bot.";
@@ -57,6 +57,6 @@ export const FACTS: { label: string; value: string }[] = [
   { label: "Based in", value: "India" },
   { label: "Focus", value: "AI agent systems, MCP servers, Discord and Telegram agents" },
   { label: "Main products", value: "NiPlex-Harness (also called Kaizen Manas), NiPlex-MCP" },
-  { label: "Also built", value: "ThreadForge-MCP, Rei-kun-Bot, Niplex Research AI (Obsidian plugin)" },
+  { label: "Also built", value: "ThreadForge-MCP, Rei-kun-Bot, Computer-Use-MCP, Neural-MCP, Neural OS, VaultBridge, Niplex Research AI (Obsidian plugin)" },
   { label: "Working style", value: "Backend and agents first, mobile-first, explicit approvals" }
 ];
