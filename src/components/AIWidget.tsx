@@ -621,7 +621,7 @@ export function AIWidget() {
       <button
         type="button"
         ref={toggleRef}
-        className="chat-toggle"
+        className={open ? "chat-toggle is-open" : "chat-toggle"}
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Ask about the work"}
