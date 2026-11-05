@@ -208,6 +208,10 @@ export function AIWidget() {
   const abortRef = useRef<AbortController | null>(null);
   const stickRef = useRef(true);
   const stoppedRef = useRef(false);
+  const [online, setOnline] = useState(true);
+  // A question that failed because the phone was offline; it is asked again when the connection returns.
+  const resumeRef = useRef<{ text: string; answerId: number; userId: number } | null>(null);
+  const askRef = useRef<(question: string, isRetry?: boolean) => Promise<void>>(async () => {});
 
   const close = useCallback(() => {
     setOpen(false);
@@ -226,6 +230,25 @@ export function AIWidget() {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  useEffect(() => {
+    setOnline(navigator.onLine !== false);
+    const up = () => {
+      setOnline(true);
+      const waiting = resumeRef.current;
+      if (!waiting) return;
+      resumeRef.current = null;
+      setMessages((cur) => cur.filter((m) => m.id !== waiting.answerId && m.id !== waiting.userId));
+      setTimeout(() => void askRef.current(waiting.text, true), 400);
+    };
+    const down = () => setOnline(false);
+    window.addEventListener("online", up);
+    window.addEventListener("offline", down);
+    return () => {
+      window.removeEventListener("online", up);
+      window.removeEventListener("offline", down);
+    };
+  }, []);
 
   useEffect(() => {
     const el = logRef.current;
@@ -262,9 +285,14 @@ export function AIWidget() {
     return queueRef.current;
   }, []);
 
-  async function ask(question: string) {
+  async function ask(question: string, isRetry = false) {
     const text = question.trim();
-    if (!text || busy || blocked) return;
+    if (!text || (busy && !isRetry) || blocked) return;
+    // Offline: keep the question in the box. The banner explains, and nothing is sent into the void.
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      setOnline(false);
+      return;
+    }
 
     const history = messages
       .filter((m) => (m.role === "user" || m.role === "assistant") && m.phase !== "error" && m.content)
@@ -288,8 +316,38 @@ export function AIWidget() {
     const controller = new AbortController();
     abortRef.current = controller;
 
+    let retrying = false;
+
     const fail = (message: string) =>
       enqueue(0, () => patch(answerId, (m) => ({ ...m, content: message, phase: "error", steps: m.steps?.map((s) => ({ ...s, status: "done" as const })) })));
+
+    // Offline failures wait for the connection to return and then ask again by themselves.
+    const failNet = (message: string) => {
+      if (typeof navigator !== "undefined" && navigator.onLine === false) {
+        setOnline(false);
+        resumeRef.current = { text, answerId, userId };
+        return fail("You're offline. Your question is kept and will be sent again when you're back online.");
+      }
+      return fail(message);
+    };
+
+    // A dropped connection or a brief server hiccup is tried once more, quietly, before the visitor sees an error.
+    const retryOnce = () => {
+      if (isRetry || gotText || stoppedRef.current) return false;
+      if (typeof navigator !== "undefined" && navigator.onLine === false) return false;
+      retrying = true;
+      patch(answerId, (m) => ({ ...m, steps: [{ id: "retry", label: "Connection hiccup", detail: "Trying again", status: "running" as const }] }));
+      setTimeout(() => {
+        setMessages((cur) => cur.filter((m) => m.id !== answerId && m.id !== userId));
+        if (stoppedRef.current) {
+          setDraft(text);
+          setBusy(false);
+          return;
+        }
+        void askRef.current(text, true);
+      }, 1200);
+      return true;
+    };
 
     // Ends an answer that already has text, so the chat is never left waiting for an end that is not coming.
     const finish = (note?: string) =>
@@ -363,13 +421,15 @@ export function AIWidget() {
             ...cur,
             { id: nextId++, role: "notice", content: (data.error || "You are asking too fast.") + " Try again in a moment." }
           ]);
+        } else if ([500, 502, 503, 504].includes(response.status) && retryOnce()) {
+          return;
         } else {
           const message =
             data.error ||
             (response.status === 504 || response.status === 408
               ? "That took too long. Please try again."
               : "The assistant is unavailable right now. Please try again shortly.");
-          await fail(message);
+          await failNet(message);
         }
         return;
       }
@@ -413,7 +473,8 @@ export function AIWidget() {
       controller.abort();
       if (!sawDone) {
         if (gotText) await finish("The connection dropped, so this answer may be cut short.");
-        else await fail(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
+        else if (!stalled && retryOnce()) return;
+        else await failNet(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
       }
     } catch (error) {
       if ((error as Error).name === "AbortError" || stoppedRef.current) {
@@ -426,13 +487,15 @@ export function AIWidget() {
           }
         }
       } else {
-        await (gotText ? finish("The connection dropped, so this answer may be cut short.") : fail("Could not reach the assistant. Check your connection and try again."));
+        if (gotText) await finish("The connection dropped, so this answer may be cut short.");
+        else if (!retryOnce()) await failNet("Could not reach the assistant. Check your connection and try again.");
       }
     } finally {
       await queueRef.current;
-      setBusy(false);
+      if (!retrying) setBusy(false);
     }
   }
+  askRef.current = ask;
 
   function stop() {
     stoppedRef.current = true;
@@ -463,7 +526,7 @@ export function AIWidget() {
   }
 
   const lastAnswer = [...messages].reverse().find((m) => m.role === "assistant");
-  const canRetry = !busy && lastAnswer?.phase === "error" && lastAnswer.question;
+  const canRetry = !busy && lastAnswer?.phase === "error" && lastAnswer.question && online;
 
   return (
     <>
@@ -507,7 +570,7 @@ export function AIWidget() {
               {messages.length === 0 && (
                 <div className="suggest">
                   {SUGGESTIONS.map((s) => (
-                    <button type="button" key={s} onClick={() => void ask(s)} disabled={busy || blocked}>
+                    <button type="button" key={s} onClick={() => void ask(s)} disabled={busy || blocked || !online}>
                       {s}
                     </button>
                   ))}
@@ -579,6 +642,12 @@ export function AIWidget() {
           </div>
 
           {signInOpen && !session.signedIn && <SignIn onSignedIn={onSignedIn} onCancel={() => setSignInOpen(false)} />}
+
+          {!online && (
+            <p className="chat-offline" role="status">
+              You&apos;re offline. Type your question; it can be sent once you&apos;re back online.
+            </p>
+          )}
 
           <form className="chat-form" onSubmit={onSubmit}>
             <textarea
