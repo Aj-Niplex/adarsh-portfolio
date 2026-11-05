@@ -241,7 +241,16 @@ export function AIWidget() {
       setMessages((cur) => cur.filter((m) => m.id !== waiting.answerId && m.id !== waiting.userId));
       // Hold the chat during the short wait so a new question cannot start beside the resent one.
       setBusy(true);
-      setTimeout(() => void askRef.current(waiting.text, true, [waiting.answerId, waiting.userId]), 400);
+      stoppedRef.current = false;
+      setTimeout(() => {
+        // Stop during the short wait takes the question back instead of sending it.
+        if (stoppedRef.current) {
+          setDraft((current) => current || waiting.text);
+          setBusy(false);
+          return;
+        }
+        void askRef.current(waiting.text, true, [waiting.answerId, waiting.userId]);
+      }, 400);
     };
     const down = () => setOnline(false);
     window.addEventListener("online", up);
