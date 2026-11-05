@@ -53,7 +53,7 @@ const SUGGESTIONS = ["What can you do?", "What is NiPlex-MCP?", "How does NiPlex
 
 let nextId = 1;
 
-/** A request that never got a reply (a dropped mobile connection, say) is tried once more before giving up. */
+/** Sends the question. Retrying after a failure is decided by the caller, so attempts never stack. */
 async function postChat(body: string, signal: AbortSignal, extraTries: number) {
   for (let attempt = 0; ; attempt++) {
     try {
@@ -403,8 +403,8 @@ export function AIWidget() {
 
     try {
       const payload = JSON.stringify({ messages: [...history, { role: "user", content: text }] });
-      // A retry already is the second attempt, so it gets no extra tries of its own.
-      const response = await postChat(payload, controller.signal, isRetry ? 0 : 1);
+      // One layer of retries only: a failure here is retried once by retryOnce below, not inside the request.
+      const response = await postChat(payload, controller.signal, 0);
 
       if (!response.ok) {
         // The server may answer with JSON or, on a timeout, a plain-text error page. Never show a parser error.
