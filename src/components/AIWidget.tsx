@@ -208,6 +208,8 @@ export function AIWidget() {
   const abortRef = useRef<AbortController | null>(null);
   const stickRef = useRef(true);
   const stoppedRef = useRef(false);
+  const draftRef = useRef("");
+  draftRef.current = draft;
   const [online, setOnline] = useState(true);
   // A question that failed because the phone was offline; it is asked again when the connection returns.
   const resumeRef = useRef<{ text: string; answerId: number; userId: number } | null>(null);
@@ -231,6 +233,15 @@ export function AIWidget() {
     if (open) inputRef.current?.focus();
   }, [open]);
 
+  /** A question taken back (Stop pressed before it was sent) returns to the box, or stays visible if the box already has a new draft. */
+  const giveBack = useCallback((question: string) => {
+    if (draftRef.current.trim()) {
+      setMessages((cur) => [...cur, { id: nextId++, role: "notice", content: "Not sent: \"" + question.slice(0, 120) + (question.length > 120 ? "…" : "") + "\"" }]);
+    } else {
+      setDraft(question);
+    }
+  }, []);
+
   useEffect(() => {
     setOnline(navigator.onLine !== false);
     const up = () => {
@@ -245,7 +256,7 @@ export function AIWidget() {
       setTimeout(() => {
         // Stop during the short wait takes the question back instead of sending it.
         if (stoppedRef.current) {
-          setDraft((current) => current || waiting.text);
+          giveBack(waiting.text);
           setBusy(false);
           return;
         }
@@ -367,7 +378,7 @@ export function AIWidget() {
       setTimeout(() => {
         setMessages((cur) => cur.filter((m) => m.id !== answerId && m.id !== userId));
         if (stoppedRef.current) {
-          setDraft((current) => current || text);
+          giveBack(text);
           setBusy(false);
           return;
         }
