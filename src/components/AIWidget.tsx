@@ -54,12 +54,12 @@ const SUGGESTIONS = ["What can you do?", "What is NiPlex-MCP?", "How does NiPlex
 let nextId = 1;
 
 /** A request that never got a reply (a dropped mobile connection, say) is tried once more before giving up. */
-async function postChat(body: string, signal: AbortSignal) {
+async function postChat(body: string, signal: AbortSignal, extraTries: number) {
   for (let attempt = 0; ; attempt++) {
     try {
       return await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body, signal });
     } catch (error) {
-      if ((error as Error).name === "AbortError" || attempt >= 1) throw error;
+      if ((error as Error).name === "AbortError" || attempt >= extraTries) throw error;
       await new Promise((resolve) => setTimeout(resolve, 700));
     }
   }
@@ -211,7 +211,7 @@ export function AIWidget() {
   const [online, setOnline] = useState(true);
   // A question that failed because the phone was offline; it is asked again when the connection returns.
   const resumeRef = useRef<{ text: string; answerId: number; userId: number } | null>(null);
-  const askRef = useRef<(question: string, isRetry?: boolean) => Promise<void>>(async () => {});
+  const askRef = useRef<(question: string, isRetry?: boolean, exclude?: number[]) => Promise<void>>(async () => {});
 
   const close = useCallback(() => {
     setOpen(false);
@@ -239,7 +239,7 @@ export function AIWidget() {
       if (!waiting) return;
       resumeRef.current = null;
       setMessages((cur) => cur.filter((m) => m.id !== waiting.answerId && m.id !== waiting.userId));
-      setTimeout(() => void askRef.current(waiting.text, true), 400);
+      setTimeout(() => void askRef.current(waiting.text, true, [waiting.answerId, waiting.userId]), 400);
     };
     const down = () => setOnline(false);
     window.addEventListener("online", up);
@@ -285,7 +285,7 @@ export function AIWidget() {
     return queueRef.current;
   }, []);
 
-  async function ask(question: string, isRetry = false) {
+  async function ask(question: string, isRetry = false, exclude: number[] = []) {
     const text = question.trim();
     if (!text || (busy && !isRetry) || blocked) return;
     // Offline: keep the question in the box. The banner explains, and nothing is sent into the void.
@@ -294,8 +294,9 @@ export function AIWidget() {
       return;
     }
 
+    // An automatic retry replaces the failed turn, so that turn must not be sent along as history.
     const history = messages
-      .filter((m) => (m.role === "user" || m.role === "assistant") && m.phase !== "error" && m.content)
+      .filter((m) => !exclude.includes(m.id) && (m.role === "user" || m.role === "assistant") && m.phase !== "error" && m.content)
       .slice(-6)
       .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
@@ -309,7 +310,8 @@ export function AIWidget() {
       { id: userId, role: "user", content: text },
       { id: answerId, role: "assistant", content: "", steps: [], phase: "working", question: text }
     ]);
-    setDraft("");
+    // An automatic retry is not a new send: whatever the visitor has started typing meanwhile stays.
+    if (!isRetry) setDraft("");
     setBusy(true);
     queueRef.current = Promise.resolve();
     const started = Date.now();
@@ -340,11 +342,11 @@ export function AIWidget() {
       setTimeout(() => {
         setMessages((cur) => cur.filter((m) => m.id !== answerId && m.id !== userId));
         if (stoppedRef.current) {
-          setDraft(text);
+          setDraft((current) => current || text);
           setBusy(false);
           return;
         }
-        void askRef.current(text, true);
+        void askRef.current(text, true, [answerId, userId]);
       }, 1200);
       return true;
     };
@@ -401,7 +403,8 @@ export function AIWidget() {
 
     try {
       const payload = JSON.stringify({ messages: [...history, { role: "user", content: text }] });
-      const response = await postChat(payload, controller.signal);
+      // A retry already is the second attempt, so it gets no extra tries of its own.
+      const response = await postChat(payload, controller.signal, isRetry ? 0 : 1);
 
       if (!response.ok) {
         // The server may answer with JSON or, on a timeout, a plain-text error page. Never show a parser error.
