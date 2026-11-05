@@ -291,6 +291,17 @@ export function AIWidget() {
     // Offline: keep the question in the box. The banner explains, and nothing is sent into the void.
     if (typeof navigator !== "undefined" && navigator.onLine === false) {
       setOnline(false);
+      if (isRetry) {
+        // The connection went away during a quiet retry. The failed turn is already gone, so keep the
+        // question in a notice and send it when the connection returns.
+        const noticeId = nextId++;
+        setMessages((cur) => [
+          ...cur,
+          { id: noticeId, role: "notice", content: "You're offline. \"" + text.slice(0, 80) + (text.length > 80 ? "…" : "") + "\" will be sent when you're back online." }
+        ]);
+        resumeRef.current = { text, answerId: noticeId, userId: -1 };
+        setBusy(false);
+      }
       return;
     }
 
@@ -476,7 +487,7 @@ export function AIWidget() {
       controller.abort();
       if (!sawDone) {
         if (gotText) await finish("The connection dropped, so this answer may be cut short.");
-        else if (!stalled && retryOnce()) return;
+        else if (retryOnce()) return;
         else await failNet(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
       }
     } catch (error) {
