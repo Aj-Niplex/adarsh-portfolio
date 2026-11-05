@@ -239,6 +239,8 @@ export function AIWidget() {
       if (!waiting) return;
       resumeRef.current = null;
       setMessages((cur) => cur.filter((m) => m.id !== waiting.answerId && m.id !== waiting.userId));
+      // Hold the chat during the short wait so a new question cannot start beside the resent one.
+      setBusy(true);
       setTimeout(() => void askRef.current(waiting.text, true, [waiting.answerId, waiting.userId]), 400);
     };
     const down = () => setOnline(false);
@@ -287,7 +289,10 @@ export function AIWidget() {
 
   async function ask(question: string, isRetry = false, exclude: number[] = []) {
     const text = question.trim();
-    if (!text || (busy && !isRetry) || blocked) return;
+    if (!text || (busy && !isRetry) || blocked) {
+      if (isRetry) setBusy(false);
+      return;
+    }
     // Offline: keep the question in the box. The banner explains, and nothing is sent into the void.
     if (typeof navigator !== "undefined" && navigator.onLine === false) {
       setOnline(false);
