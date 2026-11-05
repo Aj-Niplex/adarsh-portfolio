@@ -53,13 +53,13 @@ const SUGGESTIONS = ["What can you do?", "What is NiPlex-MCP?", "How does NiPlex
 
 let nextId = 1;
 
-/** A request that never got a reply (a dropped mobile connection, say) is tried once more before giving up. */
-async function postChat(body: string, signal: AbortSignal) {
+/** Sends the question. Retrying after a failure is decided by the caller, so attempts never stack. */
+async function postChat(body: string, signal: AbortSignal, extraTries: number) {
   for (let attempt = 0; ; attempt++) {
     try {
       return await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body, signal });
     } catch (error) {
-      if ((error as Error).name === "AbortError" || attempt >= 1) throw error;
+      if ((error as Error).name === "AbortError" || attempt >= extraTries) throw error;
       await new Promise((resolve) => setTimeout(resolve, 700));
     }
   }
@@ -208,6 +208,12 @@ export function AIWidget() {
   const abortRef = useRef<AbortController | null>(null);
   const stickRef = useRef(true);
   const stoppedRef = useRef(false);
+  const draftRef = useRef("");
+  draftRef.current = draft;
+  const [online, setOnline] = useState(true);
+  // A question that failed because the phone was offline; it is asked again when the connection returns.
+  const resumeRef = useRef<{ text: string; answerId: number; userId: number } | null>(null);
+  const askRef = useRef<(question: string, isRetry?: boolean, exclude?: number[]) => Promise<void>>(async () => {});
 
   const close = useCallback(() => {
     setOpen(false);
@@ -226,6 +232,45 @@ export function AIWidget() {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  /** A question taken back (Stop pressed before it was sent) returns to the box, or stays visible if the box already has a new draft. */
+  const giveBack = useCallback((question: string) => {
+    if (draftRef.current.trim()) {
+      setMessages((cur) => [...cur, { id: nextId++, role: "notice", content: "Not sent: \"" + question.slice(0, 120) + (question.length > 120 ? "…" : "") + "\"" }]);
+    } else {
+      setDraft(question);
+    }
+  }, []);
+
+  useEffect(() => {
+    setOnline(navigator.onLine !== false);
+    const up = () => {
+      setOnline(true);
+      const waiting = resumeRef.current;
+      if (!waiting) return;
+      resumeRef.current = null;
+      setMessages((cur) => cur.filter((m) => m.id !== waiting.answerId && m.id !== waiting.userId));
+      // Hold the chat during the short wait so a new question cannot start beside the resent one.
+      setBusy(true);
+      stoppedRef.current = false;
+      setTimeout(() => {
+        // Stop during the short wait takes the question back instead of sending it.
+        if (stoppedRef.current) {
+          giveBack(waiting.text);
+          setBusy(false);
+          return;
+        }
+        void askRef.current(waiting.text, true, [waiting.answerId, waiting.userId]);
+      }, 400);
+    };
+    const down = () => setOnline(false);
+    window.addEventListener("online", up);
+    window.addEventListener("offline", down);
+    return () => {
+      window.removeEventListener("online", up);
+      window.removeEventListener("offline", down);
+    };
+  }, []);
 
   useEffect(() => {
     const el = logRef.current;
@@ -262,12 +307,32 @@ export function AIWidget() {
     return queueRef.current;
   }, []);
 
-  async function ask(question: string) {
+  async function ask(question: string, isRetry = false, exclude: number[] = []) {
     const text = question.trim();
-    if (!text || busy || blocked) return;
+    if (!text || (busy && !isRetry) || blocked) {
+      if (isRetry) setBusy(false);
+      return;
+    }
+    // Offline: keep the question in the box. The banner explains, and nothing is sent into the void.
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      setOnline(false);
+      if (isRetry) {
+        // The connection went away during a quiet retry. The failed turn is already gone, so keep the
+        // question in a notice and send it when the connection returns.
+        const noticeId = nextId++;
+        setMessages((cur) => [
+          ...cur,
+          { id: noticeId, role: "notice", content: "You're offline. \"" + text.slice(0, 80) + (text.length > 80 ? "…" : "") + "\" will be sent when you're back online." }
+        ]);
+        resumeRef.current = { text, answerId: noticeId, userId: -1 };
+        setBusy(false);
+      }
+      return;
+    }
 
+    // An automatic retry replaces the failed turn, so that turn must not be sent along as history.
     const history = messages
-      .filter((m) => (m.role === "user" || m.role === "assistant") && m.phase !== "error" && m.content)
+      .filter((m) => !exclude.includes(m.id) && (m.role === "user" || m.role === "assistant") && m.phase !== "error" && m.content)
       .slice(-6)
       .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
@@ -281,15 +346,46 @@ export function AIWidget() {
       { id: userId, role: "user", content: text },
       { id: answerId, role: "assistant", content: "", steps: [], phase: "working", question: text }
     ]);
-    setDraft("");
+    // An automatic retry is not a new send: whatever the visitor has started typing meanwhile stays.
+    if (!isRetry) setDraft("");
     setBusy(true);
     queueRef.current = Promise.resolve();
     const started = Date.now();
     const controller = new AbortController();
     abortRef.current = controller;
 
+    let retrying = false;
+
     const fail = (message: string) =>
       enqueue(0, () => patch(answerId, (m) => ({ ...m, content: message, phase: "error", steps: m.steps?.map((s) => ({ ...s, status: "done" as const })) })));
+
+    // Offline failures wait for the connection to return and then ask again by themselves.
+    const failNet = (message: string) => {
+      if (typeof navigator !== "undefined" && navigator.onLine === false) {
+        setOnline(false);
+        resumeRef.current = { text, answerId, userId };
+        return fail("You're offline. Your question is kept and will be sent again when you're back online.");
+      }
+      return fail(message);
+    };
+
+    // A dropped connection or a brief server hiccup is tried once more, quietly, before the visitor sees an error.
+    const retryOnce = () => {
+      if (isRetry || gotText || stoppedRef.current) return false;
+      if (typeof navigator !== "undefined" && navigator.onLine === false) return false;
+      retrying = true;
+      patch(answerId, (m) => ({ ...m, steps: [{ id: "retry", label: "Connection hiccup", detail: "Trying again", status: "running" as const }] }));
+      setTimeout(() => {
+        setMessages((cur) => cur.filter((m) => m.id !== answerId && m.id !== userId));
+        if (stoppedRef.current) {
+          giveBack(text);
+          setBusy(false);
+          return;
+        }
+        void askRef.current(text, true, [answerId, userId]);
+      }, 1200);
+      return true;
+    };
 
     // Ends an answer that already has text, so the chat is never left waiting for an end that is not coming.
     const finish = (note?: string) =>
@@ -343,7 +439,8 @@ export function AIWidget() {
 
     try {
       const payload = JSON.stringify({ messages: [...history, { role: "user", content: text }] });
-      const response = await postChat(payload, controller.signal);
+      // One layer of retries only: a failure here is retried once by retryOnce below, not inside the request.
+      const response = await postChat(payload, controller.signal, 0);
 
       if (!response.ok) {
         // The server may answer with JSON or, on a timeout, a plain-text error page. Never show a parser error.
@@ -363,13 +460,15 @@ export function AIWidget() {
             ...cur,
             { id: nextId++, role: "notice", content: (data.error || "You are asking too fast.") + " Try again in a moment." }
           ]);
+        } else if ([500, 502, 503, 504].includes(response.status) && retryOnce()) {
+          return;
         } else {
           const message =
             data.error ||
             (response.status === 504 || response.status === 408
               ? "That took too long. Please try again."
               : "The assistant is unavailable right now. Please try again shortly.");
-          await fail(message);
+          await failNet(message);
         }
         return;
       }
@@ -413,7 +512,8 @@ export function AIWidget() {
       controller.abort();
       if (!sawDone) {
         if (gotText) await finish("The connection dropped, so this answer may be cut short.");
-        else await fail(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
+        else if (retryOnce()) return;
+        else await failNet(stalled ? "The assistant stopped responding. Please try again." : "The connection dropped before the answer finished. Please try again.");
       }
     } catch (error) {
       if ((error as Error).name === "AbortError" || stoppedRef.current) {
@@ -426,13 +526,15 @@ export function AIWidget() {
           }
         }
       } else {
-        await (gotText ? finish("The connection dropped, so this answer may be cut short.") : fail("Could not reach the assistant. Check your connection and try again."));
+        if (gotText) await finish("The connection dropped, so this answer may be cut short.");
+        else if (!retryOnce()) await failNet("Could not reach the assistant. Check your connection and try again.");
       }
     } finally {
       await queueRef.current;
-      setBusy(false);
+      if (!retrying) setBusy(false);
     }
   }
+  askRef.current = ask;
 
   function stop() {
     stoppedRef.current = true;
@@ -463,7 +565,7 @@ export function AIWidget() {
   }
 
   const lastAnswer = [...messages].reverse().find((m) => m.role === "assistant");
-  const canRetry = !busy && lastAnswer?.phase === "error" && lastAnswer.question;
+  const canRetry = !busy && lastAnswer?.phase === "error" && lastAnswer.question && online;
 
   return (
     <>
@@ -507,7 +609,7 @@ export function AIWidget() {
               {messages.length === 0 && (
                 <div className="suggest">
                   {SUGGESTIONS.map((s) => (
-                    <button type="button" key={s} onClick={() => void ask(s)} disabled={busy || blocked}>
+                    <button type="button" key={s} onClick={() => void ask(s)} disabled={busy || blocked || !online}>
                       {s}
                     </button>
                   ))}
@@ -579,6 +681,12 @@ export function AIWidget() {
           </div>
 
           {signInOpen && !session.signedIn && <SignIn onSignedIn={onSignedIn} onCancel={() => setSignInOpen(false)} />}
+
+          {!online && (
+            <p className="chat-offline" role="status">
+              You&apos;re offline. Type your question; it can be sent once you&apos;re back online.
+            </p>
+          )}
 
           <form className="chat-form" onSubmit={onSubmit}>
             <textarea

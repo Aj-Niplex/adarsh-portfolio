@@ -29,22 +29,46 @@ export function AssistantGate() {
     } catch {
       // Storage can be blocked; ask the service each time then.
     }
-    fetch("/api/assistant", { cache: "no-store", signal: AbortSignal.timeout(4000) })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data: { up?: boolean; assistant?: boolean } | null) => {
-        const up = Boolean(data && data.up === true && data.assistant === true);
-        try {
-          sessionStorage.setItem(KEY, JSON.stringify({ up, at: Date.now() }));
-        } catch {
-          // Ignore.
-        }
-        if (!cancelled) setOn(up);
-      })
-      .catch(() => {
-        if (!cancelled) setOn(false);
-      });
+    // A failed request (offline, a slow network) is not an answer. The service is asked again a few times
+    // and whenever the connection returns, so a bad moment at page load does not remove the chat.
+    let tries = 0;
+    // Only the newest check counts, so a slow older answer cannot overwrite a newer one.
+    let latest = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const ask = () => {
+      clearTimeout(timer);
+      const mine = ++latest;
+      fetch("/api/assistant", { cache: "no-store", signal: AbortSignal.timeout(6000) })
+        .then((r) => {
+          if (!r.ok) throw new Error("status " + r.status);
+          return r.json();
+        })
+        .then((data: { up?: boolean; assistant?: boolean } | null) => {
+          if (mine !== latest) return;
+          const up = Boolean(data && data.up === true && data.assistant === true);
+          try {
+            sessionStorage.setItem(KEY, JSON.stringify({ up, at: Date.now() }));
+          } catch {
+            // Ignore.
+          }
+          if (!cancelled) setOn(up);
+        })
+        .catch(() => {
+          if (cancelled || mine !== latest) return;
+          tries += 1;
+          if (tries <= 3) timer = setTimeout(ask, tries * 4000);
+        });
+    };
+    const again = () => {
+      tries = 0;
+      ask();
+    };
+    window.addEventListener("online", again);
+    ask();
     return () => {
       cancelled = true;
+      clearTimeout(timer);
+      window.removeEventListener("online", again);
     };
   }, [agreed]);
 
