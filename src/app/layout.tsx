@@ -108,7 +108,7 @@ const identity = {
         "Human-in-the-loop approvals",
         "Multi-model fallback"
       ],
-      sameAs: [SITE.github, SITE.pagesSite, SITE.obsidian]
+      sameAs: [SITE.github, SITE.linkedin, SITE.pagesSite, SITE.obsidian]
     }
   ]
 };
