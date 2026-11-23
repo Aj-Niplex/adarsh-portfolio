@@ -8,6 +8,7 @@ export const SITE = {
   role: "AI agent and MCP developer",
   region: "India",
   github: "https://github.com/Aj-Niplex",
+  linkedin: "https://www.linkedin.com/in/aj-niplex",
   obsidian: "https://community.obsidian.md/users/aj-niplex",
   profileRepo: "https://github.com/Aj-Niplex/Aj-Niplex",
   portfolioRepo: "https://github.com/Aj-Niplex/adarsh-portfolio",
